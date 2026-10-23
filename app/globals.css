@@ -215,62 +215,302 @@ code {
 
 /* ---------- Home ---------- */
 .hero {
-  padding: 72px 0 48px;
+  padding: 72px 0 40px;
 }
 
-.index {
+.hero-meta {
+  margin-top: 24px;
+}
+
+/* ---------- Control loop ---------- */
+.loop {
+  margin-bottom: 40px;
+  scroll-margin-top: 24px;
+}
+
+.loop-track {
   list-style: none;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
   margin: 0;
   padding: 0;
-  border-top: 1px solid var(--line);
 }
 
-.index-card {
-  display: grid;
-  grid-template-columns: 64px minmax(0, 1fr) auto;
-  gap: 24px;
-  align-items: start;
-  padding: 28px 0;
-  border-bottom: 1px solid var(--line);
-  text-decoration: none;
-  transition: background-color 0.15s ease;
+.loop-node {
+  position: relative;
+  min-width: 0;
 }
 
-.index-card:hover .index-title,
-.index-card:focus-visible .index-title {
-  color: var(--accent);
+/* Arrow between each pair of nodes. */
+.loop-node + .loop-node::before {
+  content: "";
+  position: absolute;
+  left: -8px;
+  top: 28px;
+  width: 8px;
+  height: 1px;
+  background: var(--line-strong);
 }
 
-.index-num {
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 14px;
-  color: var(--ink-3);
-  padding-top: 8px;
+.loop-node + .loop-node::after {
+  content: "";
+  position: absolute;
+  left: -2px;
+  top: 25px;
+  border-left: 5px solid var(--line-strong);
+  border-top: 3.5px solid transparent;
+  border-bottom: 3.5px solid transparent;
 }
 
-.index-body {
+.loop-link {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
+  padding: 14px 4px 16px;
+  border-top: 2px solid var(--moment-color, var(--line-strong));
+  text-decoration: none;
 }
 
-.index-title {
+.loop-node[data-moment="before"] {
+  --moment-color: var(--m-before);
+}
+.loop-node[data-moment="during"] {
+  --moment-color: var(--m-during);
+}
+.loop-node[data-moment="transition"] {
+  --moment-color: var(--m-transition);
+}
+.loop-node[data-moment="failure"] {
+  --moment-color: var(--m-failure);
+}
+.loop-node[data-moment="after"] {
+  --moment-color: var(--m-after);
+}
+
+.loop-name {
   font-family: var(--font-serif), Georgia, serif;
-  font-size: 32px;
+  font-size: 24px;
+  line-height: 1.1;
+  color: var(--moment-color);
+}
+
+.loop-count {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.loop-link.is-empty {
+  border-top-color: var(--line);
+  opacity: 0.55;
+}
+
+a.loop-link:hover .loop-count {
+  color: var(--ink);
+}
+
+/* The return path: After back to Before. */
+.loop-return {
+  position: relative;
+  margin: 0;
+  height: 30px;
+  border: 1px solid var(--line);
+  border-top: 0;
+  border-radius: 0 0 10px 10px;
+}
+
+.loop-return::before {
+  content: "";
+  position: absolute;
+  left: -5px;
+  top: -5px;
+  border-bottom: 6px solid var(--line);
+  border-left: 4.5px solid transparent;
+  border-right: 4.5px solid transparent;
+}
+
+.loop-return span {
+  position: absolute;
+  left: 50%;
+  bottom: -8px;
+  transform: translateX(-50%);
+  padding: 0 12px;
+  background: var(--bg);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+
+/* Vertical stepper on narrow screens. */
+@media (max-width: 760px) {
+  .loop-track {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .loop-node + .loop-node::before {
+    left: 10px;
+    top: -10px;
+    width: 1px;
+    height: 10px;
+  }
+
+  .loop-node + .loop-node::after {
+    left: 6.5px;
+    top: -3px;
+    border-left: 3.5px solid transparent;
+    border-right: 3.5px solid transparent;
+    border-top: 5px solid var(--line-strong);
+    border-bottom: 0;
+  }
+
+  .loop-link {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 12px;
+    padding: 10px 0 10px 14px;
+    border-top: 0;
+    border-left: 2px solid var(--moment-color, var(--line-strong));
+  }
+
+  .loop-name {
+    font-size: 20px;
+  }
+
+  .loop-return {
+    height: auto;
+    margin-top: 10px;
+    border: 0;
+  }
+
+  .loop-return span {
+    position: static;
+    transform: none;
+    display: block;
+    padding: 0;
+    white-space: normal;
+  }
+
+  .loop-return::before {
+    display: none;
+  }
+}
+
+/* ---------- Grouped sections ---------- */
+.group {
+  margin-top: 56px;
+  scroll-margin-top: 24px;
+}
+
+.group-head {
+  padding-bottom: 12px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+.group-name {
+  margin: 0;
+  font-family: var(--font-serif), Georgia, serif;
+  font-weight: 400;
+  font-size: 30px;
   line-height: 1.1;
 }
 
-.index-summary {
-  color: var(--ink-2);
-  max-width: 60ch;
+.group-question {
+  margin: 4px 0 0;
+  color: var(--ink-3);
 }
 
-.index-meta {
+/* ---------- Pattern cards ---------- */
+.cards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.card-item {
+  display: flex;
+}
+
+.card {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
   gap: 8px;
-  padding-top: 8px;
+  width: 100%;
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+}
+
+.card:hover {
+  border-color: var(--line-strong);
+}
+
+.card:hover .card-name {
+  color: var(--accent);
+}
+
+.card-num {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+.card-name {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 26px;
+  line-height: 1.1;
+}
+
+/* Clamped to three lines so cards stay on a grid. */
+.card-intent {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+  font-size: 15px;
+  color: var(--ink-2);
+}
+
+.card-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 14px;
+}
+
+.card-sources {
+  margin-left: auto;
+}
+
+.status-muted {
+  border-color: var(--line);
+}
+
+@media (max-width: 1000px) {
+  .cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .cards {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 .status {
@@ -289,21 +529,6 @@ code {
 .status-stable {
   border-color: var(--accent);
   color: var(--accent);
-}
-
-@media (max-width: 640px) {
-  .index-card {
-    grid-template-columns: 40px minmax(0, 1fr);
-  }
-  .index-meta {
-    grid-column: 2;
-    flex-direction: row;
-    align-items: center;
-    padding-top: 0;
-  }
-  .index-title {
-    font-size: 26px;
-  }
 }
 
 /* ---------- Pattern page ---------- */
