@@ -24,6 +24,12 @@ export const DOMAINS = [
 export const SOURCE_TYPES = ["paper", "book", "standard", "incident-report", "article", "talk"] as const;
 export const RELATIONS = ["requires", "complements", "alternative-to", "tension-with", "precedes"] as const;
 
+/**
+ * Whether an example is a real system or incident, or the author's concept.
+ * Keeping the two apart is what keeps the library honest.
+ */
+export const EVIDENCE = ["observed", "speculative"] as const;
+
 export type Moment = (typeof MOMENTS)[number];
 export type TrustJob = (typeof TRUST_JOBS)[number];
 export type Risk = (typeof RISKS)[number];
@@ -31,6 +37,52 @@ export type Reversibility = (typeof REVERSIBILITY)[number];
 export type Status = (typeof STATUSES)[number];
 export type Domain = (typeof DOMAINS)[number];
 export type Relation = (typeof RELATIONS)[number];
+export type Evidence = (typeof EVIDENCE)[number];
+
+/**
+ * A relationship read from the other end. If B requires A, then A's page lists
+ * B under "Required by" — the same edge, inverted, so each one is written once.
+ */
+export const INVERSE_RELATIONS = {
+  requires: "required-by",
+  precedes: "follows",
+  complements: "complements",
+  "alternative-to": "alternative-to",
+  "tension-with": "tension-with",
+} as const satisfies Record<Relation, string>;
+
+export type RelationKey = Relation | (typeof INVERSE_RELATIONS)[Relation];
+
+/** Group headings on the pattern page, in the order they are shown. */
+export const RELATION_LABELS: Record<RelationKey, string> = {
+  requires: "Requires",
+  "required-by": "Required by",
+  precedes: "Precedes",
+  follows: "Follows",
+  complements: "Complements",
+  "alternative-to": "Alternative to",
+  "tension-with": "In tension with",
+};
+
+export const RELATION_ORDER: RelationKey[] = [
+  "requires",
+  "required-by",
+  "precedes",
+  "follows",
+  "complements",
+  "alternative-to",
+  "tension-with",
+];
+
+export const SOURCE_TYPE_LABELS: Record<(typeof SOURCE_TYPES)[number] | "other", string> = {
+  paper: "Papers",
+  book: "Books",
+  standard: "Standards",
+  "incident-report": "Incident reports",
+  article: "Articles",
+  talk: "Talks",
+  other: "Other",
+};
 
 /** The question each Moment answers, used as the one-line purpose under group headings. */
 export const MOMENT_QUESTIONS: Record<Moment, string> = {
@@ -72,6 +124,26 @@ const sourceSchema = z.object({
   note: z.string().min(1).optional(),
   type: z.enum(SOURCE_TYPES).optional(),
 });
+
+const exampleSchema = z
+  .object({
+    title: z.string().min(1),
+    domain: z.enum(DOMAINS),
+    evidence: z.enum(EVIDENCE),
+    caption: z.string().min(1),
+    url: z.url().optional(),
+    source: z.string().min(1).optional(),
+    image: z.string().min(1).optional(),
+    alt: z.string().min(1).optional(),
+  })
+  .refine((e) => !e.image || e.alt, {
+    message: "an example with an image needs alt text",
+    path: ["alt"],
+  })
+  .refine((e) => !e.source || e.url, {
+    message: "a source label needs a url to link to",
+    path: ["url"],
+  });
 
 const relatedSchema = z.object({
   slug: z.string().min(1),
@@ -130,6 +202,7 @@ export const frontmatterSchema = z
     related: z.array(relatedSchema).default([]),
     crossReferences: z.array(crossReferenceSchema).default([]),
     sources: z.array(sourceSchema).default([]),
+    examples: z.array(exampleSchema).default([]),
 
     openQuestions: z.array(z.string().min(1)).default([]),
     showOpenQuestions: z.boolean().optional(),

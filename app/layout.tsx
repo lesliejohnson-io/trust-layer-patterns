@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Instrument_Serif, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
+import { ExternalLink } from "@/components/ExternalLink";
+import { ByIcon, CcIcon } from "@/components/LicenseIcons";
 import "./globals.css";
 
 const serif = Instrument_Serif({ subsets: ["latin"], weight: "400", variable: "--font-serif" });
@@ -22,13 +24,41 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Link href="/" className="brand">
               Trust Layer Patterns
             </Link>
-            <span className="label">Working library</span>
+            <nav className="site-nav" aria-label="Main">
+              <span className="label">Working library</span>
+              <Link href="/about" className="label site-nav-link">
+                About
+              </Link>
+            </nav>
           </div>
         </header>
-        <main className="wrap">{children}</main>
+        <main>{children}</main>
         <footer className="site-footer">
           <div className="wrap">
-            <span className="label">Patterns for the human–machine trust layer · in progress</span>
+            <p className="label footer-line">
+              <span>
+                ©&nbsp;2026{" "}
+                <ExternalLink href="https://www.linkedin.com/in/lesliejohnson-ux">
+                  Leslie Johnson
+                </ExternalLink>
+              </span>
+              <span aria-hidden="true">·</span>
+              <span>
+                Shareable under{" "}
+                <ExternalLink
+                  href="https://creativecommons.org/licenses/by/4.0/"
+                  rel="license noreferrer"
+                >
+                  <CcIcon />
+                  <ByIcon />
+                  CC BY 4.0
+                </ExternalLink>
+              </span>
+              <span aria-hidden="true">·</span>
+              <span>
+                <a href="mailto:leslie@lesliejohnson.io">Contact</a>
+              </span>
+            </p>
           </div>
         </footer>
       </body>

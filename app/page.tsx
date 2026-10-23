@@ -5,7 +5,7 @@ export default function Home() {
   const patterns = getAllPatterns();
 
   return (
-    <>
+    <div className="wrap">
       <section className="hero">
         <p className="label label-accent">Pattern library · {patterns.length} patterns</p>
         <h1 className="display">Trust Layer Patterns</h1>
@@ -35,6 +35,6 @@ export default function Home() {
           </li>
         ))}
       </ol>
-    </>
+    </div>
   );
 }

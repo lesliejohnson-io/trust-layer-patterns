@@ -12,6 +12,13 @@
   --accent: #b4400c;
   --accent-tint: #fbf4ef;
 
+  /* Moment is the only facet that gets colour (spec §8). */
+  --m-before: #3f6f4a;
+  --m-during: #2d5f8a;
+  --m-transition: #b4400c;
+  --m-failure: #9c2b2b;
+  --m-after: #6b4a8f;
+
   --gap: 40px;
   --radius: 8px;
   --radius-lg: 12px;
@@ -32,6 +39,13 @@
     --dash: #5f5f5a;
     --accent: #f0895a;
     --accent-tint: #2a1d16;
+
+    --m-before: #7fb98c;
+    --m-during: #86b5dd;
+    --m-transition: #f0895a;
+    --m-failure: #e08a8a;
+    --m-after: #b79bd9;
+
     color-scheme: dark;
   }
 }
@@ -72,6 +86,22 @@ code {
   max-width: 1120px;
   margin: 0 auto;
   padding: 0 24px;
+}
+
+/* The pattern page carries a TOC rail, so it gets room for both columns. */
+.wrap-wide {
+  max-width: 1320px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Keep anchored headings clear of the sticky rail's top edge. */
+[id] {
+  scroll-margin-top: 24px;
 }
 
 .label {
@@ -125,10 +155,62 @@ code {
   text-decoration: none;
 }
 
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.site-nav-link {
+  text-decoration: none;
+}
+
+.site-nav-link:hover {
+  color: var(--accent);
+}
+
 .site-footer {
-  margin-top: 96px;
-  padding: 32px 0 48px;
+  margin-top: 72px;
+  padding: 20px 0 24px;
   border-top: 1px solid var(--line);
+}
+
+.footer-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  text-transform: none;
+  letter-spacing: 0.04em;
+}
+
+/* One colour and one underline for every footer link, visited included. */
+.footer-line a,
+.footer-line a:visited {
+  color: var(--ink-2);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.footer-line a:hover,
+.footer-line a:focus-visible {
+  color: var(--accent);
+}
+
+/* CC marks sit on the text baseline and inherit its colour. */
+.cc-mark {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.14em;
+  margin-right: 0.25em;
+}
+
+/* Outbound-link marker. */
+.ext-icon {
+  display: inline-block;
+  margin-left: 4px;
+  vertical-align: baseline;
+  opacity: 0.7;
 }
 
 /* ---------- Home ---------- */
@@ -225,27 +307,439 @@ code {
 }
 
 /* ---------- Pattern page ---------- */
-.back {
-  display: inline-block;
-  margin-top: 32px;
+.pattern-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 190px;
+  gap: 56px;
+  align-items: start;
+}
+
+.pattern {
+  min-width: 0;
+}
+
+/* Breadcrumb */
+.crumbs {
+  padding-top: 32px;
+}
+
+.crumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
   font-size: 14px;
+  color: var(--ink-3);
+}
+
+.crumbs li + li::before {
+  content: "/";
+  margin-right: 8px;
+  color: var(--line-strong);
+}
+
+.crumbs a {
+  text-decoration: none;
+}
+
+.crumbs a:hover {
+  color: var(--accent);
+}
+
+.crumbs [aria-current="page"] {
+  color: var(--ink-2);
+}
+
+.pattern-head {
+  padding: 24px 0 16px;
+}
+
+/* Facet chips. Only Moment is coloured. */
+.tag {
+  display: inline-block;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 99px;
+  border: 1px solid var(--line-strong);
+  color: var(--ink-3);
+}
+
+.tag-moment {
+  color: var(--moment-color, var(--ink-3));
+  border-color: currentColor;
+}
+
+.tag-moment[data-moment="before"] {
+  --moment-color: var(--m-before);
+}
+.tag-moment[data-moment="during"] {
+  --moment-color: var(--m-during);
+}
+.tag-moment[data-moment="transition"] {
+  --moment-color: var(--m-transition);
+}
+.tag-moment[data-moment="failure"] {
+  --moment-color: var(--m-failure);
+}
+.tag-moment[data-moment="after"] {
+  --moment-color: var(--m-after);
+}
+
+.tag-observed {
+  border-color: var(--ink-3);
+  color: var(--ink-2);
+}
+
+.tag-speculative {
+  border-style: dashed;
+}
+
+/* Meta strip */
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 32px;
+  margin: 28px 0 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.meta-item {
+  min-width: 0;
+}
+
+.meta dt {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.meta dd {
+  margin: 2px 0 0;
+  font-size: 15px;
+  color: var(--ink);
+}
+
+/* Table of contents */
+.toc {
+  position: sticky;
+  top: 32px;
+  padding-top: 40px;
+}
+
+.toc-title {
+  margin-bottom: 12px;
+}
+
+.toc-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-left: 1px solid var(--line);
+}
+
+.toc-link {
+  display: block;
+  padding: 5px 0 5px 12px;
+  margin-left: -1px;
+  border-left: 2px solid transparent;
+  font-size: 14px;
+  line-height: 1.35;
   color: var(--ink-3);
   text-decoration: none;
 }
 
-.back:hover {
+.toc-link:hover {
   color: var(--ink);
 }
 
-.pattern-head {
-  padding: 32px 0 16px;
+.toc-link[aria-current="true"] {
+  color: var(--accent);
+  border-left-color: var(--accent);
 }
 
-.pattern-meta {
+@media (prefers-reduced-motion: no-preference) {
+  .toc-link {
+    transition:
+      color 0.15s ease,
+      border-color 0.15s ease;
+  }
+}
+
+.toc-mobile {
+  display: none;
+  margin-top: 32px;
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.toc-mobile summary {
+  cursor: pointer;
+}
+
+.toc-mobile .toc-list {
+  margin-top: 10px;
+}
+
+@media (max-width: 1099px) {
+  .pattern-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+  .toc {
+    display: none;
+  }
+  .toc-mobile {
+    display: block;
+  }
+}
+
+/* When to use / when not to use */
+.when-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 32px;
+}
+
+.when-head {
+  margin: 0 0 8px;
+  font-family: var(--font-serif), Georgia, serif;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.2;
+}
+
+.when-col-not .when-head {
+  color: var(--ink-3);
+}
+
+.when-col .prose {
+  max-width: none;
+}
+
+@media (max-width: 860px) {
+  .when-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Design considerations: the rule leads, the reasoning follows. */
+.considerations ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.considerations li {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.considerations li > strong:first-child {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* In the field */
+.examples {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.example {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.example-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-bottom: 1px solid var(--line);
+}
+
+.example-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px;
+}
+
+.example-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+}
+
+.example-title {
+  margin: 0;
+  font-family: var(--font-serif), Georgia, serif;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.2;
+}
+
+.example-caption {
+  margin: 0;
+  font-size: 15px;
+  color: var(--ink-2);
+}
+
+.example-source {
+  margin: 0;
+  font-size: 14px;
+}
+
+.example-source a {
+  color: var(--accent);
+}
+
+/* Related patterns */
+.relations {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.relation-label {
+  margin-bottom: 12px;
+}
+
+.relation-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 16px;
-  margin: 20px 0 0;
+}
+
+.relation-card {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr);
+  gap: 4px 12px;
+  height: 100%;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  text-decoration: none;
+}
+
+.relation-card:hover .relation-name {
+  color: var(--accent);
+}
+
+.relation-num {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 12px;
+  color: var(--ink-3);
+  padding-top: 4px;
+}
+
+.relation-name {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 22px;
+  line-height: 1.2;
+}
+
+.relation-note {
+  grid-column: 2;
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+/* Elsewhere */
+.elsewhere {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-width: 68ch;
+}
+
+.elsewhere-item {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.elsewhere-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 12px;
+  margin: 0;
+}
+
+.elsewhere-name {
+  color: var(--accent);
+  font-size: 17px;
+}
+
+.elsewhere-note {
+  margin: 4px 0 0;
+  font-size: 15px;
+  color: var(--ink-2);
+}
+
+/* "Still figuring out" — the learning surface. */
+.fieldnote {
+  max-width: 68ch;
+  padding: 24px 28px;
+  border: 1px dashed var(--dash);
+  border-radius: var(--radius-lg);
+  background: var(--accent-tint);
+}
+
+.fieldnote > .label {
+  margin-bottom: 12px;
+  padding-bottom: 0;
+  border-bottom: 0;
+  color: var(--accent);
+}
+
+.fieldnote-list {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--ink-2);
+}
+
+.fieldnote-list li + li {
+  margin-top: 8px;
+}
+
+/* How to cite */
+.cite-format {
+  padding: 14px 16px;
+  border-left: 2px solid var(--accent);
+  background: var(--surface);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink);
 }
 
 .section {
@@ -568,6 +1062,16 @@ code {
 }
 
 /* ---------- Sources ---------- */
+.source-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.source-group-label {
+  margin-bottom: 8px;
+}
+
 .sources {
   margin: 0;
   padding-left: 24px;
@@ -640,6 +1144,20 @@ code {
 .pager-next {
   text-align: right;
   margin-left: auto;
+}
+
+.pager-back {
+  margin: 20px 0 0;
+  font-size: 14px;
+  color: var(--ink-3);
+}
+
+.pager-back a {
+  text-decoration: none;
+}
+
+.pager-back a:hover {
+  color: var(--accent);
 }
 
 :focus-visible {

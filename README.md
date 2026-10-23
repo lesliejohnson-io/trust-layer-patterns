@@ -30,10 +30,25 @@ Everything for a pattern lives in `content/patterns/NN-slug.md`. You never need 
 | `related` | Links to other patterns in this library | `[]` |
 | `crossReferences` | Links out to patterns in other libraries | `[]` |
 | `sources` | The Sources list (`title` required; `author`, `year`, `url`, `type`, `note` optional) | `[]` |
+| `examples` | The "In the field" cards (`title`, `domain`, `evidence`, `caption` required; `url`, `source`, `image`, `alt` optional) | `[]` |
 | `openQuestions` | The "Still figuring out" block | `[]` |
 | `steps` | The mechanism diagram. 3–6 steps work best. `note:` hangs an annotation under a step; `key: true` highlights the key moment | required |
 | `without`, `with` | The comparison panels: three short beats + a caption each | required |
 | Body (below the `---`) | Markdown, in H2 sections: Problem, When to use, When not to use, Design considerations, In the field, Notes | — |
+
+The body's H2s are matched by name and rendered into their own sections on the page, in the order above. Anything written outside them — a preamble, a heading that isn't on the list — is kept under Notes rather than dropped, so nothing disappears if a name is misspelled.
+
+Adding an example (`evidence` is `observed` for a real system or incident, `speculative` for your own concept):
+
+```yaml
+examples:
+  - title: "What the example is called"
+    domain: automotive
+    evidence: observed
+    caption: "One or two sentences on what this shows."
+    url: "https://..."
+    source: "Name of the source, shown as the link text"
+```
 
 Adding a source (`type` is one of `paper`, `book`, `standard`, `incident-report`, `article`, `talk`):
 

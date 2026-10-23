@@ -67,6 +67,19 @@ sources: []
 #    type: paper
 #    note: "Why it matters for this pattern"
 
+# examples: the "In the field" cards. `evidence` is required and is either
+# `observed` (a real system or incident) or `speculative` (your own concept) —
+# the distinction is what keeps the library honest. An image needs alt text.
+examples: []
+#  - title: "What the example is called"
+#    domain: automotive
+#    evidence: observed
+#    caption: "One or two sentences on what this shows."
+#    url: "https://example.com"
+#    source: "Name of the source, shown as the link text"
+#    image: "/examples/my-image.png"
+#    alt: "What the image shows, for screen readers"
+
 # --- Learning log -----------------------------------------------------------
 # openQuestions renders as the "Still figuring out" block. It shows whenever
 # there is at least one question; set showOpenQuestions: false to keep them in

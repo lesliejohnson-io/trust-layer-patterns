@@ -4,16 +4,37 @@ import matter from "gray-matter";
 import { marked } from "marked";
 import { formatIssues, frontmatterSchema, type Frontmatter } from "./schema";
 
+import {
+  INVERSE_RELATIONS,
+  RELATION_LABELS,
+  RELATION_ORDER,
+  type Moment,
+  type Relation,
+  type RelationKey,
+} from "./schema";
+
 export type {
   Domain,
+  Evidence,
   Moment,
   Relation,
+  RelationKey,
   Reversibility,
   Risk,
   Status,
   TrustJob,
 } from "./schema";
-export { DOMAINS, MOMENT_QUESTIONS, MOMENTS, RELATIONS, STATUSES, TRUST_JOBS } from "./schema";
+export {
+  DOMAINS,
+  MOMENT_QUESTIONS,
+  MOMENTS,
+  RELATION_LABELS,
+  RELATIONS,
+  SOURCE_TYPES,
+  SOURCE_TYPE_LABELS,
+  STATUSES,
+  TRUST_JOBS,
+} from "./schema";
 
 /** One step in a pattern's mechanism flow. */
 export type Step = Frontmatter["steps"][number];
@@ -24,15 +45,101 @@ export type Contrast = Frontmatter["without"];
 export type Source = Frontmatter["sources"][number];
 export type Related = Frontmatter["related"][number];
 export type CrossReference = Frontmatter["crossReferences"][number];
+export type Example = Frontmatter["examples"][number];
+
+/**
+ * The fixed H2 sections of a pattern's markdown body. Anything the author
+ * writes outside them — a preamble, an unrecognized heading — falls through to
+ * `notes` rather than being dropped.
+ */
+export type Body = {
+  problem?: string;
+  whenToUse?: string;
+  whenNotToUse?: string;
+  considerations?: string;
+  inTheField?: string;
+  notes?: string;
+};
 
 export type Pattern = Frontmatter & {
   /** Derived from the filename: "01-handoff.md" -> "handoff". */
   slug: string;
-  bodyHtml: string;
+  body: Body;
   file: string;
 };
 
 const CONTENT_DIR = path.join(process.cwd(), "content", "patterns");
+
+/** H2 heading text -> the key it fills on `Body`. */
+const BODY_SECTIONS: Record<string, keyof Body> = {
+  problem: "problem",
+  "when to use": "whenToUse",
+  "when not to use": "whenNotToUse",
+  "design considerations": "considerations",
+  "in the field": "inTheField",
+  notes: "notes",
+};
+
+/**
+ * Splits the markdown body on its H2s. Content before the first heading, and
+ * any heading that isn't one of the fixed section names, is kept under
+ * `notes` with its heading intact, so nothing an author writes disappears.
+ */
+function splitBody(markdown: string): Body {
+  const chunks: { heading: string | null; lines: string[] }[] = [{ heading: null, lines: [] }];
+  let inFence = false;
+
+  for (const line of markdown.split(/\r?\n/)) {
+    if (line.trimStart().startsWith("```")) inFence = !inFence;
+    const heading = inFence ? null : /^##[ \t]+(.+?)[ \t]*$/.exec(line);
+    if (heading) chunks.push({ heading: heading[1], lines: [] });
+    else chunks[chunks.length - 1].lines.push(line);
+  }
+
+  const parts: Partial<Record<keyof Body, string[]>> = {};
+  const add = (key: keyof Body, text: string) => {
+    (parts[key] ??= []).push(text);
+  };
+
+  for (const chunk of chunks) {
+    const text = chunk.lines.join("\n").trim();
+    const key = chunk.heading ? BODY_SECTIONS[chunk.heading.toLowerCase()] : undefined;
+
+    if (key) {
+      if (text) add(key, text);
+    } else if (chunk.heading) {
+      add("notes", `## ${chunk.heading}\n\n${text}`.trim());
+    } else if (text) {
+      add("notes", text);
+    }
+  }
+
+  const body: Body = {};
+  for (const [key, texts] of Object.entries(parts) as [keyof Body, string[]][]) {
+    body[key] = marked.parse(texts.join("\n\n"), { async: false }) as string;
+  }
+  return body;
+}
+
+/** "incident-report" -> "Incident report". For facet values shown as text. */
+export function humanize(value: string): string {
+  const spaced = value.replace(/-/g, " ");
+  return spaced.charAt(0).toUpperCase() + spaced.slice(1);
+}
+
+/** "Levels 2–4", or "Any level" when the pattern applies across the scale. */
+export function autonomyRange([low, high]: readonly [number, number]): string {
+  if (low === 0 && high === 5) return "Any level";
+  return low === high ? `Level ${low}` : `Levels ${low}–${high}`;
+}
+
+/**
+ * Where a Moment links to. Today that's the index, which grows grouped
+ * sections in phase 3; phase 5 points this at /moments/[moment] instead.
+ */
+export function momentHref(moment: Moment): string {
+  return `/#moment-${moment}`;
+}
 
 /** A frontmatter failure in one file, held so the build can report them all at once. */
 class ContentError extends Error {
@@ -56,7 +163,7 @@ function readPattern(file: string): Pattern {
   return {
     ...parsed.data,
     slug: file.replace(/\.md$/, "").replace(/^\d+-/, ""),
-    bodyHtml: marked.parse(content, { async: false }) as string,
+    body: splitBody(content),
     file: rel,
   };
 }
@@ -129,4 +236,65 @@ export function getPattern(slug: string): Pattern | undefined {
 
 export function pad(n: number): string {
   return String(n).padStart(2, "0");
+}
+
+export function getPatternsByMoment(moment: Moment): Pattern[] {
+  return getAllPatterns().filter((p) => p.moment === moment);
+}
+
+/**
+ * Previous and next within the same Moment, so the pager walks a coherent
+ * group rather than the whole library by number.
+ */
+export function getMomentNeighbors(pattern: Pattern): {
+  prev?: Pattern;
+  next?: Pattern;
+  total: number;
+} {
+  const siblings = getPatternsByMoment(pattern.moment);
+  const i = siblings.findIndex((p) => p.slug === pattern.slug);
+  return { prev: siblings[i - 1], next: siblings[i + 1], total: siblings.length };
+}
+
+export type RelationGroup = {
+  key: RelationKey;
+  label: string;
+  entries: { pattern: Pattern; note: string }[];
+};
+
+/**
+ * Every relationship touching this pattern, grouped for display. Outgoing
+ * edges keep their type; incoming ones are inverted, so an edge written once
+ * on B shows up correctly on A ("B requires A" reads as "Required by B").
+ */
+export function getRelationGroups(pattern: Pattern): RelationGroup[] {
+  const all = getAllPatterns();
+  const bySlug = new Map(all.map((p) => [p.slug, p]));
+  const grouped = new Map<RelationKey, { pattern: Pattern; note: string }[]>();
+
+  const push = (key: RelationKey, target: Pattern | undefined, note: string) => {
+    if (!target) return;
+    const entries = grouped.get(key) ?? [];
+    if (entries.some((e) => e.pattern.slug === target.slug)) return;
+    entries.push({ pattern: target, note });
+    grouped.set(key, entries);
+  };
+
+  for (const r of pattern.related) {
+    push(r.type, bySlug.get(r.slug), r.note);
+  }
+
+  for (const other of all) {
+    if (other.slug === pattern.slug) continue;
+    for (const r of other.related) {
+      if (r.slug !== pattern.slug) continue;
+      push(INVERSE_RELATIONS[r.type as Relation], other, r.note);
+    }
+  }
+
+  return RELATION_ORDER.filter((key) => grouped.has(key)).map((key) => ({
+    key,
+    label: RELATION_LABELS[key],
+    entries: grouped.get(key)!.sort((a, b) => a.pattern.number - b.pattern.number),
+  }));
 }
