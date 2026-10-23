@@ -58,9 +58,8 @@ sources:
   - title: "Shared Mental Models in Expert Team Decision Making"
     author: "Janis A. Cannon-Bowers, Eduardo Salas and Sharolyn Converse"
     year: 1993
-    url: "https://www.proquest.com/docview/38428594"
-    type: paper
-    note: "The origin of the term in team research: compatible models are what let teammates coordinate without saying anything."
+    type: book
+    note: "The origin of the term in team research: compatible models are what let teammates coordinate without saying anything. A chapter in Castellan's Individual and Group Decision Making; no stable open link."
 ---
 
 The interface actively synchronizes what the human believes about the system's state with what the system's state actually is. Especially critical in collaborative robotics — human and machine working the same physical space, each needing to predict the other.

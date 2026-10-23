@@ -44,7 +44,7 @@ related:
 sources:
   - title: "SAE J3016 — Taxonomy and Definitions for Terms Related to Driving Automation Systems"
     year: 2021
-    url: "https://saemobilus.sae.org/content/j3016_202104"
+    url: "https://saemobilus.sae.org/standards/j3016_202104-taxonomy-definitions-terms-related-driving-automation-systems-road-motor-vehicles"
     type: standard
     note: "Defines the minimal risk condition and the DDT fallback — the formal name for a defined fallback state."
   - title: "UN Regulation No. 157 — Automated Lane Keeping Systems (ALKS)"

@@ -26,8 +26,14 @@
   color-scheme: light;
 }
 
+/*
+ * Dark mode is declared twice on purpose, and the two blocks must stay in
+ * sync: once for the system preference (unless the reader has explicitly
+ * chosen light), and once for an explicit choice of dark. Keeping the media
+ * query means the site still follows the system setting without JavaScript.
+ */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #141413;
     --surface: #1d1d1b;
     --surface-muted: #232321;
@@ -48,6 +54,29 @@
 
     color-scheme: dark;
   }
+}
+
+/* Explicitly chosen dark. Mirror of the block above. */
+:root[data-theme="dark"] {
+  --bg: #141413;
+  --surface: #1d1d1b;
+  --surface-muted: #232321;
+  --ink: #ededea;
+  --ink-2: #c9c9c4;
+  --ink-3: #9d9d97;
+  --line: #3a3a37;
+  --line-strong: #7d7d77;
+  --dash: #5f5f5a;
+  --accent: #f0895a;
+  --accent-tint: #2a1d16;
+
+  --m-before: #7fb98c;
+  --m-during: #86b5dd;
+  --m-transition: #f0895a;
+  --m-failure: #e08a8a;
+  --m-after: #b79bd9;
+
+  color-scheme: dark;
 }
 
 /* ---------- Base ---------- */
@@ -121,11 +150,11 @@ code {
 
 .display {
   margin: 8px 0 0;
-  font-family: var(--font-serif), Georgia, serif;
+  font-family: var(--font-display), system-ui, sans-serif;
   font-weight: 400;
   font-size: clamp(40px, 7vw, 64px);
   line-height: 1.05;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.03em;
 }
 
 .lede {
@@ -150,7 +179,7 @@ code {
 }
 
 .brand {
-  font-family: var(--font-serif), Georgia, serif;
+  font-family: var(--font-display), system-ui, sans-serif;
   font-size: 22px;
   text-decoration: none;
 }
@@ -167,6 +196,72 @@ code {
 
 .site-nav-link:hover {
   color: var(--accent);
+}
+
+/* Theme toggle */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  background: transparent;
+  color: var(--ink-3);
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  border-color: var(--line-strong);
+  color: var(--ink);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .theme-toggle {
+    transition:
+      color 0.15s ease,
+      border-color 0.15s ease;
+  }
+}
+
+/*
+ * Each icon shows the theme you would switch TO, so the moon shows while
+ * light and the sun while dark. Decided in CSS from the resolved theme, which
+ * keeps the button free of React state and safe to server-render.
+ */
+.theme-icon {
+  display: none;
+}
+
+.icon-moon {
+  display: block;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .icon-moon {
+    display: none;
+  }
+  :root:not([data-theme="light"]) .icon-sun {
+    display: block;
+  }
+}
+
+:root[data-theme="dark"] .icon-moon {
+  display: none;
+}
+
+:root[data-theme="dark"] .icon-sun {
+  display: block;
+}
+
+:root[data-theme="light"] .icon-moon {
+  display: block;
+}
+
+:root[data-theme="light"] .icon-sun {
+  display: none;
 }
 
 .site-footer {
@@ -289,7 +384,7 @@ code {
 }
 
 .loop-name {
-  font-family: var(--font-serif), Georgia, serif;
+  font-family: var(--font-display), system-ui, sans-serif;
   font-size: 24px;
   line-height: 1.1;
   color: var(--moment-color);
@@ -611,7 +706,7 @@ a.loop-link:hover .loop-count {
 
 .group-name {
   margin: 0;
-  font-family: var(--font-serif), Georgia, serif;
+  font-family: var(--font-display), system-ui, sans-serif;
   font-weight: 400;
   font-size: 30px;
   line-height: 1.1;
@@ -663,7 +758,7 @@ a.loop-link:hover .loop-count {
 }
 
 .card-name {
-  font-family: var(--font-serif), Georgia, serif;
+  font-family: var(--font-display), system-ui, sans-serif;
   font-size: 26px;
   line-height: 1.1;
 }
@@ -936,7 +1031,7 @@ a.loop-link:hover .loop-count {
 
 .when-head {
   margin: 0 0 8px;
-  font-family: var(--font-serif), Georgia, serif;
+  font-family: var(--font-display), system-ui, sans-serif;
   font-weight: 400;
   font-size: 22px;
   line-height: 1.2;
@@ -1017,7 +1112,7 @@ a.loop-link:hover .loop-count {
 
 .example-title {
   margin: 0;
-  font-family: var(--font-serif), Georgia, serif;
+  font-family: var(--font-display), system-ui, sans-serif;
   font-weight: 400;
   font-size: 22px;
   line-height: 1.2;
@@ -1082,7 +1177,7 @@ a.loop-link:hover .loop-count {
 }
 
 .relation-name {
-  font-family: var(--font-serif), Georgia, serif;
+  font-family: var(--font-display), system-ui, sans-serif;
   font-size: 22px;
   line-height: 1.2;
 }
@@ -1199,7 +1294,7 @@ a.loop-link:hover .loop-count {
 }
 
 .anatomy-name {
-  font-family: var(--font-serif), Georgia, serif;
+  font-family: var(--font-display), system-ui, sans-serif;
   font-size: 19px;
   line-height: 1.25;
 }
@@ -1398,7 +1493,7 @@ a.loop-link:hover .loop-count {
 }
 
 .changelog-pattern {
-  font-family: var(--font-serif), Georgia, serif;
+  font-family: var(--font-display), system-ui, sans-serif;
   font-size: 19px;
   text-decoration: none;
 }
@@ -1444,6 +1539,43 @@ a.loop-link:hover .loop-count {
   .changelog-day {
     grid-template-columns: minmax(0, 1fr);
     gap: 10px;
+  }
+}
+
+/* Who writes this */
+.byline {
+  max-width: 68ch;
+}
+
+.socials {
+  list-style: none;
+  display: flex;
+  gap: 10px;
+  margin: 20px 0 0;
+  padding: 0;
+}
+
+.social {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  color: var(--ink-3);
+}
+
+.social:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .social {
+    transition:
+      color 0.15s ease,
+      border-color 0.15s ease;
   }
 }
 
@@ -1752,7 +1884,7 @@ a.loop-link:hover .loop-count {
 
 .prose h2,
 .prose h3 {
-  font-family: var(--font-serif), Georgia, serif;
+  font-family: var(--font-display), system-ui, sans-serif;
   font-weight: 400;
   color: var(--ink);
   line-height: 1.2;
@@ -1849,7 +1981,7 @@ a.loop-link:hover .loop-count {
   gap: 4px;
   min-height: 44px;
   text-decoration: none;
-  font-family: var(--font-serif), Georgia, serif;
+  font-family: var(--font-display), system-ui, sans-serif;
   font-size: 22px;
 }
 

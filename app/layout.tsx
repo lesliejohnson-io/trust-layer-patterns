@@ -1,11 +1,18 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Instrument_Serif, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
+import { Archivo, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { ExternalLink } from "@/components/ExternalLink";
 import { ByIcon, CcIcon } from "@/components/LicenseIcons";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import "./globals.css";
 
-const serif = Instrument_Serif({ subsets: ["latin"], weight: "400", variable: "--font-serif" });
+/**
+ * Re-applies a stored theme choice before first paint, so a reader who chose
+ * a theme against their system setting never sees the other one flash.
+ */
+const THEME_SCRIPT = `try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light")document.documentElement.dataset.theme=t}catch(e){}`;
+
+const display = Archivo({ subsets: ["latin"], variable: "--font-display" });
 const sans = IBM_Plex_Sans({ subsets: ["latin"], weight: ["400", "600"], variable: "--font-sans" });
 const mono = IBM_Plex_Mono({ subsets: ["latin"], weight: "500", variable: "--font-mono" });
 
@@ -17,7 +24,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${serif.variable} ${sans.variable} ${mono.variable}`}>
+    <html lang="en" className={`${display.variable} ${sans.variable} ${mono.variable}`}>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      </head>
       <body>
         <header className="site-header">
           <div className="wrap site-header-inner">
@@ -35,6 +45,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <Link href="/about" className="label site-nav-link">
                 About
               </Link>
+              <ThemeToggle />
             </nav>
           </div>
         </header>

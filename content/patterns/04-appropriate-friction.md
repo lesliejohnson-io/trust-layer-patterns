@@ -58,7 +58,7 @@ sources:
   - title: "An Investigation of the Therac-25 Accidents"
     author: "Nancy G. Leveson and Clark S. Turner"
     year: 1993
-    url: "https://classes.cs.uchicago.edu/archive/2022/spring/33100-1/papers/therac25.pdf"
+    url: "https://web.stanford.edu/class/cs240/old/sp2014/readings/therac-25.pdf"
     type: incident-report
     note: "Observed: hardware interlocks were replaced with software, and operators could edit and proceed past error messages at speed. The cost of missing friction."
 ---

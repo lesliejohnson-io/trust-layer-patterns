@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { SocialLinks } from "@/components/SocialLinks";
 import {
   AUTONOMY_LEVELS,
   EVIDENCE_DEFINITIONS,
@@ -225,6 +226,18 @@ export default function AboutPage() {
               </div>
             ))}
           </dl>
+        </section>
+
+        <section className="section" aria-labelledby="who">
+          <h2 id="who" className="label">
+            Who writes this
+          </h2>
+          <div className="prose byline">
+            <p>
+              Trust Layer Patterns is curated and written by <strong>Leslie Johnson</strong>.
+            </p>
+          </div>
+          <SocialLinks />
         </section>
 
         <section className="section" aria-labelledby="cite">

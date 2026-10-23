@@ -57,7 +57,7 @@ sources:
   - title: "Takeover Time in Highly Automated Vehicles: Noncritical Transitions to and From Manual Control"
     author: "Alexander Eriksson and Neville A. Stanton"
     year: 2017
-    url: "https://www.newswise.com/articles/over-to-you-automation"
+    url: "https://doi.org/10.1177/0018720816685832"
     type: paper
     note: "Non-critical takeovers vary enormously, roughly 2 to 26 seconds. Sizing a planned handoff from emergency-takeover data is a mistake."
   - title: "UN Regulation No. 157 — Automated Lane Keeping Systems (ALKS)"
@@ -66,12 +66,12 @@ sources:
     note: "The regulatory vocabulary for this pattern: transition demand, transition phase, and planned versus unplanned events. It also requires non-driving displays to suspend once a handoff starts."
   - title: "SAE J3016 — Taxonomy and Definitions for Terms Related to Driving Automation Systems"
     year: 2021
-    url: "https://saemobilus.sae.org/content/j3016_202104"
+    url: "https://saemobilus.sae.org/standards/j3016_202104-taxonomy-definitions-terms-related-driving-automation-systems-road-motor-vehicles"
     type: standard
     note: "Defines the request to intervene, and the fallback-ready user role that Level 3 depends on."
   - title: "NTSB HAR-19/03 — Collision Between Vehicle Controlled by Developmental Automated Driving System and Pedestrian, Tempe, Arizona"
     year: 2019
-    url: "https://ntsb.gov/investigations/accidentreports/reports/har1903.pdf"
+    url: "https://www.ntsb.gov/investigations/accidentreports/reports/har1903.pdf"
     type: incident-report
     note: "Observed: the failure this pattern exists to prevent. The system never alerted the safety operator, and the operator was not monitoring."
   - title: "BEA Final Report — Air France Flight AF447, Rio de Janeiro to Paris"
