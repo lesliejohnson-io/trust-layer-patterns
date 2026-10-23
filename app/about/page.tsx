@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import {
   AUTONOMY_LEVELS,
   EVIDENCE_DEFINITIONS,
@@ -7,6 +8,10 @@ import {
   RELATION_DEFINITIONS,
   RELATIONS,
   RELATION_LABELS,
+  REVERSIBILITY,
+  REVERSIBILITY_DEFINITIONS,
+  RISK_DEFINITIONS,
+  RISKS,
   STATUS_DEFINITIONS,
   STATUSES,
   TRUST_JOBS,
@@ -174,6 +179,33 @@ export default function AboutPage() {
           </dl>
         </section>
 
+        <section className="section" aria-labelledby="risk">
+          <h2 id="risk" className="label">
+            Risk and reversibility
+          </h2>
+          <p className="prose">
+            Together these decide how much friction a pattern can justify. They are not used to
+            navigate the library — they are there to be argued with, and to show where the
+            coverage is thin. The{" "}
+            <Link href="/matrix">risk × reversibility view</Link> lays every pattern out on both
+            axes.
+          </p>
+          <dl className="defs">
+            {RISKS.map((risk) => (
+              <div key={risk} className="def">
+                <dt>{humanize(risk)}</dt>
+                <dd>{RISK_DEFINITIONS[risk]}</dd>
+              </div>
+            ))}
+            {REVERSIBILITY.map((reversibility) => (
+              <div key={reversibility} className="def">
+                <dt>{humanize(reversibility)}</dt>
+                <dd>{REVERSIBILITY_DEFINITIONS[reversibility]}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+
         <section className="section" aria-labelledby="evidence">
           <h2 id="evidence" className="label">
             Observed and speculative examples
@@ -216,7 +248,8 @@ export default function AboutPage() {
             )}
             <p>
               The patterns are shareable under CC BY 4.0, so you are free to quote and adapt them
-              with attribution.
+              with attribution. The <Link href="/changelog">changelog</Link> records what changed
+              and when, if you need to cite a particular state of a pattern.
             </p>
           </div>
         </section>

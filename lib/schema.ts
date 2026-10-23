@@ -150,6 +150,20 @@ export const RELATION_DEFINITIONS: Record<Relation, string> = {
   precedes: "One runs before the other in the control loop.",
 };
 
+export const RISK_DEFINITIONS: Record<Risk, string> = {
+  low: "A mistake is an inconvenience. Nothing is damaged and nobody is hurt.",
+  elevated:
+    "A mistake costs time, money or equipment, or puts someone in a situation they have to recover from.",
+  critical:
+    "A mistake can injure or kill, or do damage at a scale that reaches past the people operating it.",
+};
+
+export const REVERSIBILITY_DEFINITIONS: Record<Reversibility, string> = {
+  reversible: "Undo it and the world is as it was.",
+  costly: "It can be put right, but it takes time, money or an apology.",
+  irreversible: "Once it has happened, it cannot be taken back.",
+};
+
 export const STATUS_DEFINITIONS: Record<Status, string> = {
   seed: "A candidate: name and intent only. Kept in the repo but off the index until it is written up.",
   draft: "Mechanism and problem written, with few sources so far.",

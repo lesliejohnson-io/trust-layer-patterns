@@ -11,7 +11,7 @@ autonomy: [3, 5]
 domains: [automotive, drone, industrial]
 
 status: draft
-updated: "2026-10-08"
+updated: "2026-10-23"
 
 steps:
   - title: "Full capability"
@@ -41,13 +41,27 @@ related:
     type: precedes
     note: "When the ladder runs out of fallbacks, the system escalates by handing control back."
 
-# Add sources as you research. Example:
-#  - title: "Paper or article title"
-#    author: "Author name"
-#    year: 2024
-#    url: "https://..."
-#    note: "Why it matters for this pattern"
-sources: []
+sources:
+  - title: "SAE J3016 — Taxonomy and Definitions for Terms Related to Driving Automation Systems"
+    year: 2021
+    url: "https://saemobilus.sae.org/content/j3016_202104"
+    type: standard
+    note: "Defines the minimal risk condition and the DDT fallback — the formal name for a defined fallback state."
+  - title: "UN Regulation No. 157 — Automated Lane Keeping Systems (ALKS)"
+    url: "https://eur-lex.europa.eu/eli/reg/2021/389/oj/eng"
+    type: standard
+    note: "Defines the Minimum Risk Manoeuvre: what the system does when the human does not respond, or when a severe failure occurs. A worked regulatory example of stepping down."
+  - title: "The “Problem” of Automation: Inappropriate Feedback and Interaction, Not “Over-Automation”"
+    author: "Donald A. Norman"
+    year: 1990
+    url: "https://ntrs.nasa.gov/api/citations/19900004678/downloads/19900004678.pdf"
+    type: paper
+    note: "Automation sits at an intermediate level of intelligence and fails precisely when the situation exceeds it, so degradation has to be designed in rather than discovered."
+  - title: "BEA Final Report — Air France Flight AF447, Rio de Janeiro to Paris"
+    year: 2012
+    url: "https://www.faa.gov/sites/faa.gov/files/f-cp090601.en_.pdf"
+    type: incident-report
+    note: "Observed: the system dropped to a degraded control mode after unreliable airspeed, and the crew did not grasp the new state. The “says so” half of the pattern failed."
 ---
 
 What the system does when it can't do what it's supposed to — and how it communicates that without panic or silence. Partial capability is still capability. The pattern defines the fallback states and how they're signaled.
