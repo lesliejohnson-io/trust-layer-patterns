@@ -15,7 +15,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const p = getPattern(slug);
-  return p ? { title: p.title, description: p.summary } : {};
+  return p ? { title: p.name, description: p.intent } : {};
 }
 
 export default async function PatternPage({ params }: Props) {
@@ -36,8 +36,8 @@ export default async function PatternPage({ params }: Props) {
 
       <header className="pattern-head">
         <p className="label label-accent">Pattern {pad(p.number)} · Trust layer</p>
-        <h1 className="display">{p.title}</h1>
-        <p className="lede">{p.summary}</p>
+        <h1 className="display">{p.name}</h1>
+        <p className="lede">{p.intent}</p>
         <p className="pattern-meta">
           <span className={`status status-${p.status}`}>{p.status}</span>
           {p.updated && <span className="label">Updated {p.updated}</span>}
@@ -70,7 +70,7 @@ export default async function PatternPage({ params }: Props) {
         {prev ? (
           <Link href={`/patterns/${prev.slug}`} className="pager-link">
             <span className="label">← {pad(prev.number)}</span>
-            <span>{prev.title}</span>
+            <span>{prev.name}</span>
           </Link>
         ) : (
           <span />
@@ -78,7 +78,7 @@ export default async function PatternPage({ params }: Props) {
         {next && (
           <Link href={`/patterns/${next.slug}`} className="pager-link pager-next">
             <span className="label">{pad(next.number)} →</span>
-            <span>{next.title}</span>
+            <span>{next.name}</span>
           </Link>
         )}
       </nav>

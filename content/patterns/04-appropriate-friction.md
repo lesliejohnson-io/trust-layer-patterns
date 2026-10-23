@@ -1,9 +1,17 @@
 ---
 number: 4
-title: "Appropriate Friction"
+name: "Appropriate Friction"
+intent: "Intentional resistance before a high-stakes action. It slows the human down on purpose when an error would be catastrophic — friction is the feature."
+
+moment: before
+trustJobs: [intervene, know]
+risk: critical
+reversibility: irreversible
+autonomy: [1, 5]
+domains: [drone, surgical, industrial]
+
 status: draft
 updated: "2026-10-08"
-summary: "Intentional resistance before a high-stakes action. It slows the human down on purpose when an error would be catastrophic — friction is the feature."
 
 steps:
   - title: "Intent"

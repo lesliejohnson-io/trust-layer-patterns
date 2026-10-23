@@ -22,8 +22,8 @@ export default function Home() {
             <Link href={`/patterns/${p.slug}`} className="index-card">
               <span className="index-num">{pad(p.number)}</span>
               <span className="index-body">
-                <span className="index-title">{p.title}</span>
-                <span className="index-summary">{p.summary}</span>
+                <span className="index-title">{p.name}</span>
+                <span className="index-summary">{p.intent}</span>
               </span>
               <span className="index-meta">
                 <span className={`status status-${p.status}`}>{p.status}</span>

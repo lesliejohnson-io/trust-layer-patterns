@@ -1,9 +1,17 @@
 ---
 number: 5
-title: "Shared Mental Model"
+name: "Shared Mental Model"
+intent: "The interface keeps what the human believes about the system’s state in sync with what that state actually is, so human and machine can predict each other."
+
+moment: during
+trustJobs: [predict, know]
+risk: elevated
+reversibility: costly
+autonomy: [2, 5]
+domains: [industrial, warehouse, surgical]
+
 status: draft
 updated: "2026-10-08"
-summary: "The interface keeps what the human believes about the system’s state in sync with what that state actually is, so human and machine can predict each other."
 
 steps:
   - title: "Machine state"

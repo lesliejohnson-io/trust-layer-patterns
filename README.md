@@ -15,17 +15,27 @@ Deploy: push to GitHub and import the repo in Vercel (no config needed).
 
 Everything for a pattern lives in `content/patterns/NN-slug.md`. You never need to touch components to update your research.
 
-| Field | What it drives |
-| --- | --- |
-| `title`, `summary` | Page header and the home-page index |
-| `status` | Badge: `draft`, `researched` or `stable` |
-| `updated` | "Updated" date on the page (keep the quotes) |
-| `steps` | The mechanism diagram. 3–6 steps work best. `note:` hangs an annotation under a step; `key: true` highlights the key moment |
-| `without`, `with` | The comparison panels: three short beats + a caption each |
-| `sources` | The Sources list (`title` required; `author`, `year`, `url`, `note` optional) |
-| Body (below the `---`) | Free-form Markdown, shown under "Notes" |
+| Field | What it drives | Default |
+| --- | --- | --- |
+| `name`, `intent` | Page header and the home-page index | required |
+| `moment` | Where in the control loop the pattern sits: `before`, `during`, `transition`, `failure` or `after`. The primary grouping axis | required |
+| `trustJobs` | What the human needs. One or two of `know`, `predict`, `intervene`, `recover`, `calibrate` | required |
+| `risk` | `low`, `elevated` or `critical` | `elevated` |
+| `reversibility` | `reversible`, `costly` or `irreversible` | `costly` |
+| `autonomy` | The `[low, high]` range of automation levels this applies to, on the 0–5 scale | `[0, 5]` |
+| `domains` | One or more of `automotive`, `surgical`, `industrial`, `drone`, `warehouse`, `maritime`, `aviation`, `home`, `general`. Use `general` on its own | `[general]` |
+| `status` | Badge: `seed`, `draft`, `reviewed` or `stable` | `draft` |
+| `updated` | "Updated" date on the page (keep the quotes) | required |
+| `aliases` | Extra names the search should match | `[]` |
+| `related` | Links to other patterns in this library | `[]` |
+| `crossReferences` | Links out to patterns in other libraries | `[]` |
+| `sources` | The Sources list (`title` required; `author`, `year`, `url`, `type`, `note` optional) | `[]` |
+| `openQuestions` | The "Still figuring out" block | `[]` |
+| `steps` | The mechanism diagram. 3–6 steps work best. `note:` hangs an annotation under a step; `key: true` highlights the key moment | required |
+| `without`, `with` | The comparison panels: three short beats + a caption each | required |
+| Body (below the `---`) | Markdown, in H2 sections: Problem, When to use, When not to use, Design considerations, In the field, Notes | — |
 
-Adding a source:
+Adding a source (`type` is one of `paper`, `book`, `standard`, `incident-report`, `article`, `talk`):
 
 ```yaml
 sources:
@@ -33,7 +43,38 @@ sources:
     author: "Author name"
     year: 2024
     url: "https://..."
+    type: paper
     note: "Why it matters for this pattern"
+```
+
+Linking patterns — `type` is `requires`, `complements`, `alternative-to`, `tension-with` or `precedes`. Write each relationship once; the other pattern picks it up as an incoming link.
+
+```yaml
+related:
+  - slug: shared-mental-model
+    type: requires
+    note: "One sentence on why."
+```
+
+### Status
+
+| Status | Meaning |
+| --- | --- |
+| `seed` | Name and intent only. Hidden by default |
+| `draft` | Mechanism and problem written, few sources |
+| `reviewed` | All sections filled, ≥3 sources, ≥1 observed example |
+| `stable` | Reviewed, then revisited after real-world use or feedback |
+
+### Validation
+
+Frontmatter is checked against `lib/schema.ts` (zod) whenever the content is read, so `npm run build` fails on bad data rather than rendering it blank. Errors name the file and the field, and every problem in the library is reported in one go:
+
+```
+Invalid frontmatter in 1 file:
+
+  content/patterns/02-glass-box.md
+    moment     Invalid option: expected one of "before"|"during"|…
+    autonomy   expected [low, high] with low <= high
 ```
 
 ## Adding a pattern
@@ -46,7 +87,8 @@ Copy `content/patterns/_template.md` to `06-your-pattern.md`. The number sets th
 app/                     pages (home, /patterns/[slug])
 components/              MechanismFlow, Comparison, Sources
 content/patterns/        one .md file per pattern  ← edit here
-lib/patterns.ts          reads + parses the content files
+lib/schema.ts            the frontmatter vocabularies + validation rules
+lib/patterns.ts          reads, validates and parses the content files
 ```
 
 Light and dark mode follow the system setting. Colors are tokens at the top of `app/globals.css`.

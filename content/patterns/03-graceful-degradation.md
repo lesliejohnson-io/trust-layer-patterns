@@ -1,9 +1,17 @@
 ---
 number: 3
-title: "Graceful Degradation"
+name: "Graceful Degradation"
+intent: "When the system can’t do what it’s supposed to, it steps down to a defined fallback state and says so — without panic or silence."
+
+moment: failure
+trustJobs: [recover, know]
+risk: critical
+reversibility: costly
+autonomy: [3, 5]
+domains: [automotive, drone, industrial]
+
 status: draft
 updated: "2026-10-08"
-summary: "When the system can’t do what it’s supposed to, it steps down to a defined fallback state and says so — without panic or silence."
 
 steps:
   - title: "Full capability"
@@ -27,6 +35,11 @@ without:
 with:
   steps: ["Fault occurs", "Calm step-down", "Known limits"]
   caption: "The system names its new state and limits, so the operator adjusts instead of panicking."
+
+related:
+  - slug: handoff
+    type: precedes
+    note: "When the ladder runs out of fallbacks, the system escalates by handing control back."
 
 # Add sources as you research. Example:
 #  - title: "Paper or article title"

@@ -203,7 +203,7 @@ code {
   color: var(--ink-3);
 }
 
-.status-researched,
+.status-reviewed,
 .status-stable {
   border-color: var(--accent);
   color: var(--accent);

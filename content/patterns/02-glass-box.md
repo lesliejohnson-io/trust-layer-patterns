@@ -1,9 +1,17 @@
 ---
 number: 2
-title: "The Glass Box"
+name: "The Glass Box"
+intent: "The machine shows its reasoning, not just its output, so operators can trust or override it with context."
+
+moment: during
+trustJobs: [know, calibrate]
+risk: elevated
+reversibility: costly
+autonomy: [2, 4]
+domains: [industrial, surgical, maritime]
+
 status: draft
 updated: "2026-10-08"
-summary: "The machine shows its reasoning, not just its output, so operators can trust or override it with context."
 
 steps:
   - title: "Inputs"
