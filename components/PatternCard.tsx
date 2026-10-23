@@ -1,13 +1,14 @@
 import Link from "next/link";
-import { humanize, pad, type Pattern } from "@/lib/patterns";
+import type { PatternCardData } from "@/lib/browse";
+import { humanize, pad } from "@/lib/format";
 
 /**
  * An index card. The whole card is the link. A status badge shows only while
  * the pattern is short of `stable`, and the source count only once there is
  * at least one — "0 sources" says nothing worth the row.
  */
-export function PatternCard({ pattern }: { pattern: Pattern }) {
-  const sources = pattern.sources.length;
+export function PatternCard({ pattern }: { pattern: PatternCardData }) {
+  const sources = pattern.sourceCount;
 
   return (
     <li className="card-item">

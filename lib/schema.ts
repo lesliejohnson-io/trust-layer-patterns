@@ -93,6 +93,84 @@ export const MOMENT_QUESTIONS: Record<Moment, string> = {
   after: "After something happens, can trust be rebuilt or recalibrated?",
 };
 
+/** The two or three sentences that open each Moment's page. */
+export const MOMENT_EXPLANATIONS: Record<Moment, string> = {
+  before:
+    "Autonomy starts with consent. Before the machine acts, the human needs to know what it intends to do, agree that it should, and have a way to say no. These patterns cover the moment of authorization — what gets shown, what gets confirmed, and how much friction the consequence deserves.",
+  during:
+    "Once the machine is running, the human's job shifts from deciding to supervising. That only works if its state, reasoning and next move are legible without being noisy. These patterns keep the human able to see what is happening and predict what comes next, so trouble is noticed before it becomes an event.",
+  transition:
+    "Control changing hands is the most dangerous moment in a partly autonomous system. Someone who has been out of the loop has to rebuild their picture of the situation before they are accountable for it. These patterns cover how a transfer is announced, what state moves with it, and how much time the human gets to orient.",
+  failure:
+    "Every autonomous system eventually meets a situation it was not built for. What matters is whether it steps down into a defined state and says so, or just quietly stops being trustworthy. These patterns cover fallback ladders, minimal risk states, and how limits get communicated when capability is lost.",
+  after:
+    "Trust is not set once. It is repaired and recalibrated after every surprise, which means the human has to reconstruct what the machine saw and decided, then adjust how much to rely on it next time. This is the newest part of the library: recovery, review and calibration over time.",
+};
+
+/**
+ * The 0–5 autonomy scale used by the `autonomy` facet. SAE's driving-
+ * automation levels are the reference point, generalized here because the
+ * library also covers robots, drones and warehouse systems.
+ */
+export const AUTONOMY_LEVELS: { level: number; name: string; detail: string }[] = [
+  { level: 0, name: "None", detail: "The human performs the task. The machine does nothing on its own." },
+  {
+    level: 1,
+    name: "Assistance",
+    detail: "The machine handles one narrow part of the task. The human does the rest and stays responsible throughout.",
+  },
+  {
+    level: 2,
+    name: "Partial",
+    detail: "The machine controls several parts of the task at once, but the human supervises continuously and is expected to intervene.",
+  },
+  {
+    level: 3,
+    name: "Conditional",
+    detail: "Within defined conditions the machine runs the task itself. The human can disengage, but must take over when asked.",
+  },
+  {
+    level: 4,
+    name: "High",
+    detail: "Inside its operating envelope the machine handles everything, including reaching a safe state on its own if nobody responds.",
+  },
+  {
+    level: 5,
+    name: "Full",
+    detail: "No operating envelope limits, and no expectation of a human fallback.",
+  },
+];
+
+/** What each relationship between two patterns means. */
+export const RELATION_DEFINITIONS: Record<Relation, string> = {
+  requires: "The other pattern has to be in place for this one to work at all.",
+  complements: "They reinforce each other, but neither depends on the other.",
+  "alternative-to": "Two ways of solving the same problem. Pick one.",
+  "tension-with": "Applying one makes the other harder. The trade-off is the point.",
+  precedes: "One runs before the other in the control loop.",
+};
+
+export const STATUS_DEFINITIONS: Record<Status, string> = {
+  seed: "A candidate: name and intent only. Kept in the repo but off the index until it is written up.",
+  draft: "Mechanism and problem written, with few sources so far.",
+  reviewed: "Every section filled, at least three sources and at least one observed example.",
+  stable: "Reviewed, then revisited after real-world use or feedback.",
+};
+
+export const EVIDENCE_DEFINITIONS: Record<Evidence, string> = {
+  observed: "A real system or a documented incident, with a source you can follow.",
+  speculative: "The author's own concept — plausible, but not yet seen in the field.",
+};
+
+/** What each trust job buys the human, used as the one-line group purpose. */
+export const TRUST_JOB_PURPOSES: Record<TrustJob, string> = {
+  know: "See the machine's state and reasoning.",
+  predict: "Anticipate what it will do next.",
+  intervene: "Act, override or stop it.",
+  recover: "Get back to a safe state.",
+  calibrate: "Trust it the right amount over time.",
+};
+
 const hasNoDuplicates = (values: readonly string[]) => new Set(values).size === values.length;
 
 /**

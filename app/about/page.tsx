@@ -1,13 +1,40 @@
 import type { Metadata } from "next";
-import { getAllPatterns } from "@/lib/patterns";
+import {
+  AUTONOMY_LEVELS,
+  EVIDENCE_DEFINITIONS,
+  getAllPatterns,
+  humanize,
+  RELATION_DEFINITIONS,
+  RELATIONS,
+  RELATION_LABELS,
+  STATUS_DEFINITIONS,
+  STATUSES,
+  TRUST_JOBS,
+  TRUST_JOB_PURPOSES,
+} from "@/lib/patterns";
 
 export const metadata: Metadata = {
   title: "About",
   description:
-    "What a pattern means in this library, and how to cite it.",
+    "What a pattern means in this library, how its pages are put together, what the facets mean, and how to cite it.",
 };
 
 const SITE = "trust-layer-patterns.vercel.app";
+
+/** The sections of a pattern page, and the question each one answers. */
+const ANATOMY: { name: string; note: string }[] = [
+  { name: "Intent", note: "One sentence: what the machine does, and what it buys the human." },
+  { name: "Problem", note: "The competing forces the pattern resolves, not just the symptom." },
+  { name: "The mechanism", note: "The sequence, step by step, with the key moment marked." },
+  { name: "Without / with", note: "The same three beats, played twice, so the difference is visible." },
+  { name: "When to use it", note: "The conditions that justify it — and the ones that rule it out." },
+  { name: "Design considerations", note: "Imperative rules, each with the reasoning behind it." },
+  { name: "In the field", note: "Examples, each labelled observed or speculative." },
+  { name: "Related patterns", note: "What this requires, precedes, complements or fights with." },
+  { name: "Elsewhere", note: "The same idea in other libraries, linked rather than copied." },
+  { name: "Sources", note: "What the pattern is built on, grouped by kind." },
+  { name: "Still figuring out", note: "Open questions. The learning shown in public." },
+];
 
 export default function AboutPage() {
   const example = getAllPatterns()[0];
@@ -25,6 +52,148 @@ export default function AboutPage() {
             public.
           </p>
         </header>
+
+        <section className="section" aria-labelledby="what">
+          <h2 id="what" className="label">
+            What a pattern means here
+          </h2>
+          <div className="prose">
+            <p>
+              A pattern is a named, reusable solution to a problem that keeps recurring — the same
+              sense the term carries in software design. It is not a component, a guideline or a
+              piece of advice. It has a name you can say out loud in a design review, a mechanism
+              you can draw, and a set of conditions under which it applies and another under which
+              it does not.
+            </p>
+            <p>
+              What narrows this library is the second half: <strong>autonomy with physical
+              consequences</strong>. Most AI pattern libraries cover AI inside software, where a bad
+              output is a bad output. Here the machine moves, cuts, lifts or drives, so a
+              miscalibrated handoff is measured in seconds and metres. That is why every pattern
+              carries a risk and a reversibility, and why friction is sometimes the feature.
+            </p>
+          </div>
+        </section>
+
+        <section className="section" aria-labelledby="anatomy">
+          <h2 id="anatomy" className="label">
+            Anatomy of a pattern page
+          </h2>
+          <ol className="anatomy">
+            {ANATOMY.map((row, i) => (
+              <li key={row.name} className="anatomy-row">
+                <span className="anatomy-num">{String(i + 1).padStart(2, "0")}</span>
+                <span className="anatomy-name">{row.name}</span>
+                <span className="anatomy-note">{row.note}</span>
+              </li>
+            ))}
+          </ol>
+          <p className="anatomy-caption">
+            Sections appear only when there is something to put in them, so a young pattern is
+            short rather than padded with empty headings.
+          </p>
+        </section>
+
+        <section className="section" aria-labelledby="status">
+          <h2 id="status" className="label">
+            Status
+          </h2>
+          <dl className="defs">
+            {STATUSES.map((status) => (
+              <div key={status} className="def">
+                <dt>
+                  <span className="status status-muted">{status}</span>
+                </dt>
+                <dd>{STATUS_DEFINITIONS[status]}</dd>
+              </div>
+            ))}
+          </dl>
+          <p className="anatomy-caption">
+            Seeds let candidate patterns live in the repo without making the public library look
+            thicker than it is. They are hidden on the index until you ask for them.
+          </p>
+        </section>
+
+        <section className="section" aria-labelledby="trust-jobs">
+          <h2 id="trust-jobs" className="label">
+            Trust jobs
+          </h2>
+          <p className="prose">
+            What the human actually needs from the machine at that moment. A pattern does one or
+            two of these; more than two usually means it is really two patterns.
+          </p>
+          <dl className="defs">
+            {TRUST_JOBS.map((job) => (
+              <div key={job} className="def">
+                <dt>
+                  <span className="tag">{humanize(job)}</span>
+                </dt>
+                <dd>{TRUST_JOB_PURPOSES[job]}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+
+        <section className="section" aria-labelledby="autonomy">
+          <h2 id="autonomy" className="label">
+            The autonomy scale
+          </h2>
+          <p className="prose">
+            Each pattern names the range of automation levels it applies to. The scale below takes
+            SAE&apos;s driving-automation levels as its reference point, generalized because this
+            library also covers robots, drones and warehouse systems.
+          </p>
+          <dl className="defs">
+            {AUTONOMY_LEVELS.map((level) => (
+              <div key={level.level} className="def">
+                <dt>
+                  <span className="level-num">{level.level}</span> {level.name}
+                </dt>
+                <dd>{level.detail}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+
+        <section className="section" aria-labelledby="relations">
+          <h2 id="relations" className="label">
+            How patterns relate
+          </h2>
+          <p className="prose">
+            A relationship is written once, on one pattern, and shows up on both — inverted where
+            that is what makes it read correctly. If The Handoff requires Shared Mental Model, then
+            Shared Mental Model lists The Handoff under &ldquo;Required by&rdquo;.
+          </p>
+          <dl className="defs">
+            {RELATIONS.map((relation) => (
+              <div key={relation} className="def">
+                <dt>{RELATION_LABELS[relation]}</dt>
+                <dd>{RELATION_DEFINITIONS[relation]}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+
+        <section className="section" aria-labelledby="evidence">
+          <h2 id="evidence" className="label">
+            Observed and speculative examples
+          </h2>
+          <p className="prose">
+            Every example in &ldquo;In the field&rdquo; carries one of two labels. The distinction
+            is not decoration: while examples are still being collected, it is the thing that keeps
+            the library honest about how much of it is evidence and how much is argument.
+          </p>
+          <dl className="defs">
+            {(["observed", "speculative"] as const).map((evidence) => (
+              <div key={evidence} className="def">
+                <dt>
+                  <span className={`tag tag-evidence tag-${evidence}`}>{humanize(evidence)}</span>
+                </dt>
+                <dd>{EVIDENCE_DEFINITIONS[evidence]}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
 
         <section className="section" aria-labelledby="cite">
           <h2 id="cite" className="label">

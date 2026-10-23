@@ -25,16 +25,27 @@ export type {
   TrustJob,
 } from "./schema";
 export {
+  AUTONOMY_LEVELS,
   DOMAINS,
+  EVIDENCE_DEFINITIONS,
+  MOMENT_EXPLANATIONS,
   MOMENT_QUESTIONS,
   MOMENTS,
+  RELATION_DEFINITIONS,
+  STATUS_DEFINITIONS,
   RELATION_LABELS,
   RELATIONS,
   SOURCE_TYPES,
   SOURCE_TYPE_LABELS,
   STATUSES,
   TRUST_JOBS,
+  TRUST_JOB_PURPOSES,
 } from "./schema";
+
+export type { PatternCardData } from "./browse";
+import type { PatternCardData } from "./browse";
+
+export { autonomyRange, humanize, pad } from "./format";
 
 /** One step in a pattern's mechanism flow. */
 export type Step = Frontmatter["steps"][number];
@@ -121,24 +132,9 @@ function splitBody(markdown: string): Body {
   return body;
 }
 
-/** "incident-report" -> "Incident report". For facet values shown as text. */
-export function humanize(value: string): string {
-  const spaced = value.replace(/-/g, " ");
-  return spaced.charAt(0).toUpperCase() + spaced.slice(1);
-}
-
-/** "Levels 2–4", or "Any level" when the pattern applies across the scale. */
-export function autonomyRange([low, high]: readonly [number, number]): string {
-  if (low === 0 && high === 5) return "Any level";
-  return low === high ? `Level ${low}` : `Levels ${low}–${high}`;
-}
-
-/**
- * Where a Moment links to. Today that's the index, which grows grouped
- * sections in phase 3; phase 5 points this at /moments/[moment] instead.
- */
+/** A Moment's own page. */
 export function momentHref(moment: Moment): string {
-  return `/#moment-${moment}`;
+  return `/moments/${moment}`;
 }
 
 /** A frontmatter failure in one file, held so the build can report them all at once. */
@@ -234,8 +230,20 @@ export function getPattern(slug: string): Pattern | undefined {
   return getAllPatterns().find((p) => p.slug === slug);
 }
 
-export function pad(n: number): string {
-  return String(n).padStart(2, "0");
+/** The narrow shape the index sends to the browser. */
+export function toCardData(p: Pattern): PatternCardData {
+  return {
+    slug: p.slug,
+    number: p.number,
+    name: p.name,
+    intent: p.intent,
+    moment: p.moment,
+    trustJobs: p.trustJobs,
+    domains: p.domains,
+    status: p.status,
+    aliases: p.aliases,
+    sourceCount: p.sources.length,
+  };
 }
 
 export function getPatternsByMoment(moment: Moment): Pattern[] {
