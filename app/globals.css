@@ -6,9 +6,9 @@
   --ink: #1a1a1a;
   --ink-2: #3d3d39;
   --ink-3: #5e5e59;
-  --line: #d4d4cf;
-  --line-strong: #8a8a85;
-  --dash: #a3a39e;
+  --line: #bcbcb5;
+  --line-strong: #787872;
+  --dash: #94948e;
   --accent: #b4400c;
   --accent-tint: #fbf4ef;
 
@@ -179,9 +179,20 @@ code {
 }
 
 .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   font-family: var(--font-display), system-ui, sans-serif;
   font-size: 22px;
   text-decoration: none;
+}
+
+.brand-mark {
+  display: block;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  flex: none;
 }
 
 .site-nav {
@@ -203,26 +214,22 @@ code {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   padding: 0;
-  border: 1px solid var(--line);
-  border-radius: 99px;
+  border: 0;
   background: transparent;
   color: var(--ink-3);
   cursor: pointer;
 }
 
 .theme-toggle:hover {
-  border-color: var(--line-strong);
   color: var(--ink);
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .theme-toggle {
-    transition:
-      color 0.15s ease,
-      border-color 0.15s ease;
+    transition: color 0.15s ease;
   }
 }
 

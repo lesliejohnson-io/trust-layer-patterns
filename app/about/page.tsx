@@ -59,6 +59,18 @@ export default function AboutPage() {
           </p>
         </header>
 
+        <section className="section" aria-labelledby="who">
+          <h2 id="who" className="label">
+            The Author
+          </h2>
+          <div className="prose byline">
+            <p>
+              Trust Layer Patterns is curated and written by <strong>Leslie Johnson</strong>.
+            </p>
+          </div>
+          <SocialLinks />
+        </section>
+
         <section className="section" aria-labelledby="what">
           <h2 id="what" className="label">
             What a pattern means here
@@ -226,18 +238,6 @@ export default function AboutPage() {
               </div>
             ))}
           </dl>
-        </section>
-
-        <section className="section" aria-labelledby="who">
-          <h2 id="who" className="label">
-            Who writes this
-          </h2>
-          <div className="prose byline">
-            <p>
-              Trust Layer Patterns is curated and written by <strong>Leslie Johnson</strong>.
-            </p>
-          </div>
-          <SocialLinks />
         </section>
 
         <section className="section" aria-labelledby="cite">
