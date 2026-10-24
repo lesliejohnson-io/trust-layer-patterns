@@ -13,8 +13,8 @@ export default function manifest(): MetadataRoute.Manifest {
       "Named, reusable design patterns for the trust layer between humans and autonomous machines.",
     start_url: "/",
     display: "standalone",
-    background_color: "#f6f6f3",
-    theme_color: "#066f95",
+    background_color: "#ffffff",
+    theme_color: "#00bf63",
     icons: [
       { src: "/icons/icon-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
       { src: "/icons/icon-512.png", sizes: "512x512", type: "image/png", purpose: "any" },

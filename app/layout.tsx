@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Archivo, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { ExternalLink } from "@/components/ExternalLink";
 import { ByIcon, CcIcon } from "@/components/LicenseIcons";
+import { BrandMark } from "@/components/BrandMark";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import "./globals.css";
 
@@ -32,9 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <header className="site-header">
           <div className="wrap site-header-inner">
             <Link href="/" className="brand">
-              {/* Decorative: the wordmark beside it carries the name. */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/icons/icon-64.png" alt="" className="brand-mark" width={26} height={26} />
+              <BrandMark className="brand-mark" />
               Trust Layer Patterns
             </Link>
             <nav className="site-nav" aria-label="Main">

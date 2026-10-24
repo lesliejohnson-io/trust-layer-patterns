@@ -11,6 +11,7 @@
   --dash: #94948e;
   --accent: #b4400c;
   --accent-tint: #fbf4ef;
+  --brand: #00803f;
 
   /* Moment is the only facet that gets colour (spec §8). */
   --m-before: #3f6f4a;
@@ -45,6 +46,7 @@
     --dash: #5f5f5a;
     --accent: #f0895a;
     --accent-tint: #2a1d16;
+    --brand: #00bf63;
 
     --m-before: #7fb98c;
     --m-during: #86b5dd;
@@ -69,6 +71,7 @@
   --dash: #5f5f5a;
   --accent: #f0895a;
   --accent-tint: #2a1d16;
+  --brand: #00bf63;
 
   --m-before: #7fb98c;
   --m-during: #86b5dd;
@@ -189,10 +192,10 @@ code {
 
 .brand-mark {
   display: block;
-  width: 26px;
-  height: 26px;
-  border-radius: 6px;
+  width: 38px;
+  height: 38px;
   flex: none;
+  color: var(--brand);
 }
 
 .site-nav {
