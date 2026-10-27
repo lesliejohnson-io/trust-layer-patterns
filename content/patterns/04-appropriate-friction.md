@@ -1,7 +1,7 @@
 ---
 number: 4
 name: "Appropriate Friction"
-intent: "Intentional resistance before a high-stakes action. It slows the human down on purpose when an error would be catastrophic — friction is the feature."
+intent: "Before a high-stakes action, the interface asks the operator to slow down. A drone operator overriding a no-fly boundary has to hold the button for two seconds and confirm the zone, so a stray tap can’t send it there."
 
 moment: before
 trustJobs: [intervene, know]
@@ -63,4 +63,4 @@ sources:
     note: "Observed: hardware interlocks were replaced with software, and operators could edit and proceed past error messages at speed. The cost of missing friction."
 ---
 
-Intentional resistance before a high-stakes action. A confirmation step, a delay, a second trigger. Slows the human down on purpose when the consequence of error is catastrophic. (The opposite of UX convention — friction is the feature.)
+The hard part is choosing which actions get it. A pause that shows up everywhere gets cleared from habit, and then it protects nothing. Reserve it for actions that cannot be undone, and make the confirmation name the specific consequence rather than asking whether the operator is sure.

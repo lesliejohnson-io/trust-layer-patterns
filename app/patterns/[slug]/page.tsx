@@ -62,7 +62,7 @@ export default async function PatternPage({ params }: Props) {
   ].filter((item): item is TocItem => item !== null);
 
   return (
-    <div className="wrap wrap-wide pattern-layout">
+    <div className="wrap pattern-layout">
       <article className="pattern">
         <nav className="crumbs" aria-label="Breadcrumb">
           <ol>

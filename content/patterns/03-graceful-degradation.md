@@ -64,4 +64,4 @@ sources:
     note: "Observed: the system dropped to a degraded control mode after unreliable airspeed, and the crew did not grasp the new state. The “says so” half of the pattern failed."
 ---
 
-What the system does when it can't do what it's supposed to — and how it communicates that without panic or silence. Partial capability is still capability. The pattern defines the fallback states and how they're signaled.
+The fallback states have to exist before the fault does. A system that improvises its way down cannot tell the operator what it can still be trusted with, which is the thing they most need to know. Work out the ladder in advance, and make each rung specific enough that the operator can tell which tasks are still available and which have gone.

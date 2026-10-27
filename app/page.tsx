@@ -16,9 +16,8 @@ export default function Home() {
       <section className="hero">
         <h1 className="display">Trust Layer Patterns</h1>
         <p className="lede">
-          Most AI pattern libraries cover AI inside software; this one covers autonomy with
-          physical consequences — vehicles, surgical and industrial robots, drones and warehouse
-          systems.
+          Patterns for autonomous machines that move, lift, cut, and fly, where a bad decision has
+          physical consequences.
         </p>
         <p className="label hero-meta">
           {published.length} {published.length === 1 ? "pattern" : "patterns"}

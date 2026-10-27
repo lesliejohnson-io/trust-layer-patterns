@@ -120,11 +120,6 @@ code {
   padding: 0 24px;
 }
 
-/* The pattern page carries a TOC rail, so it gets room for both columns. */
-.wrap-wide {
-  max-width: 1320px;
-}
-
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;
@@ -184,18 +179,17 @@ code {
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  font-family: var(--font-display), system-ui, sans-serif;
-  font-size: 22px;
   text-decoration: none;
+  color: var(--ink);
 }
 
-.brand-mark {
+/* The lockup carries its own wordmark, so it is sized by height and lets its
+   3.46:1 ratio set the width. */
+.brand-logo {
   display: block;
-  width: 38px;
   height: 38px;
+  width: auto;
   flex: none;
-  color: var(--brand);
 }
 
 .site-nav {
@@ -832,10 +826,12 @@ a.loop-link:hover .loop-count {
 }
 
 /* ---------- Pattern page ---------- */
+/* The TOC rail sits inside the standard wrap, so a pattern's text starts on
+   the same left edge as the logo and every other page. */
 .pattern-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 190px;
-  gap: 56px;
+  gap: 48px;
   align-items: start;
 }
 

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Archivo, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { ExternalLink } from "@/components/ExternalLink";
 import { ByIcon, CcIcon } from "@/components/LicenseIcons";
-import { BrandMark } from "@/components/BrandMark";
+import { BrandLogo } from "@/components/BrandLogo";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import "./globals.css";
 
@@ -32,17 +32,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <header className="site-header">
           <div className="wrap site-header-inner">
-            <Link href="/" className="brand">
-              <BrandMark className="brand-mark" />
-              Trust Layer Patterns
+            <Link href="/" className="brand" aria-label="Trust Layer Patterns — home">
+              <BrandLogo className="brand-logo" />
             </Link>
             <nav className="site-nav" aria-label="Main">
-              <span className="label">Working library</span>
               <Link href="/" className="label site-nav-link">
                 Patterns
-              </Link>
-              <Link href="/#moments" className="label site-nav-link">
-                Moments
               </Link>
               <Link href="/about" className="label site-nav-link">
                 About

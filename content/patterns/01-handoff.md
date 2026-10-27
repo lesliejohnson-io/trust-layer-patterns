@@ -93,6 +93,4 @@ sources:
 
 ---
 
-When does the machine yield control back to the human, and how? This pattern defines the moment of transfer: what signals it, what state is communicated, and how much time the human gets to orient before they're "in control."
-
-Critical in autonomous vehicles, surgical robots and drone ops.
+Timing is where this one usually goes wrong. A handoff triggered when the machine runs out of options is already too late, because the operator has been out of the loop and needs time to work out what is happening before they can act. Planned takeovers vary enormously in how long they take, so sizing the window from emergency data will leave people short.

@@ -63,4 +63,4 @@ sources:
     note: "The problem is not automation itself but inadequate feedback to the people supervising it."
 ---
 
-The machine shows its reasoning, not just its output. Instead of "I recommend X," it surfaces "I recommend X because [sensor confidence / historical data / threshold breach]." Lets operators trust or override with context.
+An explanation only helps if the operator can check it against something they can see for themselves. Dumping the whole model into the interface produces the same rubber-stamping as showing nothing, so the reasons have to be few and specific to the decision in front of them. Recording what operators override matters as much as showing the reasons, because repeated disagreement in the same situation is the clearest sign the model is wrong.

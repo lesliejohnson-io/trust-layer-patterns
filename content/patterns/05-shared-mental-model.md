@@ -62,4 +62,4 @@ sources:
     note: "The origin of the term in team research: compatible models are what let teammates coordinate without saying anything. A chapter in Castellan's Individual and Group Decision Making; no stable open link."
 ---
 
-The interface actively synchronizes what the human believes about the system's state with what the system's state actually is. Especially critical in collaborative robotics — human and machine working the same physical space, each needing to predict the other.
+Showing the current state is not enough on its own, because a person working alongside a machine is always predicting its next move. Signal intent before the motion starts, so that prediction has something to work from. The sync runs both ways as well: a machine with no model of what the operator expects it to do cannot tell when that expectation has gone wrong.
