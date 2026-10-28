@@ -36,6 +36,7 @@ function WithoutScreen() {
       <div className="console-screen">
         <Readout state="Armed" />
         <p className="console-button is-fault is-static" aria-hidden="true">
+          <span className="console-shape">■</span>
           Release payload
         </p>
         <p className="console-hint">One tap. No second chance.</p>
@@ -172,6 +173,9 @@ function WithScreen() {
               style={{ transform: `scaleX(${progress})` }}
               aria-hidden="true"
             />
+            <span className="console-shape" aria-hidden="true">
+              ■
+            </span>
             <span className="console-button-text">Release payload over zone B</span>
           </button>
         )}

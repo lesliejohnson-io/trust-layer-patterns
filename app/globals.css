@@ -1015,15 +1015,56 @@ a.station-body:hover .station-count {
  * labels over monospaced values. The 1px grid gap lets --edge show through as
  * the rules, so the cell count can change without re-doing the borders.
  */
+.readout-block {
+  margin-top: 28px;
+}
+
 .readout {
   display: grid;
   /* min-content, so a cell is never narrower than the word it holds:
      "Irreversible" used to wrap mid-word. */
   grid-template-columns: repeat(6, minmax(min-content, 1fr));
   gap: 1px;
-  margin: 28px 0 0;
+  margin: 0;
   border: 1px solid var(--edge);
   background: var(--edge);
+}
+
+/*
+ * The key under the readout: both scales end to end, so a reader can see
+ * where this pattern sits rather than only what its two values are. Each
+ * value carries shape, colour and word together, exactly as the cells do.
+ */
+.readout-key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 36px;
+  margin: 14px 0 0;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.readout-key-scale {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+}
+
+.readout-key-item {
+  white-space: nowrap;
+}
+
+.readout-key-item.is-nominal {
+  color: var(--status-nominal);
+}
+
+.readout-key-item.is-caution {
+  color: var(--status-caution);
+}
+
+.readout-key-item.is-fault {
+  color: var(--status-fault);
 }
 
 .readout-cell {
@@ -1095,6 +1136,11 @@ a.station-body:hover .station-count {
 @media (max-width: 760px) {
   .readout {
     grid-template-columns: repeat(2, minmax(min-content, 1fr));
+  }
+
+  .readout-key {
+    flex-direction: column;
+    gap: 6px;
   }
 }
 
