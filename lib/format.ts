@@ -2,6 +2,12 @@
  * Display helpers for facet values. Kept free of Node imports so client
  * components can use them — `lib/patterns.ts` reads the filesystem.
  */
+import { MOMENT_LABELS, type Moment } from "./schema";
+
+/** How a Moment is written in the interface. See MOMENT_LABELS. */
+export function momentLabel(moment: Moment): string {
+  return MOMENT_LABELS[moment];
+}
 
 /** "incident-report" -> "Incident report". */
 export function humanize(value: string): string {

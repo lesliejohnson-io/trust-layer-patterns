@@ -1,14 +1,27 @@
 import Link from "next/link";
 import type { PatternCardData } from "@/lib/browse";
-import { humanize, pad } from "@/lib/format";
+import { humanize, momentLabel, pad } from "@/lib/format";
 
 /**
- * An index card. The whole card is the link. A status badge shows only while
- * the pattern is short of `stable`, and the source count only once there is
- * at least one — "0 sources" says nothing worth the row.
+ * An index card. The whole card is the link.
+ *
+ * The footer carries only what the card's surroundings don't already say: the
+ * moment tag is dropped when the cards sit under a moment heading, the trust
+ * job when they sit under a trust-job heading. Status shows only once a
+ * pattern is `reviewed` or `stable` — everything before that is a draft, which
+ * the index says once at the top rather than on every card.
  */
-export function PatternCard({ pattern }: { pattern: PatternCardData }) {
+export function PatternCard({
+  pattern,
+  showMoment = true,
+  showTrustJob = true,
+}: {
+  pattern: PatternCardData;
+  showMoment?: boolean;
+  showTrustJob?: boolean;
+}) {
   const sources = pattern.sourceCount;
+  const showStatus = pattern.status === "reviewed" || pattern.status === "stable";
 
   return (
     <li className="card-item">
@@ -17,13 +30,9 @@ export function PatternCard({ pattern }: { pattern: PatternCardData }) {
         <span className="card-name">{pattern.name}</span>
         <span className="card-intent">{pattern.intent}</span>
         <span className="card-foot">
-          <span className="tag tag-moment" data-moment={pattern.moment}>
-            {humanize(pattern.moment)}
-          </span>
-          <span className="tag">{humanize(pattern.trustJobs[0])}</span>
-          {pattern.status !== "stable" && (
-            <span className="status status-muted">{pattern.status}</span>
-          )}
+          {showMoment && <span className="tag">{momentLabel(pattern.moment)}</span>}
+          {showTrustJob && <span className="tag">{humanize(pattern.trustJobs[0])}</span>}
+          {showStatus && <span className="tag tag-status">{humanize(pattern.status)}</span>}
           {sources > 0 && (
             <span className="label card-sources">
               {sources} {sources === 1 ? "source" : "sources"}

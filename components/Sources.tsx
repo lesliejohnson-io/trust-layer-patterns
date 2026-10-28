@@ -39,7 +39,7 @@ export function Sources({ sources, file }: { sources: Source[]; file: string }) 
         counter += group.items.length;
         return (
           <div key={group.type} className="source-group">
-            {groups.length > 1 && <h3 className="label source-group-label">{group.label}</h3>}
+            {groups.length > 1 && <h3 className="subgroup-head source-group-label">{group.label}</h3>}
             <ol className="sources" start={start}>
               {group.items.map((s, i) => (
                 <li key={`${s.title}-${i}`} className="source">

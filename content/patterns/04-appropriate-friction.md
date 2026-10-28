@@ -28,6 +28,13 @@ steps:
   - title: "Execute + log"
     detail: "Action runs, provenance kept"
 
+antiPattern: "One-Tap Catastrophe"
+
+# Show the control itself in the without / with section instead of the box
+# diagram: this pattern is about what a button does under the hand.
+interface:
+  component: "drone-release"
+
 without:
   steps: ["One tap", "Instant action", "Irreversible error"]
   caption: "Smooth UX makes catastrophic actions as easy as trivial ones. One slip is all it takes."

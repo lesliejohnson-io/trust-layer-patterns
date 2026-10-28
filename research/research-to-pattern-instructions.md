@@ -1,0 +1,48 @@
+# Instructions for Claude: turn research notes into pattern entries
+
+Paste this into Claude Code from the root of the trust-layer-patterns repo, then name the pattern you want converted, for example: "Convert Intent Preview."
+
+---
+
+## Your task
+
+Turn one pattern from the research notes in `research/` into a finished pattern entry in `content/`, in exactly the same format as the existing patterns.
+
+## Repo layout
+
+- `app/` and `components/`: the Next.js site. Do not change these for this task.
+- `content/`: finished patterns. The site builds pages from these files.
+- `research/`: working notes, one file per moment: `before.md`, `during.md`, `transition.md`, `failure.md`, `after.md`. Never render these on the site and never move them into `content/`.
+
+## Steps
+
+1. **Learn the format first.** Read every existing pattern in `content/`, starting with Appropriate Friction. Note the file extension, the frontmatter fields, how they're ordered, which values are allowed (moments, trust jobs, risk, reversibility, autonomy levels, domains, status), how patterns are numbered, and how sources are structured. Copy that structure exactly. Do not add new fields.
+2. **Find the pattern** I named in the matching file in `research/`. Only convert patterns marked **Ready**. If it's marked **Gap** or **Not yet researched**, stop and tell me what's missing.
+3. **Write the new entry** in `content/`, with a file name that follows the existing naming convention and the next pattern number.
+4. **Show me the file** and a short list of anything you had to decide or invent (see below) before I review it.
+
+## How to map the research into the entry
+
+- **Definition / summary:** use the research definition. Add one concrete example sentence in the same style as the existing patterns (Appropriate Friction uses a drone operator and a no-fly zone).
+- **Moment:** use the moment from the research file. The fifth moment is now called **"After and over time."** If the existing data still says "After," tell me rather than renaming it yourself.
+- **Trust jobs:** use the ones listed in the research, mapped to the existing allowed values.
+- **Without / with the pattern:** the "without" side is the named **anti-pattern** from the research (for example, "Blind Execute"). If the existing format has a field for an anti-pattern name, use it; if not, tell me and leave the label as it is.
+- **Sources:** carry over the papers, incident reports and interface examples, grouped the way existing patterns group them (papers, incident reports, and so on). Prefer primary sources. Where the research says "Primary source to pull," flag it for me instead of citing the secondary article as if it were the primary.
+- **Domains:** only tag a domain if the entry contains a real example from that domain. No tag without an example.
+- **Status:** always **Draft**.
+
+## Rules
+
+- **Don't invent facts.** Every claim about an incident, study or product must come from the research file. If something the format needs isn't in the research (for example, risk level, reversibility, autonomy levels or mechanism steps), draft it, but list it for me as "drafted, needs your review." Never present a drafted value as sourced.
+- **Paraphrase sources.** No quotations longer than a short phrase, and at most one per source.
+- **Write in my voice:** plain, concrete, no hype. Match the tone of the existing Notes sections.
+- **Don't change existing patterns** or any site code.
+- **Check your work:** run the project's build (and lint, if it has one) to confirm the new entry doesn't break anything. Report the result.
+- **Do not commit or push.** I make all commits myself.
+
+## When you're done, tell me
+
+1. The file you created and its path.
+2. Anything drafted rather than sourced.
+3. Any primary sources still to pull.
+4. Whether the build passed.

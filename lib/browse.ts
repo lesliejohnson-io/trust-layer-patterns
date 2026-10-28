@@ -1,6 +1,7 @@
 import {
   DOMAINS,
   MOMENTS,
+  MOMENT_LABELS,
   MOMENT_QUESTIONS,
   TRUST_JOBS,
   TRUST_JOB_PURPOSES,
@@ -28,6 +29,10 @@ export type PatternCardData = {
 };
 
 export type { Domain, Moment, Status, TrustJob } from "./schema";
+
+/** "incident-report" -> "Incident report". Duplicated from lib/format to keep
+ *  this module's import graph to schema alone. */
+const humanizeJob = (v: string) => v.charAt(0).toUpperCase() + v.slice(1).replace(/-/g, " ");
 
 export const GROUP_BY = ["moment", "trustJob", "none"] as const;
 export type GroupBy = (typeof GROUP_BY)[number];
@@ -116,7 +121,7 @@ export function filterCards(cards: PatternCardData[], state: BrowseState): Patte
 
 export type CardGroup = {
   key: string;
-  /** Null for the ungrouped A–Z view, which needs no heading. */
+  /** The heading as it is written, or null for the ungrouped A–Z view. */
   name: string | null;
   purpose?: string;
   anchor?: string;
@@ -133,7 +138,7 @@ export function groupCards(cards: PatternCardData[], group: GroupBy): CardGroup[
     // A pattern has one or two trust jobs, so it can appear in two groups.
     return TRUST_JOBS.map((job) => ({
       key: job,
-      name: job,
+      name: humanizeJob(job),
       purpose: TRUST_JOB_PURPOSES[job],
       cards: cards.filter((c) => c.trustJobs.includes(job)),
     })).filter((g) => g.cards.length > 0);
@@ -141,7 +146,7 @@ export function groupCards(cards: PatternCardData[], group: GroupBy): CardGroup[
 
   return MOMENTS.map((moment) => ({
     key: moment,
-    name: moment,
+    name: MOMENT_LABELS[moment],
     purpose: MOMENT_QUESTIONS[moment],
     anchor: `moment-${moment}`,
     cards: cards.filter((c) => c.moment === moment),

@@ -15,7 +15,8 @@ intent: "One sentence: what the machine does and what it buys the human. Shown o
 #   during      While it runs, can the human see and predict it?
 #   transition  When control changes hands, is the human ready?
 #   failure     When it can't do the job, what happens?
-#   after       Afterwards, can trust be rebuilt or recalibrated?
+#   after       What happened, and what is it doing to us over time?
+#               (written in the interface as "After and over time")
 moment: during
 
 # trustJobs: what the human needs. One or two of:
@@ -100,6 +101,18 @@ steps:
   - title: "Step three"
     detail: "Short detail"
     key: true
+
+# antiPattern: the name of the mistake the "without" panel shows. A named
+# mistake people actually make, not just the absence of the pattern. Leave it
+# out if the left side is only a gap.
+# antiPattern: "One-Tap Catastrophe"
+
+# interface: show built interface screens in the without / with section
+# instead of the box diagram below. Only patterns with an illustration built
+# for them can use it; the names that exist are listed in lib/schema.ts
+# (INTERFACE_COMPONENTS). Leave it out and the box diagram is used.
+# interface:
+#   component: "drone-release"
 
 without:
   steps: ["Beat one", "Beat two", "Bad outcome"]

@@ -23,6 +23,11 @@ export default function Home() {
           {published.length} {published.length === 1 ? "pattern" : "patterns"}
           {updated && ` · updated ${updated}`}
         </p>
+        {/* Said once here instead of a DRAFT tag on every card. */}
+        <p className="hero-caveat">
+          All patterns are drafts and change as I learn. Status is shown only once a pattern has
+          been reviewed.
+        </p>
       </section>
 
       <PatternBrowser cards={cards} />

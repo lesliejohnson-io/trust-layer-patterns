@@ -1,0 +1,45 @@
+/* Trust Layer Patterns — color tokens
+   Ink on background for everything. Status colors only where something has a status.
+   All text pairs pass WCAG AA (4.5:1) on bg, surface and panel in both themes.
+   --edge passes 3:1 for control and readout borders. */
+
+:root {
+  /* Base */
+  --bg:        #F3F4F5;  /* page */
+  --surface:   #FFFFFF;  /* cards, screens */
+  --panel:     #E8EAED;  /* readout cells, console bezel */
+  --ink:       #14171C;  /* text, diagrams, the loop */
+  --muted:     #4B525C;  /* secondary text */
+  --edge:      #757D88;  /* readout boxes, buttons, control borders (3:1+) */
+  --rule:      #D5D9DE;  /* decorative dividers only, never a control */
+
+  /* Status — only where something has a status. Always paired with a shape. */
+  --status-nominal: #17703F;  /* ●  low risk, reversible */
+  --status-caution: #8F5300;  /* ▲  elevated risk, costly to reverse */
+  --status-fault:   #B3261E;  /* ■  critical risk, irreversible */
+  --on-fault:       #FFFFFF;  /* text on a fault-filled button */
+
+  /* Tints for status backgrounds (cells, banners). Text on them uses the status color. */
+  --tint-nominal: #E3F1E8;
+  --tint-caution: #F7EBD6;
+  --tint-fault:   #F8E1DF;
+
+  --focus: var(--ink);        /* focus ring: 2px solid, 2px offset */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E1013; --surface: #16191E; --panel: #1E2228;
+    --ink: #E6E9ED; --muted: #9AA2AD; --edge: #6B7380; --rule: #2A2F36;
+    --status-nominal: #4CC38A; --status-caution: #F2B33D; --status-fault: #FF7A6B;
+    --on-fault: #0E1013;
+    --tint-nominal: #13261C; --tint-caution: #2B2112; --tint-fault: #2E1715;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0E1013; --surface: #16191E; --panel: #1E2228;
+  --ink: #E6E9ED; --muted: #9AA2AD; --edge: #6B7380; --rule: #2A2F36;
+  --status-nominal: #4CC38A; --status-caution: #F2B33D; --status-fault: #FF7A6B;
+  --on-fault: #0E1013;
+  --tint-nominal: #13261C; --tint-caution: #2B2112; --tint-fault: #2E1715;
+}

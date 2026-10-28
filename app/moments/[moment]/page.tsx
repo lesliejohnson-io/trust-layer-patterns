@@ -3,15 +3,15 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
   getAllPatterns,
-  humanize,
   momentHref,
+  momentLabel,
   MOMENTS,
   MOMENT_EXPLANATIONS,
   MOMENT_QUESTIONS,
   toCardData,
   type Moment,
 } from "@/lib/patterns";
-import { ControlLoop } from "@/components/ControlLoop";
+import { LoopHero } from "@/components/LoopHero";
 import { PatternCard } from "@/components/PatternCard";
 
 type Props = { params: Promise<{ moment: string }> };
@@ -25,7 +25,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { moment } = await params;
   if (!isMoment(moment)) return {};
-  return { title: humanize(moment), description: MOMENT_QUESTIONS[moment] };
+  return { title: momentLabel(moment), description: MOMENT_QUESTIONS[moment] };
 }
 
 export default async function MomentPage({ params }: Props) {
@@ -47,18 +47,17 @@ export default async function MomentPage({ params }: Props) {
             <li>
               <Link href="/">All patterns</Link>
             </li>
-            <li aria-current="page">{humanize(moment)}</li>
+            <li aria-current="page">{momentLabel(moment)}</li>
           </ol>
         </nav>
 
         <header className="pattern-head">
-          <p className="label label-accent">Moment in the control loop</p>
-          <h1 className="display">{humanize(moment)}</h1>
+          <h1 className="display">{momentLabel(moment)}</h1>
           <p className="lede">{MOMENT_QUESTIONS[moment]}</p>
           <p className="moment-explainer">{MOMENT_EXPLANATIONS[moment]}</p>
         </header>
 
-        <ControlLoop nodes={nodes} current={moment} hrefFor={momentHref} compact linkEmpty />
+        <LoopHero nodes={nodes} current={moment} hrefFor={momentHref} compact linkEmpty />
 
         <section className="group" aria-labelledby="moment-patterns">
           <header className="group-head">
@@ -76,7 +75,7 @@ export default async function MomentPage({ params }: Props) {
           {cards.length > 0 && (
             <ul className="cards">
               {cards.map((card) => (
-                <PatternCard key={card.slug} pattern={card} />
+                <PatternCard key={card.slug} pattern={card} showMoment={false} />
               ))}
             </ul>
           )}

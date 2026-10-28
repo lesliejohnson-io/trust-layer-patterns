@@ -7,8 +7,8 @@ import {
   getMomentNeighbors,
   getPattern,
   getRelationGroups,
-  humanize,
   momentHref,
+  momentLabel,
   pad,
 } from "@/lib/patterns";
 import { MechanismFlow } from "@/components/MechanismFlow";
@@ -18,6 +18,7 @@ import { Examples } from "@/components/Examples";
 import { ExternalLink } from "@/components/ExternalLink";
 import { RelatedPatterns } from "@/components/RelatedPatterns";
 import { PatternToc, type TocItem } from "@/components/PatternToc";
+import { Readout } from "@/components/Readout";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -40,7 +41,7 @@ export default async function PatternPage({ params }: Props) {
   const relations = getRelationGroups(p);
   const body = p.body;
 
-  const momentName = humanize(p.moment);
+  const momentName = momentLabel(p.moment);
   const hasWhen = Boolean(body.whenToUse || body.whenNotToUse);
   const hasField = Boolean(body.inTheField) || p.examples.length > 0;
   // An empty Sources section says less than no section; keep it in dev only.
@@ -77,49 +78,33 @@ export default async function PatternPage({ params }: Props) {
         </nav>
 
         <header className="pattern-head">
-          <p className="label label-accent">
-            Pattern {pad(p.number)} ·{" "}
-            <span className="tag tag-moment" data-moment={p.moment}>
-              {momentName}
-            </span>
-          </p>
+          <p className="pattern-number">Pattern {p.number}</p>
           <h1 className="display">{p.name}</h1>
           <p className="lede">{p.intent}</p>
 
-          <dl className="meta">
-            <div className="meta-item">
-              <dt>Trust jobs</dt>
-              <dd>{p.trustJobs.map(humanize).join(" · ")}</dd>
-            </div>
-            <div className="meta-item">
-              <dt>Risk</dt>
-              <dd>{humanize(p.risk)}</dd>
-            </div>
-            <div className="meta-item">
-              <dt>Reversibility</dt>
-              <dd>{humanize(p.reversibility)}</dd>
-            </div>
-            <div className="meta-item">
-              <dt>Autonomy</dt>
-              <dd>{autonomyRange(p.autonomy)}</dd>
-            </div>
-            <div className="meta-item">
-              <dt>Domains</dt>
-              <dd>{p.domains.map(humanize).join(" · ")}</dd>
-            </div>
-            <div className="meta-item">
-              <dt>Status</dt>
-              <dd>{humanize(p.status)}</dd>
-            </div>
-            <div className="meta-item">
-              <dt>Updated</dt>
-              <dd>{p.updated}</dd>
-            </div>
-          </dl>
+          <Readout pattern={p} />
         </header>
 
+        {/* A control that looks like one: the collapsed state used to read as
+            an empty input. Only shown where the sidebar rail is not. */}
         <details className="toc-mobile">
-          <summary className="label">Jump to</summary>
+          <summary className="toc-summary">
+            <span>On this page</span>
+            <svg
+              className="toc-chevron"
+              viewBox="0 0 12 8"
+              width="12"
+              height="8"
+              aria-hidden="true"
+            >
+              <path
+                d="M1 1.5 6 6.5 11 1.5"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.75"
+              />
+            </svg>
+          </summary>
           <ul className="toc-list">
             {toc.map((item) => (
               <li key={item.id}>
@@ -133,7 +118,7 @@ export default async function PatternPage({ params }: Props) {
 
         {body.problem && (
           <section className="section" aria-labelledby="problem">
-            <h2 id="problem" className="label">
+            <h2 id="problem" className="section-head">
               Problem
             </h2>
             <div className="prose" dangerouslySetInnerHTML={{ __html: body.problem }} />
@@ -141,22 +126,32 @@ export default async function PatternPage({ params }: Props) {
         )}
 
         <section className="section" aria-labelledby="mechanism">
-          <h2 id="mechanism" className="label">
+          <h2 id="mechanism" className="section-head">
             The mechanism
           </h2>
           <MechanismFlow steps={p.steps} />
         </section>
 
         <section className="section" aria-labelledby="contrast">
-          <h2 id="contrast" className="label">
+          <h2 id="contrast" className="section-head">
             Without / with the pattern
           </h2>
-          <Comparison without={p.without} withPattern={p.with} />
+          {p.interface && (
+            <p className="section-note">
+              A working demo of the control, not a screenshot. Nothing here flies anything.
+            </p>
+          )}
+          <Comparison
+            without={p.without}
+            withPattern={p.with}
+            antiPattern={p.antiPattern}
+            illustration={p.interface?.component}
+          />
         </section>
 
         {hasWhen && (
           <section className="section" aria-labelledby="when">
-            <h2 id="when" className="label">
+            <h2 id="when" className="section-head">
               When to use it
             </h2>
             <div className="when-grid">
@@ -178,7 +173,7 @@ export default async function PatternPage({ params }: Props) {
 
         {body.considerations && (
           <section className="section" aria-labelledby="considerations">
-            <h2 id="considerations" className="label">
+            <h2 id="considerations" className="section-head">
               Design considerations
             </h2>
             <div
@@ -190,7 +185,7 @@ export default async function PatternPage({ params }: Props) {
 
         {hasField && (
           <section className="section" aria-labelledby="in-the-field">
-            <h2 id="in-the-field" className="label">
+            <h2 id="in-the-field" className="section-head">
               In the field
             </h2>
             {body.inTheField && (
@@ -202,7 +197,7 @@ export default async function PatternPage({ params }: Props) {
 
         {relations.length > 0 && (
           <section className="section" aria-labelledby="related">
-            <h2 id="related" className="label">
+            <h2 id="related" className="section-head">
               Related patterns
             </h2>
             <RelatedPatterns groups={relations} />
@@ -211,7 +206,7 @@ export default async function PatternPage({ params }: Props) {
 
         {p.crossReferences.length > 0 && (
           <section className="section" aria-labelledby="elsewhere">
-            <h2 id="elsewhere" className="label">
+            <h2 id="elsewhere" className="section-head">
               Elsewhere
             </h2>
             <ul className="elsewhere">
@@ -221,7 +216,7 @@ export default async function PatternPage({ params }: Props) {
                     <ExternalLink href={x.url} className="elsewhere-name">
                       {x.name}
                     </ExternalLink>
-                    <span className="label">{x.library}</span>
+                    <span className="subgroup-head">{x.library}</span>
                   </p>
                   {x.note && <p className="elsewhere-note">{x.note}</p>}
                 </li>
@@ -232,7 +227,7 @@ export default async function PatternPage({ params }: Props) {
 
         {showSources && (
           <section className="section" aria-labelledby="sources">
-            <h2 id="sources" className="label">
+            <h2 id="sources" className="section-head">
               Sources
             </h2>
             <Sources sources={p.sources} file={p.file} />
@@ -241,7 +236,7 @@ export default async function PatternPage({ params }: Props) {
 
         {showQuestions && (
           <aside className="section fieldnote" aria-labelledby="open-questions">
-            <h2 id="open-questions" className="label">
+            <h2 id="open-questions" className="section-head">
               Still figuring out
             </h2>
             <ul className="fieldnote-list">
@@ -254,7 +249,7 @@ export default async function PatternPage({ params }: Props) {
 
         {body.notes && (
           <section className="section" aria-labelledby="notes">
-            <h2 id="notes" className="label">
+            <h2 id="notes" className="section-head">
               Notes
             </h2>
             <div className="prose" dangerouslySetInnerHTML={{ __html: body.notes }} />

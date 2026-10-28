@@ -25,6 +25,35 @@ export const SOURCE_TYPES = ["paper", "book", "standard", "incident-report", "ar
 export const RELATIONS = ["requires", "complements", "alternative-to", "tension-with", "precedes"] as const;
 
 /**
+ * The three console states a facet value can read as. Risk and reversibility
+ * are the only facets that have one.
+ */
+export const STATUS_LEVELS = ["nominal", "caution", "fault"] as const;
+export type StatusLevel = (typeof STATUS_LEVELS)[number];
+
+/**
+ * The shape that carries the state when colour cannot — for anyone who cannot
+ * separate the three hues, and for print. Never show a state without it.
+ */
+export const STATUS_SHAPES: Record<StatusLevel, string> = {
+  nominal: "●",
+  caution: "▲",
+  fault: "■",
+};
+
+export const RISK_STATUS: Record<(typeof RISKS)[number], StatusLevel> = {
+  low: "nominal",
+  elevated: "caution",
+  critical: "fault",
+};
+
+export const REVERSIBILITY_STATUS: Record<(typeof REVERSIBILITY)[number], StatusLevel> = {
+  reversible: "nominal",
+  costly: "caution",
+  irreversible: "fault",
+};
+
+/**
  * Whether an example is a real system or incident, or the author's concept.
  * Keeping the two apart is what keeps the library honest.
  */
@@ -84,13 +113,40 @@ export const SOURCE_TYPE_LABELS: Record<(typeof SOURCE_TYPES)[number] | "other",
   other: "Other",
 };
 
+/**
+ * How each Moment is written in the interface. Only `after` differs from a
+ * plain humanize() of the data value: the moment covers the aftermath and
+ * everything that follows from it, and "After" alone read as a single instant.
+ * The stored value stays `after`, so content files are untouched.
+ */
+export const MOMENT_LABELS: Record<Moment, string> = {
+  before: "Before",
+  during: "During",
+  transition: "Transition",
+  failure: "Failure",
+  after: "After and over time",
+};
+
 /** The question each Moment answers, used as the one-line purpose under group headings. */
 export const MOMENT_QUESTIONS: Record<Moment, string> = {
   before: "Before the machine acts, does the human agree?",
   during: "While it runs, can the human see and predict it?",
   transition: "When control changes hands, is the human ready?",
   failure: "When it can't do the job, what happens?",
-  after: "After something happens, can trust be rebuilt or recalibrated?",
+  after: "What happened, and what is it doing to us over time?",
+};
+
+/**
+ * The same question cut to one short line, for the loop on the index where a
+ * station is a quarter of a column wide. Each one is the operative clause of
+ * the full question in MOMENT_QUESTIONS, which pages still use in full.
+ */
+export const MOMENT_PROMPTS: Record<Moment, string> = {
+  before: "Does the human agree?",
+  during: "Can they see and predict it?",
+  transition: "Is the human ready?",
+  failure: "What happens when it can't?",
+  after: "What is it doing to us over time?",
 };
 
 /** The two or three sentences that open each Moment's page. */
@@ -237,6 +293,18 @@ const exampleSchema = z
     path: ["url"],
   });
 
+/**
+ * The interface illustrations that exist as components. A pattern names one to
+ * show real screens in the without / with section instead of the box diagram;
+ * anything not on this list fails the build rather than rendering nothing.
+ */
+export const INTERFACE_COMPONENTS = ["drone-release"] as const;
+export type InterfaceComponent = (typeof INTERFACE_COMPONENTS)[number];
+
+const interfaceSchema = z.object({
+  component: z.enum(INTERFACE_COMPONENTS),
+});
+
 const relatedSchema = z.object({
   slug: z.string().min(1),
   type: z.enum(RELATIONS),
@@ -309,6 +377,19 @@ export const frontmatterSchema = z
       ),
     without: contrastSchema,
     with: contrastSchema,
+
+    /**
+     * The named mistake the left-hand panel shows. Without it the panel is
+     * just "Without" — the absence of the pattern rather than a thing people
+     * do.
+     */
+    antiPattern: z.string().min(1).optional(),
+
+    /**
+     * Show built interface screens in place of the box diagram. Patterns
+     * without it keep the diagram.
+     */
+    interface: interfaceSchema.optional(),
   })
   .transform((fm) => ({
     ...fm,

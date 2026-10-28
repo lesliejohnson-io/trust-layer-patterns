@@ -1,28 +1,36 @@
 /* ---------- Tokens ---------- */
+/*
+ * Values are taken verbatim from research/colors.css. Ink on background for
+ * everything; the status colours appear only where something has a status,
+ * and never without their shape and a text label beside them.
+ */
 :root {
-  --bg: #f6f6f3;
-  --surface: #ffffff;
-  --surface-muted: #ebebe7;
-  --ink: #1a1a1a;
-  --ink-2: #3d3d39;
-  --ink-3: #5e5e59;
-  --line: #bcbcb5;
-  --line-strong: #787872;
-  --dash: #94948e;
-  --accent: #b4400c;
-  --accent-tint: #fbf4ef;
-  --brand: #00803f;
+  /* Base */
+  --bg: #F3F4F5;        /* page */
+  --surface: #FFFFFF;   /* cards, screens */
+  --panel: #E8EAED;     /* readout cells, console bezel */
+  --ink: #14171C;       /* text, diagrams, the loop */
+  --muted: #4B525C;     /* secondary text */
+  --edge: #757D88;      /* readout boxes, buttons, control borders (3:1+) */
+  --rule: #D5D9DE;      /* decorative dividers only, never a control */
 
-  /* Moment is the only facet that gets colour (spec §8). */
-  --m-before: #3f6f4a;
-  --m-during: #2d5f8a;
-  --m-transition: #b4400c;
-  --m-failure: #9c2b2b;
-  --m-after: #6b4a8f;
+  /* Status. Only where something has a status, always paired with a shape. */
+  --status-nominal: #17703F;  /* ●  low risk, reversible */
+  --status-caution: #8F5300;  /* ▲  elevated risk, costly to reverse */
+  --status-fault: #B3261E;    /* ■  critical risk, irreversible */
+  --on-fault: #FFFFFF;        /* text on a fault-filled button */
+
+  /* Tints behind status values. Text on a tint uses the matching status colour. */
+  --tint-nominal: #E3F1E8;
+  --tint-caution: #F7EBD6;
+  --tint-fault: #F8E1DF;
+
+  --focus: var(--ink);  /* focus ring: 2px solid, 2px offset */
 
   --gap: 40px;
-  --radius: 8px;
-  --radius-lg: 12px;
+  /* Ruled boxes, not soft cards: enough radius to look cut, not rounded. */
+  --radius: 2px;
+  --radius-lg: 4px;
 
   color-scheme: light;
 }
@@ -35,24 +43,22 @@
  */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #141413;
-    --surface: #1d1d1b;
-    --surface-muted: #232321;
-    --ink: #ededea;
-    --ink-2: #c9c9c4;
-    --ink-3: #9d9d97;
-    --line: #3a3a37;
-    --line-strong: #7d7d77;
-    --dash: #5f5f5a;
-    --accent: #f0895a;
-    --accent-tint: #2a1d16;
-    --brand: #00bf63;
+    --bg: #0E1013;
+    --surface: #16191E;
+    --panel: #1E2228;
+    --ink: #E6E9ED;
+    --muted: #9AA2AD;
+    --edge: #6B7380;
+    --rule: #2A2F36;
 
-    --m-before: #7fb98c;
-    --m-during: #86b5dd;
-    --m-transition: #f0895a;
-    --m-failure: #e08a8a;
-    --m-after: #b79bd9;
+    --status-nominal: #4CC38A;
+    --status-caution: #F2B33D;
+    --status-fault: #FF7A6B;
+    --on-fault: #0E1013;
+
+    --tint-nominal: #13261C;
+    --tint-caution: #2B2112;
+    --tint-fault: #2E1715;
 
     color-scheme: dark;
   }
@@ -60,24 +66,22 @@
 
 /* Explicitly chosen dark. Mirror of the block above. */
 :root[data-theme="dark"] {
-  --bg: #141413;
-  --surface: #1d1d1b;
-  --surface-muted: #232321;
-  --ink: #ededea;
-  --ink-2: #c9c9c4;
-  --ink-3: #9d9d97;
-  --line: #3a3a37;
-  --line-strong: #7d7d77;
-  --dash: #5f5f5a;
-  --accent: #f0895a;
-  --accent-tint: #2a1d16;
-  --brand: #00bf63;
+  --bg: #0E1013;
+  --surface: #16191E;
+  --panel: #1E2228;
+  --ink: #E6E9ED;
+  --muted: #9AA2AD;
+  --edge: #6B7380;
+  --rule: #2A2F36;
 
-  --m-before: #7fb98c;
-  --m-during: #86b5dd;
-  --m-transition: #f0895a;
-  --m-failure: #e08a8a;
-  --m-after: #b79bd9;
+  --status-nominal: #4CC38A;
+  --status-caution: #F2B33D;
+  --status-fault: #FF7A6B;
+  --on-fault: #0E1013;
+
+  --tint-nominal: #13261C;
+  --tint-caution: #2B2112;
+  --tint-fault: #2E1715;
 
   color-scheme: dark;
 }
@@ -109,7 +113,7 @@ a {
 code {
   font-family: var(--font-mono), ui-monospace, monospace;
   font-size: 0.88em;
-  background: var(--surface-muted);
+  background: var(--panel);
   padding: 1px 5px;
   border-radius: 4px;
 }
@@ -131,19 +135,60 @@ code {
   scroll-margin-top: 24px;
 }
 
+/* Data values in running text: counts, dates, step numbers. Monospace, but
+   not the uppercase letter-spaced eyebrow it used to be. */
 .label {
   margin: 0;
   font-family: var(--font-mono), ui-monospace, monospace;
   font-size: 12px;
   line-height: 16px;
   font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink-3);
+  letter-spacing: 0.01em;
+  color: var(--muted);
 }
 
-.label-accent {
-  color: var(--accent);
+/* Headings read as headings: sentence case in the display face. Monospace is
+   reserved for data values — risk, reversibility, levels, dates, step numbers. */
+.section-head {
+  margin: 0;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.subhead {
+  margin: 0;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+/* Group labels inside a section: "Papers", "Requires", "On this page". */
+.subgroup-head {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--muted);
+}
+
+/* Interface labels that are not headings: "Group by", "Jump to". */
+.ui-label {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.pattern-number {
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted);
 }
 
 .display {
@@ -160,12 +205,12 @@ code {
   max-width: 62ch;
   font-size: 18px;
   line-height: 1.6;
-  color: var(--ink-2);
+  color: var(--ink);
 }
 
 /* ---------- Chrome ---------- */
 .site-header {
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--rule);
 }
 
 .site-header-inner {
@@ -184,7 +229,7 @@ code {
 }
 
 /* The lockup carries its own wordmark, so it is sized by height and lets its
-   3.46:1 ratio set the width. */
+   3.40:1 ratio set the width. */
 .brand-logo {
   display: block;
   height: 38px;
@@ -199,11 +244,15 @@ code {
 }
 
 .site-nav-link {
+  font-size: 15px;
+  color: var(--ink);
   text-decoration: none;
 }
 
 .site-nav-link:hover {
-  color: var(--accent);
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 /* Theme toggle */
@@ -216,7 +265,7 @@ code {
   padding: 0;
   border: 0;
   background: transparent;
-  color: var(--ink-3);
+  color: var(--muted);
   cursor: pointer;
 }
 
@@ -271,7 +320,7 @@ code {
 .site-footer {
   margin-top: 72px;
   padding: 20px 0 24px;
-  border-top: 1px solid var(--line);
+  border-top: 1px solid var(--rule);
 }
 
 .footer-line {
@@ -279,21 +328,22 @@ code {
   flex-wrap: wrap;
   align-items: center;
   gap: 4px 10px;
-  text-transform: none;
-  letter-spacing: 0.04em;
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted);
 }
 
 /* One colour and one underline for every footer link, visited included. */
 .footer-line a,
 .footer-line a:visited {
-  color: var(--ink-2);
+  color: var(--ink);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
 
 .footer-line a:hover,
 .footer-line a:focus-visible {
-  color: var(--accent);
+  color: var(--ink);
 }
 
 /* CC marks sit on the text baseline and inherit its colour. */
@@ -321,183 +371,254 @@ code {
   margin-top: 24px;
 }
 
-/* ---------- Control loop ---------- */
-.loop {
-  margin-bottom: 40px;
+/* Said once, instead of a DRAFT tag on every card. */
+.hero-caveat {
+  margin: 10px 0 0;
+  max-width: 62ch;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+/* ---------- Loop hero (index) ---------- */
+/*
+ * Five stations with drawn arrows between them and a return path from the last
+ * back into the first. Ink only: a station carries no state, so it carries no
+ * status colour. Straight runs are ruled borders and only the heads are SVG,
+ * so no part of the drawing stretches when the loop reflows.
+ */
+.loop-hero {
+  position: relative;
+  margin: 8px 0 60px;
   scroll-margin-top: 24px;
 }
 
-.loop-track {
+.stations {
   list-style: none;
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 8px;
+  gap: 34px;
   margin: 0;
   padding: 0;
 }
 
-.loop-node {
+.station {
   position: relative;
+  display: flex;
   min-width: 0;
 }
 
-/* Arrow between each pair of nodes. */
-.loop-node + .loop-node::before {
-  content: "";
+/* Sits in the gap to the left of its station. */
+.station-arrow {
   position: absolute;
-  left: -8px;
-  top: 28px;
-  width: 8px;
-  height: 1px;
-  background: var(--line-strong);
-}
-
-.loop-node + .loop-node::after {
-  content: "";
-  position: absolute;
-  left: -2px;
-  top: 25px;
-  border-left: 5px solid var(--line-strong);
-  border-top: 3.5px solid transparent;
-  border-bottom: 3.5px solid transparent;
-}
-
-.loop-link {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 14px 4px 16px;
-  border-top: 2px solid var(--moment-color, var(--line-strong));
-  text-decoration: none;
-}
-
-.loop-node[data-moment="before"] {
-  --moment-color: var(--m-before);
-}
-.loop-node[data-moment="during"] {
-  --moment-color: var(--m-during);
-}
-.loop-node[data-moment="transition"] {
-  --moment-color: var(--m-transition);
-}
-.loop-node[data-moment="failure"] {
-  --moment-color: var(--m-failure);
-}
-.loop-node[data-moment="after"] {
-  --moment-color: var(--m-after);
-}
-
-.loop-name {
-  font-family: var(--font-display), system-ui, sans-serif;
-  font-size: 24px;
-  line-height: 1.1;
-  color: var(--moment-color);
-}
-
-.loop-count {
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-}
-
-.loop-link.is-empty {
-  border-top-color: var(--line);
-  opacity: 0.55;
-}
-
-a.loop-link:hover .loop-count {
+  left: -34px;
+  top: 32px;
   color: var(--ink);
 }
 
-/* The return path: After back to Before. */
-.loop-return {
-  position: relative;
-  margin: 0;
-  height: 30px;
-  border: 1px solid var(--line);
-  border-top: 0;
-  border-radius: 0 0 10px 10px;
+.station-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  padding: 14px 14px 16px;
+  background: var(--surface);
+  border: 1px solid var(--edge);
+  border-top: 3px solid var(--ink);
+  text-decoration: none;
 }
 
-.loop-return::before {
-  content: "";
-  position: absolute;
-  left: -5px;
-  top: -5px;
-  border-bottom: 6px solid var(--line);
-  border-left: 4.5px solid transparent;
-  border-right: 4.5px solid transparent;
+.station.is-empty .station-body {
+  background: none;
+  border-top-color: var(--rule);
 }
 
-.loop-return span {
-  position: absolute;
-  left: 50%;
-  bottom: -8px;
-  transform: translateX(-50%);
-  padding: 0 12px;
-  background: var(--bg);
+.station-name {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 23px;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.station-prompt {
+  font-size: 13px;
+  line-height: 1.35;
+  color: var(--muted);
+}
+
+.station-count {
+  margin-top: auto;
+  padding-top: 8px;
   font-family: var(--font-mono), ui-monospace, monospace;
   font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink-3);
+  color: var(--muted);
+}
+
+a.station-body:hover .station-name {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+a.station-body:hover .station-count {
+  color: var(--ink);
+}
+
+/* The station the reader is already on. */
+.station.is-current .station-body {
+  background: var(--panel);
+}
+
+.station.is-current .station-name {
+  font-weight: 600;
+}
+
+/*
+ * On a Moment's own page the loop is navigation rather than the hero: the
+ * same drawing, with the questions dropped and the stations shallower.
+ */
+.loop-hero.is-compact {
+  margin: 0 0 40px;
+}
+
+.is-compact .station-body {
+  padding: 10px 12px 12px;
+}
+
+.is-compact .station-name {
+  font-size: 18px;
+}
+
+.is-compact .station-arrow {
+  top: 22px;
+}
+
+.is-compact .return-path {
+  height: 34px;
+  margin-top: 22px;
+}
+
+/*
+ * The return run: down from the last station, back along the bottom, and up
+ * into the first. The 28px gap above it holds the two stubs that join it to
+ * the station row, and the head that points up into Before.
+ */
+.return-path {
+  position: relative;
+  height: 56px;
+  margin: 28px 10% 0;
+  border: 2px solid var(--ink);
+  border-top: 0;
+  border-radius: 0 0 16px 16px;
+}
+
+.return-path::before,
+.return-path::after {
+  content: "";
+  position: absolute;
+  width: 2px;
+  background: var(--ink);
+}
+
+/* Left stub: stops short, the head completes it. */
+.return-path::before {
+  left: -2px;
+  top: -16px;
+  height: 16px;
+}
+
+/* Right stub: runs the full gap into the last station. */
+.return-path::after {
+  right: -2px;
+  top: -28px;
+  height: 28px;
+}
+
+.return-head {
+  position: absolute;
+  left: -8px;
+  top: -28px;
+  color: var(--ink);
+}
+
+/* Breaks the bottom run so the run reads as one line with a label on it. */
+.return-label {
+  position: absolute;
+  left: 50%;
+  bottom: -10px;
+  transform: translateX(-50%);
+  margin: 0;
+  max-width: 100%;
+}
+
+.return-label span {
+  padding: 0 12px;
+  background: var(--bg);
+  font-size: 13px;
+  color: var(--muted);
   white-space: nowrap;
 }
 
-/* Vertical stepper on narrow screens. */
+/*
+ * Vertical sequence. The rail sits in its own grid column and is stretched by
+ * the row, so the return path is always exactly as tall as the stations are —
+ * inset top and bottom to meet the first and last station on the centre line.
+ */
 @media (max-width: 760px) {
-  .loop-track {
+  .loop-hero {
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr);
+    column-gap: 14px;
+    margin-bottom: 40px;
+  }
+
+  .stations {
+    grid-column: 2;
+    grid-row: 1;
     grid-template-columns: minmax(0, 1fr);
-    gap: 0;
+    gap: 26px;
   }
 
-  .loop-node + .loop-node::before {
-    left: 10px;
-    top: -10px;
-    width: 1px;
-    height: 10px;
+  .station-arrow {
+    left: 50%;
+    top: -26px;
+    transform: translateX(-50%) rotate(90deg);
   }
 
-  .loop-node + .loop-node::after {
-    left: 6.5px;
-    top: -3px;
-    border-left: 3.5px solid transparent;
-    border-right: 3.5px solid transparent;
-    border-top: 5px solid var(--line-strong);
-    border-bottom: 0;
-  }
-
-  .loop-link {
-    flex-direction: row;
-    align-items: baseline;
-    gap: 12px;
-    padding: 10px 0 10px 14px;
-    border-top: 0;
-    border-left: 2px solid var(--moment-color, var(--line-strong));
-  }
-
-  .loop-name {
-    font-size: 20px;
-  }
-
-  .loop-return {
+  .return-path {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: stretch;
     height: auto;
-    margin-top: 10px;
-    border: 0;
+    margin: 36px 0;
+    border: 2px solid var(--ink);
+    border-right: 0;
+    border-radius: 16px 0 0 16px;
   }
 
-  .loop-return span {
-    position: static;
-    transform: none;
-    display: block;
-    padding: 0;
-    white-space: normal;
-  }
-
-  .loop-return::before {
+  .return-path::before,
+  .return-path::after {
     display: none;
+  }
+
+  .return-head {
+    left: auto;
+    right: -13px;
+    top: -7px;
+    transform: rotate(90deg);
+  }
+
+  .return-label {
+    position: static;
+    grid-column: 1 / -1;
+    grid-row: 2;
+    transform: none;
+    margin-top: 18px;
+  }
+
+  .return-label span {
+    padding: 0;
+    background: none;
+    white-space: normal;
   }
 }
 
@@ -513,8 +634,8 @@ a.loop-link:hover .loop-count {
   margin-top: 32px;
   padding: 14px 0;
   background: var(--bg);
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
 }
 
 .control {
@@ -537,18 +658,18 @@ a.loop-link:hover .loop-count {
   display: flex;
   gap: 2px;
   padding: 2px;
-  background: var(--surface-muted);
-  border-radius: 99px;
+  background: var(--panel);
+  border-radius: 2px;
 }
 
 .tab {
   padding: 5px 14px;
   border: 0;
-  border-radius: 99px;
+  border-radius: 2px;
   background: transparent;
   font-family: inherit;
   font-size: 14px;
-  color: var(--ink-3);
+  color: var(--muted);
   cursor: pointer;
 }
 
@@ -570,47 +691,32 @@ a.loop-link:hover .loop-count {
 
 .filter-chip {
   padding: 4px 12px;
-  border: 1px solid var(--line);
-  border-radius: 99px;
+  border: 1px solid var(--edge);
+  border-radius: 2px;
   background: transparent;
   font-family: inherit;
   font-size: 13px;
-  color: var(--ink-3);
+  color: var(--muted);
   cursor: pointer;
 }
 
 .filter-chip:hover {
-  border-color: var(--line-strong);
+  border-color: var(--edge);
   color: var(--ink);
 }
 
 .filter-chip[aria-pressed="true"] {
-  border-color: var(--accent);
-  background: var(--accent-tint);
-  color: var(--accent);
-}
-
-.seed-toggle {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 14px;
-  color: var(--ink-3);
-  cursor: pointer;
-  white-space: nowrap;
-}
-
-.seed-toggle input {
-  accent-color: var(--accent);
-  width: 15px;
-  height: 15px;
+  border-color: var(--ink);
+  background: var(--panel);
+  color: var(--ink);
+  font-weight: 600;
 }
 
 .search input {
   width: 220px;
   padding: 6px 12px;
-  border: 1px solid var(--line);
-  border-radius: 99px;
+  border: 1px solid var(--edge);
+  border-radius: 2px;
   background: var(--surface);
   font-family: inherit;
   font-size: 14px;
@@ -653,8 +759,8 @@ a.loop-link:hover .loop-count {
 .clear-filters {
   margin-top: 12px;
   padding: 6px 16px;
-  border: 1px solid var(--line-strong);
-  border-radius: 99px;
+  border: 1px solid var(--edge);
+  border-radius: 2px;
   background: transparent;
   font-family: inherit;
   font-size: 14px;
@@ -663,8 +769,8 @@ a.loop-link:hover .loop-count {
 }
 
 .clear-filters:hover {
-  border-color: var(--accent);
-  color: var(--accent);
+  border-color: var(--ink);
+  color: var(--ink);
 }
 
 .result-count {
@@ -678,7 +784,7 @@ a.loop-link:hover .loop-count {
   border: 0;
   background: none;
   font: inherit;
-  color: var(--accent);
+  color: var(--ink);
   text-decoration: underline;
   text-underline-offset: 2px;
   cursor: pointer;
@@ -705,7 +811,7 @@ a.loop-link:hover .loop-count {
 .group-head {
   padding-bottom: 12px;
   margin-bottom: 24px;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--rule);
 }
 
 .group-name {
@@ -718,7 +824,7 @@ a.loop-link:hover .loop-count {
 
 .group-question {
   margin: 4px 0 0;
-  color: var(--ink-3);
+  color: var(--muted);
 }
 
 /* ---------- Pattern cards ---------- */
@@ -742,23 +848,25 @@ a.loop-link:hover .loop-count {
   width: 100%;
   padding: 20px;
   background: var(--surface);
-  border: 1px solid var(--line);
+  border: 1px solid var(--edge);
   border-radius: var(--radius-lg);
   text-decoration: none;
 }
 
 .card:hover {
-  border-color: var(--line-strong);
+  border-color: var(--edge);
 }
 
 .card:hover .card-name {
-  color: var(--accent);
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .card-num {
   font-family: var(--font-mono), ui-monospace, monospace;
   font-size: 12px;
-  color: var(--ink-3);
+  color: var(--muted);
 }
 
 .card-name {
@@ -775,7 +883,7 @@ a.loop-link:hover .loop-count {
   line-clamp: 3;
   overflow: hidden;
   font-size: 15px;
-  color: var(--ink-2);
+  color: var(--ink);
 }
 
 .card-foot {
@@ -791,10 +899,6 @@ a.loop-link:hover .loop-count {
   margin-left: auto;
 }
 
-.status-muted {
-  border-color: var(--line);
-}
-
 @media (max-width: 1000px) {
   .cards {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -807,22 +911,16 @@ a.loop-link:hover .loop-count {
   }
 }
 
+/* The glossary marker on the About page's status list. */
 .status {
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 11px;
+  font-family: var(--font-condensed), var(--font-sans), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 13px;
   line-height: 16px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding: 2px 8px;
-  border-radius: 99px;
-  border: 1px solid var(--line-strong);
-  color: var(--ink-3);
-}
-
-.status-reviewed,
-.status-stable {
-  border-color: var(--accent);
-  color: var(--accent);
+  padding: 2px 7px;
+  border-radius: 2px;
+  border: 1px solid var(--edge);
+  color: var(--muted);
 }
 
 /* ---------- Pattern page ---------- */
@@ -852,13 +950,13 @@ a.loop-link:hover .loop-count {
   margin: 0;
   padding: 0;
   font-size: 14px;
-  color: var(--ink-3);
+  color: var(--muted);
 }
 
 .crumbs li + li::before {
   content: "/";
   margin-right: 8px;
-  color: var(--line-strong);
+  color: var(--edge);
 }
 
 .crumbs a {
@@ -866,88 +964,138 @@ a.loop-link:hover .loop-count {
 }
 
 .crumbs a:hover {
-  color: var(--accent);
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .crumbs [aria-current="page"] {
-  color: var(--ink-2);
+  color: var(--ink);
 }
 
 .pattern-head {
   padding: 24px 0 16px;
 }
 
-/* Facet chips. Only Moment is coloured. */
+/*
+ * Facet tags: ruled boxes in condensed type, the nameplate cue the readout
+ * uses. No tag carries colour — none of these facets has a status.
+ */
 .tag {
   display: inline-block;
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 11px;
+  font-family: var(--font-condensed), var(--font-sans), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 13px;
   line-height: 16px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding: 2px 8px;
-  border-radius: 99px;
-  border: 1px solid var(--line-strong);
-  color: var(--ink-3);
+  letter-spacing: 0.01em;
+  padding: 2px 7px;
+  border-radius: 2px;
+  border: 1px solid var(--edge);
+  color: var(--muted);
 }
 
-.tag-moment {
-  color: var(--moment-color, var(--ink-3));
-  border-color: currentColor;
-}
-
-.tag-moment[data-moment="before"] {
-  --moment-color: var(--m-before);
-}
-.tag-moment[data-moment="during"] {
-  --moment-color: var(--m-during);
-}
-.tag-moment[data-moment="transition"] {
-  --moment-color: var(--m-transition);
-}
-.tag-moment[data-moment="failure"] {
-  --moment-color: var(--m-failure);
-}
-.tag-moment[data-moment="after"] {
-  --moment-color: var(--m-after);
+/* Shown only once a pattern is reviewed or stable, so it is worth the ink. */
+.tag-status {
+  border-color: var(--ink);
+  color: var(--ink);
 }
 
 .tag-observed {
-  border-color: var(--ink-3);
-  color: var(--ink-2);
+  border-color: var(--muted);
+  color: var(--ink);
 }
 
 .tag-speculative {
   border-style: dashed;
 }
 
-/* Meta strip */
-.meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px 32px;
+/* ---------- Instrument readout ---------- */
+/*
+ * The facets as a console status display: ruled cells in one strip, condensed
+ * labels over monospaced values. The 1px grid gap lets --edge show through as
+ * the rules, so the cell count can change without re-doing the borders.
+ */
+.readout {
+  display: grid;
+  /* min-content, so a cell is never narrower than the word it holds:
+     "Irreversible" used to wrap mid-word. */
+  grid-template-columns: repeat(6, minmax(min-content, 1fr));
+  gap: 1px;
   margin: 28px 0 0;
-  padding-top: 20px;
-  border-top: 1px solid var(--line);
+  border: 1px solid var(--edge);
+  background: var(--edge);
 }
 
-.meta-item {
+.readout-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   min-width: 0;
+  padding: 10px 12px 12px;
+  background: var(--surface);
 }
 
-.meta dt {
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 11px;
-  line-height: 16px;
-  letter-spacing: 0.12em;
+.readout-label {
+  font-family: var(--font-condensed), var(--font-sans), system-ui, sans-serif;
+  font-size: 12px;
+  line-height: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--ink-3);
+  color: var(--muted);
 }
 
-.meta dd {
-  margin: 2px 0 0;
-  font-size: 15px;
+.readout-value {
+  margin: 0;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 14px;
+  line-height: 1.35;
   color: var(--ink);
+  overflow-wrap: break-word;
+}
+
+/*
+ * Status cells. The shape is what carries the state when the colour cannot,
+ * so it is never dropped at small sizes.
+ */
+.readout-item {
+  display: block;
+}
+.readout-shape {
+  margin-right: 6px;
+  font-size: 0.8em;
+  vertical-align: 0.08em;
+}
+
+.readout-cell.is-nominal {
+  background: var(--tint-nominal);
+}
+
+.readout-cell.is-nominal .readout-value {
+  color: var(--status-nominal);
+}
+
+.readout-cell.is-caution {
+  background: var(--tint-caution);
+}
+
+.readout-cell.is-caution .readout-value {
+  color: var(--status-caution);
+}
+
+.readout-cell.is-fault {
+  background: var(--tint-fault);
+}
+
+.readout-cell.is-fault .readout-value {
+  color: var(--status-fault);
+}
+
+/* Two columns on a phone; the gap keeps drawing the rules. */
+@media (max-width: 760px) {
+  .readout {
+    grid-template-columns: repeat(2, minmax(min-content, 1fr));
+  }
 }
 
 /* Table of contents */
@@ -968,7 +1116,7 @@ a.loop-link:hover .loop-count {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  border-left: 1px solid var(--line);
+  border-left: 1px solid var(--rule);
 }
 
 .toc-link {
@@ -978,7 +1126,7 @@ a.loop-link:hover .loop-count {
   border-left: 2px solid transparent;
   font-size: 14px;
   line-height: 1.35;
-  color: var(--ink-3);
+  color: var(--muted);
   text-decoration: none;
 }
 
@@ -987,8 +1135,9 @@ a.loop-link:hover .loop-count {
 }
 
 .toc-link[aria-current="true"] {
-  color: var(--accent);
-  border-left-color: var(--accent);
+  color: var(--ink);
+  font-weight: 600;
+  border-left-color: var(--ink);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -999,20 +1148,53 @@ a.loop-link:hover .loop-count {
   }
 }
 
+/*
+ * The narrow-screen table of contents. Collapsed, it is a button: a filled
+ * bezel with a chevron, sized to its text. It used to be a full-width ruled
+ * box with a label in it, which read as an empty input field.
+ */
 .toc-mobile {
   display: none;
   margin-top: 32px;
-  padding: 12px 16px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
 }
 
-.toc-mobile summary {
+.toc-summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  background: var(--panel);
+  border: 1px solid var(--edge);
+  border-radius: 2px;
+  font-family: var(--font-condensed), var(--font-sans), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--ink);
   cursor: pointer;
+  list-style: none;
+}
+
+/* Safari draws its own marker unless both are turned off. */
+.toc-summary::-webkit-details-marker {
+  display: none;
+}
+
+.toc-chevron {
+  color: var(--ink);
+}
+
+.toc-mobile[open] .toc-chevron {
+  transform: rotate(180deg);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .toc-chevron {
+    transition: transform 0.15s ease;
+  }
 }
 
 .toc-mobile .toc-list {
-  margin-top: 10px;
+  margin-top: 14px;
 }
 
 @media (max-width: 1099px) {
@@ -1026,6 +1208,15 @@ a.loop-link:hover .loop-count {
   .toc-mobile {
     display: block;
   }
+}
+
+/* A line under a section heading that qualifies what follows. */
+.section-note {
+  /* Collapses against the heading's 24px to sit 12px under its rule. */
+  margin: -12px 0 24px;
+  max-width: 62ch;
+  font-size: 14px;
+  color: var(--muted);
 }
 
 /* When to use / when not to use */
@@ -1044,7 +1235,7 @@ a.loop-link:hover .loop-count {
 }
 
 .when-col-not .when-head {
-  color: var(--ink-3);
+  color: var(--muted);
 }
 
 .when-col .prose {
@@ -1066,7 +1257,7 @@ a.loop-link:hover .loop-count {
 
 .considerations li {
   padding: 16px 0;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--rule);
 }
 
 .considerations li > strong:first-child {
@@ -1090,7 +1281,7 @@ a.loop-link:hover .loop-count {
   display: flex;
   flex-direction: column;
   background: var(--surface);
-  border: 1px solid var(--line);
+  border: 1px solid var(--edge);
   border-radius: var(--radius-lg);
   overflow: hidden;
 }
@@ -1099,7 +1290,7 @@ a.loop-link:hover .loop-count {
   width: 100%;
   height: auto;
   display: block;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--rule);
 }
 
 .example-body {
@@ -1127,7 +1318,7 @@ a.loop-link:hover .loop-count {
 .example-caption {
   margin: 0;
   font-size: 15px;
-  color: var(--ink-2);
+  color: var(--ink);
 }
 
 .example-source {
@@ -1136,7 +1327,9 @@ a.loop-link:hover .loop-count {
 }
 
 .example-source a {
-  color: var(--accent);
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 /* Related patterns */
@@ -1165,20 +1358,22 @@ a.loop-link:hover .loop-count {
   gap: 4px 12px;
   height: 100%;
   padding: 16px;
-  border: 1px solid var(--line);
+  border: 1px solid var(--edge);
   border-radius: var(--radius);
   background: var(--surface);
   text-decoration: none;
 }
 
 .relation-card:hover .relation-name {
-  color: var(--accent);
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .relation-num {
   font-family: var(--font-mono), ui-monospace, monospace;
   font-size: 12px;
-  color: var(--ink-3);
+  color: var(--muted);
   padding-top: 4px;
 }
 
@@ -1191,7 +1386,7 @@ a.loop-link:hover .loop-count {
 .relation-note {
   grid-column: 2;
   font-size: 14px;
-  color: var(--ink-2);
+  color: var(--ink);
 }
 
 /* Elsewhere */
@@ -1204,7 +1399,7 @@ a.loop-link:hover .loop-count {
 
 .elsewhere-item {
   padding: 16px 0;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--rule);
 }
 
 .elsewhere-head {
@@ -1216,36 +1411,38 @@ a.loop-link:hover .loop-count {
 }
 
 .elsewhere-name {
-  color: var(--accent);
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
   font-size: 17px;
 }
 
 .elsewhere-note {
   margin: 4px 0 0;
   font-size: 15px;
-  color: var(--ink-2);
+  color: var(--ink);
 }
 
 /* "Still figuring out" — the learning surface. */
 .fieldnote {
   max-width: 68ch;
   padding: 24px 28px;
-  border: 1px dashed var(--dash);
+  border: 1px dashed var(--edge);
   border-radius: var(--radius-lg);
-  background: var(--accent-tint);
+  background: var(--panel);
 }
 
-.fieldnote > .label {
+.fieldnote > .section-head {
   margin-bottom: 12px;
   padding-bottom: 0;
   border-bottom: 0;
-  color: var(--accent);
+  color: var(--ink);
 }
 
 .fieldnote-list {
   margin: 0;
   padding-left: 20px;
-  color: var(--ink-2);
+  color: var(--ink);
 }
 
 .fieldnote-list li + li {
@@ -1256,23 +1453,7 @@ a.loop-link:hover .loop-count {
 .moment-explainer {
   max-width: 68ch;
   margin: 20px 0 0;
-  color: var(--ink-2);
-}
-
-.loop-compact {
-  margin-top: 40px;
-}
-
-.loop-compact .loop-name {
-  font-size: 19px;
-}
-
-.loop-node.is-current .loop-link {
-  background: var(--accent-tint);
-}
-
-.loop-node.is-current .loop-name {
-  font-style: italic;
+  color: var(--ink);
 }
 
 /* ---------- About ---------- */
@@ -1281,7 +1462,7 @@ a.loop-link:hover .loop-count {
   margin: 0;
   padding: 0;
   max-width: 72ch;
-  border-top: 1px solid var(--line);
+  border-top: 1px solid var(--rule);
 }
 
 .anatomy-row {
@@ -1289,14 +1470,14 @@ a.loop-link:hover .loop-count {
   grid-template-columns: 32px 12.5rem minmax(0, 1fr);
   gap: 4px 16px;
   padding: 10px 0;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--rule);
   align-items: baseline;
 }
 
 .anatomy-num {
   font-family: var(--font-mono), ui-monospace, monospace;
   font-size: 11px;
-  color: var(--ink-3);
+  color: var(--muted);
 }
 
 .anatomy-name {
@@ -1307,14 +1488,14 @@ a.loop-link:hover .loop-count {
 
 .anatomy-note {
   font-size: 15px;
-  color: var(--ink-2);
+  color: var(--ink);
 }
 
 .anatomy-caption {
   max-width: 68ch;
   margin: 16px 0 0;
   font-size: 15px;
-  color: var(--ink-3);
+  color: var(--muted);
 }
 
 .defs {
@@ -1323,7 +1504,7 @@ a.loop-link:hover .loop-count {
   gap: 0;
   margin: 0;
   max-width: 72ch;
-  border-top: 1px solid var(--line);
+  border-top: 1px solid var(--rule);
 }
 
 .def {
@@ -1331,7 +1512,7 @@ a.loop-link:hover .loop-count {
   grid-template-columns: 11rem minmax(0, 1fr);
   gap: 4px 20px;
   padding: 12px 0;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--rule);
   align-items: baseline;
 }
 
@@ -1343,14 +1524,14 @@ a.loop-link:hover .loop-count {
 .def dd {
   margin: 0;
   font-size: 15px;
-  color: var(--ink-2);
+  color: var(--ink);
 }
 
 .level-num {
   display: inline-block;
   min-width: 1.4em;
   font-family: var(--font-mono), ui-monospace, monospace;
-  color: var(--accent);
+  color: var(--muted);
 }
 
 .about .prose {
@@ -1385,29 +1566,29 @@ a.loop-link:hover .loop-count {
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--ink-3);
+  color: var(--muted);
   text-align: left;
   padding: 10px 14px;
 }
 
 .matrix thead th {
-  border-bottom: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--edge);
 }
 
 .matrix tbody th {
   width: 7.5rem;
   vertical-align: top;
-  border-right: 1px solid var(--line-strong);
+  border-right: 1px solid var(--edge);
 }
 
 .matrix-corner {
-  border-bottom: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--edge);
 }
 
 .matrix-cell {
   padding: 14px;
   vertical-align: top;
-  border: 1px solid var(--line);
+  border: 1px solid var(--edge);
   background: var(--surface);
 }
 
@@ -1416,7 +1597,7 @@ a.loop-link:hover .loop-count {
 }
 
 .matrix-none {
-  color: var(--line-strong);
+  color: var(--edge);
 }
 
 .matrix-list {
@@ -1435,30 +1616,32 @@ a.loop-link:hover .loop-count {
 }
 
 .matrix-list a:hover {
-  color: var(--accent);
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .matrix-num {
   font-family: var(--font-mono), ui-monospace, monospace;
   font-size: 11px;
-  color: var(--ink-3);
+  color: var(--muted);
 }
 
 /* ---------- Changelog ---------- */
 .changelog-note {
   max-width: 68ch;
   padding: 14px 18px;
-  border: 1px dashed var(--dash);
+  border: 1px dashed var(--edge);
   border-radius: var(--radius);
   font-size: 15px;
-  color: var(--ink-2);
+  color: var(--ink);
 }
 
 .changelog {
   list-style: none;
   margin: 40px 0 0;
   padding: 0;
-  border-top: 1px solid var(--line);
+  border-top: 1px solid var(--rule);
 }
 
 .changelog-day {
@@ -1466,7 +1649,7 @@ a.loop-link:hover .loop-count {
   grid-template-columns: 7.5rem minmax(0, 1fr);
   gap: 20px;
   padding: 20px 0;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--rule);
 }
 
 .changelog-date {
@@ -1474,7 +1657,7 @@ a.loop-link:hover .loop-count {
   font-family: var(--font-mono), ui-monospace, monospace;
   font-size: 13px;
   font-weight: 500;
-  color: var(--ink-3);
+  color: var(--muted);
   padding-top: 2px;
 }
 
@@ -1505,7 +1688,9 @@ a.loop-link:hover .loop-count {
 }
 
 .changelog-pattern:hover {
-  color: var(--accent);
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .changelog-commits {
@@ -1523,12 +1708,12 @@ a.loop-link:hover .loop-count {
   align-items: baseline;
   gap: 10px;
   font-size: 15px;
-  color: var(--ink-2);
+  color: var(--ink);
 }
 
 .changelog-hash {
   font-size: 12px;
-  color: var(--ink-3);
+  color: var(--muted);
 }
 
 .changelog-subject {
@@ -1567,14 +1752,14 @@ a.loop-link:hover .loop-count {
   justify-content: center;
   width: 38px;
   height: 38px;
-  border: 1px solid var(--line);
+  border: 1px solid var(--edge);
   border-radius: 99px;
-  color: var(--ink-3);
+  color: var(--muted);
 }
 
 .social:hover {
-  border-color: var(--accent);
-  color: var(--accent);
+  border-color: var(--ink);
+  color: var(--ink);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -1588,7 +1773,7 @@ a.loop-link:hover .loop-count {
 /* How to cite */
 .cite-format {
   padding: 14px 16px;
-  border-left: 2px solid var(--accent);
+  border-left: 2px solid var(--edge);
   background: var(--surface);
   font-family: var(--font-mono), ui-monospace, monospace;
   font-size: 14px;
@@ -1600,10 +1785,10 @@ a.loop-link:hover .loop-count {
   margin-top: 64px;
 }
 
-.section > .label {
+.section > .section-head {
   margin-bottom: 24px;
   padding-bottom: 12px;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--rule);
 }
 
 /* ---------- Mechanism flow ---------- */
@@ -1631,13 +1816,13 @@ a.loop-link:hover .loop-count {
   gap: 4px;
   padding: 16px;
   background: var(--surface);
-  border: 1px solid var(--line);
+  border: 1px solid var(--edge);
   border-radius: var(--radius);
 }
 
 .flow-card.is-key {
-  background: var(--accent-tint);
-  border: 2px solid var(--accent);
+  background: var(--surface);
+  border: 2px solid var(--ink);
   padding: 15px;
 }
 
@@ -1645,19 +1830,17 @@ a.loop-link:hover .loop-count {
   position: absolute;
   top: -22px;
   left: 0;
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 11px;
+  font-size: 12px;
+  font-weight: 600;
   line-height: 16px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--accent);
+  color: var(--ink);
   white-space: nowrap;
 }
 
 .flow-num {
   font-family: var(--font-mono), ui-monospace, monospace;
   font-size: 11px;
-  color: var(--ink-3);
+  color: var(--muted);
 }
 
 .flow-title {
@@ -1668,7 +1851,7 @@ a.loop-link:hover .loop-count {
 .flow-detail {
   font-size: 14px;
   line-height: 1.4;
-  color: var(--ink-3);
+  color: var(--muted);
 }
 
 /* horizontal arrow between cards */
@@ -1679,7 +1862,7 @@ a.loop-link:hover .loop-count {
   width: var(--gap);
   height: 2px;
   margin-top: -1px;
-  background: var(--line-strong);
+  background: var(--edge);
 }
 
 .flow-card.is-key .arrow-h {
@@ -1691,7 +1874,7 @@ a.loop-link:hover .loop-count {
   position: absolute;
   right: 1px;
   top: -4px;
-  border-left: 8px solid var(--line-strong);
+  border-left: 8px solid var(--edge);
   border-top: 5px solid transparent;
   border-bottom: 5px solid transparent;
 }
@@ -1706,11 +1889,11 @@ a.loop-link:hover .loop-count {
   align-self: start;
   margin: 0;
   padding: 12px 14px;
-  border: 1px dashed var(--dash);
+  border: 1px dashed var(--edge);
   border-radius: var(--radius);
   font-size: 14px;
   line-height: 1.45;
-  color: var(--ink-2);
+  color: var(--ink);
 }
 
 .flow-note::before {
@@ -1719,7 +1902,7 @@ a.loop-link:hover .loop-count {
   left: 50%;
   top: -33px;
   height: 32px;
-  border-left: 1.5px dashed var(--dash);
+  border-left: 1.5px dashed var(--rule);
 }
 
 .flow-note-spacer {
@@ -1756,7 +1939,7 @@ a.loop-link:hover .loop-count {
     height: 0;
     width: 12px;
     border-left: 0;
-    border-top: 1.5px dashed var(--dash);
+    border-top: 1.5px dashed var(--rule);
   }
 
   .flow-key {
@@ -1770,7 +1953,7 @@ a.loop-link:hover .loop-count {
     width: 2px;
     height: 32px;
     margin: 4px 0 8px;
-    background: var(--line-strong);
+    background: var(--edge);
   }
 
   .arrow-v::after {
@@ -1778,7 +1961,7 @@ a.loop-link:hover .loop-count {
     position: absolute;
     bottom: 1px;
     left: -4px;
-    border-top: 8px solid var(--line-strong);
+    border-top: 8px solid var(--edge);
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
   }
@@ -1797,12 +1980,12 @@ a.loop-link:hover .loop-count {
 }
 
 .panel-without {
-  background: var(--surface-muted);
+  background: var(--panel);
 }
 
 .panel-with {
   background: var(--surface);
-  border: 1px solid var(--accent);
+  border: 1px solid var(--ink);
 }
 
 .panel h3 {
@@ -1840,17 +2023,17 @@ a.loop-link:hover .loop-count {
 
 .chip-without {
   background: var(--bg);
-  border: 1px dashed var(--dash);
+  border: 1px dashed var(--edge);
 }
 
 .chip-with {
   background: var(--surface);
-  border: 1px solid var(--line);
+  border: 1px solid var(--edge);
 }
 
 .chip.is-key {
-  background: var(--accent-tint);
-  border-color: var(--accent);
+  background: var(--surface);
+  border-color: var(--ink);
 }
 
 .seq-arrow {
@@ -1858,7 +2041,7 @@ a.loop-link:hover .loop-count {
   flex: 0 0 28px;
   height: 2px;
   margin: 0 4px;
-  background: var(--line-strong);
+  background: var(--edge);
 }
 
 .seq-arrow::after {
@@ -1866,14 +2049,14 @@ a.loop-link:hover .loop-count {
   position: absolute;
   right: 0;
   top: -4px;
-  border-left: 7px solid var(--line-strong);
+  border-left: 7px solid var(--edge);
   border-top: 5px solid transparent;
   border-bottom: 5px solid transparent;
 }
 
 .panel-caption {
   margin: 20px 0 0;
-  color: var(--ink-2);
+  color: var(--ink);
 }
 
 @media (max-width: 860px) {
@@ -1882,10 +2065,150 @@ a.loop-link:hover .loop-count {
   }
 }
 
+/* ---------- Interface illustrations ---------- */
+/*
+ * Two drone consoles in the without / with panels: a bezel in --panel around a
+ * screen in --surface, ruled the way the readout is. The release control is
+ * the one thing on the page that is fault-coloured by its own nature — the
+ * action it fires cannot be taken back — and it carries the ■ as well, so the
+ * colour is never doing the work alone.
+ */
+.compare-interface .panel {
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+.console {
+  padding: 10px;
+  background: var(--panel);
+  border: 1px solid var(--edge);
+  border-radius: var(--radius-lg);
+}
+
+.console-title {
+  margin: 0 0 8px;
+  padding-left: 2px;
+  font-family: var(--font-condensed), var(--font-sans), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.console-screen {
+  padding: 14px;
+  background: var(--surface);
+  border: 1px solid var(--edge);
+  border-radius: 2px;
+}
+
+.console-readout {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0 0 14px;
+  background: var(--edge);
+  border: 1px solid var(--edge);
+}
+
+.console-cell {
+  padding: 7px 9px;
+  background: var(--panel);
+}
+
+.console-cell dt {
+  font-family: var(--font-condensed), var(--font-sans), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.console-cell dd {
+  margin: 2px 0 0;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 14px;
+  color: var(--ink);
+}
+
+/* The control. A button when it is one; a paragraph on the inert screen. */
+.console-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  margin: 0;
+  padding: 13px 14px;
+  overflow: hidden;
+  background: var(--status-fault);
+  border: 1px solid var(--status-fault);
+  border-radius: 2px;
+  font-family: var(--font-condensed), var(--font-sans), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--on-fault);
+}
+
+.console-button.is-hold {
+  cursor: pointer;
+  touch-action: none; /* a hold must not become a scroll */
+  user-select: none;
+}
+
+/* Elapsed hold time, drawn behind the label. */
+.console-fill {
+  position: absolute;
+  inset: 0;
+  transform-origin: left center;
+  background: var(--ink);
+  opacity: 0.35;
+}
+
+.console-button-text,
+.console-shape {
+  position: relative; /* above the fill */
+}
+
+.console-button.is-done {
+  background: var(--tint-fault);
+  border-color: var(--status-fault);
+  color: var(--status-fault);
+}
+
+.console-hint {
+  margin: 10px 0 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+.console-reset {
+  margin-top: 12px;
+  padding: 6px 12px;
+  background: none;
+  border: 1px solid var(--edge);
+  border-radius: 2px;
+  font: inherit;
+  font-size: 13px;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.console-reset:hover {
+  background: var(--panel);
+}
+
 /* ---------- Notes (markdown body) ---------- */
 .prose {
   max-width: 68ch;
-  color: var(--ink-2);
+  color: var(--ink);
 }
 
 .prose h2,
@@ -1905,14 +2228,16 @@ a.loop-link:hover .loop-count {
 }
 
 .prose a {
-  color: var(--accent);
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .prose blockquote {
   margin: 16px 0;
   padding-left: 16px;
-  border-left: 2px solid var(--line);
-  color: var(--ink-3);
+  border-left: 2px solid var(--rule);
+  color: var(--muted);
 }
 
 /* ---------- Sources ---------- */
@@ -1934,7 +2259,7 @@ a.loop-link:hover .loop-count {
 
 .source {
   padding: 10px 0;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--rule);
 }
 
 .source-title {
@@ -1943,21 +2268,23 @@ a.loop-link:hover .loop-count {
 }
 
 .source-title a {
-  color: var(--accent);
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .source-meta,
 .source-note {
   display: block;
   font-size: 14px;
-  color: var(--ink-3);
+  color: var(--muted);
 }
 
 .empty {
   padding: 24px;
-  border: 1px dashed var(--dash);
+  border: 1px dashed var(--edge);
   border-radius: var(--radius-lg);
-  color: var(--ink-2);
+  color: var(--ink);
 }
 
 .empty p {
@@ -1967,7 +2294,7 @@ a.loop-link:hover .loop-count {
 .empty-hint {
   margin-top: 4px !important;
   font-size: 14px;
-  color: var(--ink-3);
+  color: var(--muted);
 }
 
 /* ---------- Pager ---------- */
@@ -1978,7 +2305,7 @@ a.loop-link:hover .loop-count {
   flex-wrap: wrap;
   margin-top: 80px;
   padding-top: 24px;
-  border-top: 1px solid var(--line);
+  border-top: 1px solid var(--rule);
 }
 
 .pager-link {
@@ -1992,7 +2319,9 @@ a.loop-link:hover .loop-count {
 }
 
 .pager-link:hover {
-  color: var(--accent);
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .pager-next {
@@ -2003,7 +2332,7 @@ a.loop-link:hover .loop-count {
 .pager-back {
   margin: 20px 0 0;
   font-size: 14px;
-  color: var(--ink-3);
+  color: var(--muted);
 }
 
 .pager-back a {
@@ -2011,10 +2340,12 @@ a.loop-link:hover .loop-count {
 }
 
 .pager-back a:hover {
-  color: var(--accent);
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--focus);
   outline-offset: 3px;
 }

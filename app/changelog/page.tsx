@@ -30,7 +30,6 @@ export default function ChangelogPage() {
         </nav>
 
         <header className="pattern-head">
-          <p className="label label-accent">Changelog</p>
           <h1 className="display">What changed, and when</h1>
           <p className="lede">
             Built from the <code>updated</code> date on each pattern and from the commit history.
@@ -53,7 +52,7 @@ export default function ChangelogPage() {
               <div className="changelog-body">
                 {day.updated.length > 0 && (
                   <p className="changelog-updated">
-                    <span className="label">Patterns dated this day</span>
+                    <span className="ui-label">Patterns dated this day</span>
                     <span className="changelog-links">
                       {day.updated.map((slug) => {
                         const p = bySlug.get(slug);

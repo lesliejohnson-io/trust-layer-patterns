@@ -18,7 +18,7 @@ import {
   type PatternCardData,
 } from "@/lib/browse";
 import { humanize } from "@/lib/format";
-import { ControlLoop } from "./ControlLoop";
+import { LoopHero } from "./LoopHero";
 import { PatternCard } from "./PatternCard";
 
 /**
@@ -86,7 +86,7 @@ export function PatternBrowser({ cards }: { cards: PatternCardData[] }) {
     <>
       {/* Section anchors only exist while grouping by Moment; otherwise send
           people to the Moment's own page rather than a link that goes nowhere. */}
-      <ControlLoop
+      <LoopHero
         nodes={loopNodes}
         hrefFor={
           state.group === "moment"
@@ -98,7 +98,7 @@ export function PatternBrowser({ cards }: { cards: PatternCardData[] }) {
 
       <div className="controls">
         <div className="control">
-          <span className="label control-label" id="group-by-label">
+          <span className="ui-label control-label" id="group-by-label">
             Group by
           </span>
           <div className="tabs" role="tablist" aria-labelledby="group-by-label" ref={tabsRef}>
@@ -125,7 +125,7 @@ export function PatternBrowser({ cards }: { cards: PatternCardData[] }) {
         </div>
 
         <div className="control">
-          <span className="label control-label" id="domain-label">
+          <span className="ui-label control-label" id="domain-label">
             Domain
           </span>
           <div className="chips" role="group" aria-labelledby="domain-label">
@@ -143,17 +143,10 @@ export function PatternBrowser({ cards }: { cards: PatternCardData[] }) {
           </div>
         </div>
 
-        <div className="control control-inline">
-          <label className="seed-toggle">
-            <input
-              type="checkbox"
-              checked={state.showSeeds}
-              onChange={(e) => update({ ...state, showSeeds: e.target.checked })}
-            />
-            <span>Show seeds</span>
-          </label>
-
-          {cards.length >= SEARCH_THRESHOLD && (
+        {/* Seeds have no control of their own: ?status=all still reveals them,
+            which is all the About page promises. */}
+        {cards.length >= SEARCH_THRESHOLD && (
+          <div className="control control-inline">
             <label className="search">
               <span className="sr-only">Search patterns</span>
               <input
@@ -163,8 +156,8 @@ export function PatternBrowser({ cards }: { cards: PatternCardData[] }) {
                 onChange={(e) => update({ ...state, query: e.target.value })}
               />
             </label>
-          )}
-        </div>
+          </div>
+        )}
       </div>
 
       <div
@@ -191,14 +184,19 @@ export function PatternBrowser({ cards }: { cards: PatternCardData[] }) {
               {group.name && (
                 <header className="group-head">
                   <h2 id={`group-${group.key}`} className="group-name">
-                    {humanize(group.name)}
+                    {group.name}
                   </h2>
                   {group.purpose && <p className="group-question">{group.purpose}</p>}
                 </header>
               )}
               <ul className="cards">
                 {group.cards.map((card) => (
-                  <PatternCard key={card.slug} pattern={card} />
+                  <PatternCard
+                    key={card.slug}
+                    pattern={card}
+                    showMoment={state.group !== "moment"}
+                    showTrustJob={state.group !== "trustJob"}
+                  />
                 ))}
               </ul>
             </section>

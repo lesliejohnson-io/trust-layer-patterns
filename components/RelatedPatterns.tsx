@@ -10,7 +10,7 @@ export function RelatedPatterns({ groups }: { groups: RelationGroup[] }) {
     <div className="relations">
       {groups.map((group) => (
         <div key={group.key} className="relation-group">
-          <h3 className="label relation-label">{group.label}</h3>
+          <h3 className="subgroup-head relation-label">{group.label}</h3>
           <ul className="relation-list">
             {group.entries.map(({ pattern, note }) => (
               <li key={pattern.slug}>

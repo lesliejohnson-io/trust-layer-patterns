@@ -39,7 +39,7 @@ export function PatternToc({ items }: { items: TocItem[] }) {
 
   return (
     <nav className="toc" aria-label="On this page">
-      <p className="label toc-title">On this page</p>
+      <p className="subgroup-head toc-title">On this page</p>
       <ul className="toc-list">
         {items.map((item) => (
           <li key={item.id}>

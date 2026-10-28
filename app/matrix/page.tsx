@@ -41,7 +41,6 @@ export default function MatrixPage() {
         </nav>
 
         <header className="pattern-head">
-          <p className="label label-accent">Library view</p>
           <h1 className="display">Risk × reversibility</h1>
           <p className="lede">
             The two axes that decide how much friction a pattern can justify. This is a view of
@@ -104,7 +103,7 @@ export default function MatrixPage() {
         </p>
 
         <section className="section" aria-labelledby="risk-defs">
-          <h2 id="risk-defs" className="label">
+          <h2 id="risk-defs" className="section-head">
             Risk
           </h2>
           <dl className="defs">
@@ -118,7 +117,7 @@ export default function MatrixPage() {
         </section>
 
         <section className="section" aria-labelledby="rev-defs">
-          <h2 id="rev-defs" className="label">
+          <h2 id="rev-defs" className="section-head">
             Reversibility
           </h2>
           <dl className="defs">

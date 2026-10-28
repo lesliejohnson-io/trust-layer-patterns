@@ -13,6 +13,7 @@ import {
   type RelationKey,
 } from "./schema";
 
+export type { InterfaceComponent } from "./schema";
 export type {
   Domain,
   Evidence,
@@ -28,7 +29,10 @@ export {
   AUTONOMY_LEVELS,
   DOMAINS,
   EVIDENCE_DEFINITIONS,
+  INTERFACE_COMPONENTS,
   MOMENT_EXPLANATIONS,
+  MOMENT_LABELS,
+  MOMENT_PROMPTS,
   MOMENT_QUESTIONS,
   MOMENTS,
   RELATION_DEFINITIONS,
@@ -49,7 +53,7 @@ export {
 export type { PatternCardData } from "./browse";
 import type { PatternCardData } from "./browse";
 
-export { autonomyRange, humanize, pad } from "./format";
+export { autonomyRange, humanize, momentLabel, pad } from "./format";
 
 /** One step in a pattern's mechanism flow. */
 export type Step = Frontmatter["steps"][number];

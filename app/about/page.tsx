@@ -49,7 +49,6 @@ export default function AboutPage() {
     <div className="wrap">
       <article className="pattern about">
         <header className="pattern-head">
-          <p className="label label-accent">About</p>
           <h1 className="display">About this library</h1>
           <p className="lede">
             A reference library of named, reusable design patterns for the trust layer between
@@ -60,8 +59,8 @@ export default function AboutPage() {
         </header>
 
         <section className="section" aria-labelledby="who">
-          <h2 id="who" className="label">
-            The Author
+          <h2 id="who" className="section-head">
+            The author
           </h2>
           <div className="prose byline">
             <p>
@@ -72,7 +71,7 @@ export default function AboutPage() {
         </section>
 
         <section className="section" aria-labelledby="what">
-          <h2 id="what" className="label">
+          <h2 id="what" className="section-head">
             What a pattern means here
           </h2>
           <div className="prose">
@@ -94,7 +93,7 @@ export default function AboutPage() {
         </section>
 
         <section className="section" aria-labelledby="anatomy">
-          <h2 id="anatomy" className="label">
+          <h2 id="anatomy" className="section-head">
             Anatomy of a pattern page
           </h2>
           <ol className="anatomy">
@@ -113,14 +112,14 @@ export default function AboutPage() {
         </section>
 
         <section className="section" aria-labelledby="status">
-          <h2 id="status" className="label">
+          <h2 id="status" className="section-head">
             Status
           </h2>
           <dl className="defs">
             {STATUSES.map((status) => (
               <div key={status} className="def">
                 <dt>
-                  <span className="status status-muted">{status}</span>
+                  <span className="status">{status}</span>
                 </dt>
                 <dd>{STATUS_DEFINITIONS[status]}</dd>
               </div>
@@ -133,7 +132,7 @@ export default function AboutPage() {
         </section>
 
         <section className="section" aria-labelledby="trust-jobs">
-          <h2 id="trust-jobs" className="label">
+          <h2 id="trust-jobs" className="section-head">
             Trust jobs
           </h2>
           <p className="prose">
@@ -153,7 +152,7 @@ export default function AboutPage() {
         </section>
 
         <section className="section" aria-labelledby="autonomy">
-          <h2 id="autonomy" className="label">
+          <h2 id="autonomy" className="section-head">
             The autonomy scale
           </h2>
           <p className="prose">
@@ -174,7 +173,7 @@ export default function AboutPage() {
         </section>
 
         <section className="section" aria-labelledby="relations">
-          <h2 id="relations" className="label">
+          <h2 id="relations" className="section-head">
             How patterns relate
           </h2>
           <p className="prose">
@@ -193,7 +192,7 @@ export default function AboutPage() {
         </section>
 
         <section className="section" aria-labelledby="risk">
-          <h2 id="risk" className="label">
+          <h2 id="risk" className="section-head">
             Risk and reversibility
           </h2>
           <p className="prose">
@@ -220,7 +219,7 @@ export default function AboutPage() {
         </section>
 
         <section className="section" aria-labelledby="evidence">
-          <h2 id="evidence" className="label">
+          <h2 id="evidence" className="section-head">
             Observed and speculative examples
           </h2>
           <p className="prose">
@@ -241,7 +240,7 @@ export default function AboutPage() {
         </section>
 
         <section className="section" aria-labelledby="cite">
-          <h2 id="cite" className="label">
+          <h2 id="cite" className="section-head">
             How to cite
           </h2>
           <div className="prose">
