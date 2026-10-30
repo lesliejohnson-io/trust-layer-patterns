@@ -18,7 +18,7 @@ steps:
     detail: "Operator, remote party or machine"
   - title: "Record the actor"
     detail: "Who or what, and from where"
-    note: "The record has to name the party, not just the event. An entry that cannot distinguish a remote change from a local one settles nothing."
+    note: "The record has to name the party, not just the event. UN R157 requires each stored entry to carry its reason, the date, a timestamp accurate to within a second, and the software version that was running."
   - title: "Put it beyond reach"
     detail: "Append-only, outside the actor's control"
     key: true
@@ -53,6 +53,11 @@ sources:
     url: "https://www.ntsb.gov/investigations/accidentreports/reports/har1903.pdf"
     type: incident-report
     note: "Observed. NTSB/HAR-19/03. Section 1.5.6.1 sets out what the ADS data contained: when the system detected the pedestrian, how it classified her and predicted her path, vehicle dynamics, and the planned and executed actions. At the NTSB's request ATG supplied a playback of that data, and investigators built the event timeline from the sensor output. The table of recorded parameters carries the first detection at 5.6 seconds, the successive reclassifications, and the one-second action suppression that held off braking. The pattern working: the machine's own record is what made the sequence establishable afterwards."
+  - title: "UN Regulation No. 157 — Automated Lane Keeping Systems (ALKS)"
+    year: 2021
+    url: "https://eur-lex.europa.eu/eli/reg/2021/389/oj/eng"
+    type: standard
+    note: "Observed. Paragraph 8 requires a Data Storage System for Automated Driving. Paragraph 8.2.1 sets out what has to be recorded: activation, deactivation with its reason, transition demands with their reason, reduction or suppression of driver input, the start and end of emergency manoeuvres, detected collisions, engagement of a minimum risk manoeuvre, and severe ALKS or vehicle failures. Paragraph 8.3 requires each entry to store the reason, the date, a timestamp accurate to within a second, and the software version. The pattern as a type-approval requirement rather than a design choice."
   - title: "Post Office Horizon IT Inquiry, Volume 1"
     author: "Sir Wyn Williams"
     year: 2025
@@ -78,12 +83,21 @@ sources:
     type: article
     note: "A 2011 Ernst & Young report warned that Fujitsu staff had unrestricted access to subpostmasters' accounts. A third-party summary; neither the report nor any mention of it was found in the Inquiry's published volume."
 
+review:
+  - "Risk (critical): drafted. Reasoned from the Inquiry's finding of approximately 1,000 wrongful prosecutions and convictions, not from the research notes."
+  - "Reversibility (irreversible): drafted, and the weaker of the two. Justified on the record — an unlogged action cannot be logged later — where every other pattern's reversibility describes the action it guards. By that reading this is arguably costly."
+  - "Autonomy ([0, 5]): drafted. The schema default, kept because the pattern covers human and remote-party actions as well as machine ones, so narrowing it had no evidence behind it."
+  - "Mechanism steps: drafted. The research has a definition and evidence but no mechanism; the step notes are sourced, the titles and details are not."
+  - "Related links (glass-box, appropriate-friction): inferred from those entries' existing steps, not from the research. The appropriate-friction link is really a sequence — provenance follows friction's final step — but `follows` is not a writable relation type, so it reads as complements, which is slightly wrong."
+  - "Third open question (who the log is for): a design question of mine, not from the research."
+  - "EU AI Act Article 12: still the artificialintelligenceact.eu rendering. EUR-Lex refuses automated retrieval, so the wording and which article carries the six-month retention are both unconfirmed."
+  - "Remote-access, Jenkins and Ernst & Young claims: all still on secondary news sources. Not found in the Inquiry's published volume; the relevant volumes are unpublished."
+
 openQuestions:
-  - "UN Regulation No. 157 is the other example this wants: the data storage requirement for automated driving, which obliges recording of activation, transition demands, overrides and minimum risk manoeuvres. EUR-Lex returned an empty response to every automated request, so none of it is confirmed and it is deliberately not cited yet."
   - "The remote-access claims still rest on news reports. Volume 1 of the Inquiry covers human impact and redress; remote access, the Jenkins evidence and the Ernst & Young findings belong to volumes still unpublished. The witness statements are on the Inquiry site and should replace the secondary sources once located."
   - "Who the log is for. A record sized for a later investigation is not the same artifact as one the operator can check the same day, and it is not obvious that one log can serve both."
 ---
 
-Tempe is this pattern working, and it is worth being exact about why. The system recorded what it detected, how it reclassified the object as the seconds ran down, and the brake command it held back, so the sequence could be established afterwards from the machine's own account of itself rather than from anyone's recollection. The record outlived the event. That is the whole requirement.
+Tempe is this pattern working, and it is worth being exact about why. The system recorded what it detected, how it reclassified the object as the seconds ran down, and the brake command it held back, so the sequence could be established afterwards from the machine's own account of itself rather than from anyone's recollection. The record outlived the event. That is the whole requirement. UN R157 now writes it into type approval for automated lane keeping: a data storage system that has to log activation and deactivation with their reasons, every transition demand, suppressed driver input, emergency manoeuvres, detected collisions, minimum risk manoeuvres and severe failures, each entry stamped with the software version that produced it.
 
 Horizon is the cautionary half, and it fails somewhere more specific than it is usually remembered as failing. The Post Office maintained in court that branch accounts could not be changed remotely. Fujitsu engineers could in fact change them, and an engineer's evidence to the inquiry was that such a change need not look any different from the subpostmaster's own entry. None of that is a storage problem; the data was all there. A log the other party to a dispute can write to on the same footing as the operator is not evidence of anything, which is why the useful version of this pattern puts the record outside the reach of everyone who can change the state. The second requirement is easier to miss: the record has to be legible to the person whose work it describes, while they can still remember the day in question. A log that only an investigator reads, years later, protects the institution rather than the operator.
