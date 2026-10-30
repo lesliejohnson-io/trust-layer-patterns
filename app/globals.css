@@ -1846,6 +1846,23 @@ a.station-body:hover .station-count {
 }
 
 /* Who writes this */
+/*
+ * Attribution under the lede: one line, a half-step back from it, pointing at
+ * the section that says more. Not a section of its own.
+ */
+.page-byline {
+  margin: 14px 0 0;
+  max-width: 62ch;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.page-byline a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 .byline {
   max-width: 68ch;
 }
@@ -1853,32 +1870,33 @@ a.station-body:hover .station-count {
 .socials {
   list-style: none;
   display: flex;
-  gap: 10px;
+  gap: 14px;
   margin: 20px 0 0;
   padding: 0;
 }
 
+/*
+ * The marks stand on their own, with no ring drawn around them: the row sits
+ * under the author's text and reads as part of it. The box is still taller
+ * and wider than the glyph so it stays easy to hit, and the first glyph's
+ * left edge lines up with the text above it.
+ */
 .social {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  height: 38px;
-  border: 1px solid var(--edge);
-  border-radius: 99px;
+  min-width: 24px;
+  height: 36px;
   color: var(--muted);
 }
 
 .social:hover {
-  border-color: var(--ink);
   color: var(--ink);
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .social {
-    transition:
-      color 0.15s ease,
-      border-color 0.15s ease;
+    transition: color 0.15s ease;
   }
 }
 
@@ -2491,6 +2509,157 @@ a.station-body:hover .station-count {
   color: var(--ink);
   text-decoration: underline;
   text-underline-offset: 2px;
+}
+
+/* ---------- Out of envelope (404) ---------- */
+/*
+ * The 404 as a console that has just handed back: a fault panel, then a
+ * hold-to-take-control button. The ring is feedback on a control the reader
+ * is working, not decoration, which is why it is the only thing on the site
+ * that moves on its own.
+ */
+.envelope {
+  padding: 56px 0 96px;
+  max-width: 62ch;
+}
+
+.envelope-panel {
+  padding: 20px 22px 22px;
+  background: var(--panel);
+  border: 1px solid var(--edge);
+  border-radius: var(--radius);
+}
+
+/*
+ * A fault, so it takes the fault colour — and, as everywhere else on the
+ * site, the square that carries the state when the colour cannot.
+ */
+.envelope-status {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin: 0;
+  font-family: var(--font-condensed), var(--font-sans), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: clamp(24px, 5vw, 34px);
+  line-height: 1.1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--status-fault);
+}
+
+.envelope-shape {
+  font-size: 0.6em;
+}
+
+.envelope-line {
+  margin: 12px 0 0;
+  font-size: 17px;
+}
+
+.envelope-confidence {
+  display: flex;
+  gap: 8px;
+  margin: 16px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--rule);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* Tabular, and wide enough for three digits, so the count does not jitter. */
+.envelope-value {
+  min-width: 4ch;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Hold to take control */
+.hold-block {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  flex-wrap: wrap;
+  margin-top: 40px;
+}
+
+.hold {
+  position: relative;
+  flex: none;
+  width: 160px;
+  height: 160px;
+  padding: 0;
+  background: var(--surface);
+  border: 0;
+  border-radius: 99px;
+  color: var(--ink);
+  cursor: pointer;
+  /* A held control, so the browser must not take the gesture for a scroll,
+     a text selection or a long-press menu. */
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.hold-ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.hold-label {
+  position: relative;
+  display: block;
+  max-width: 104px;
+  margin: 0 auto;
+  font-family: var(--font-condensed), var(--font-sans), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.25;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.hold-hint {
+  margin: 0;
+  max-width: 24ch;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* Holds its line whether or not there is an outcome yet, so nothing below it
+   jumps when one arrives. */
+.hold-outcome {
+  margin: 28px 0 0;
+  min-height: 1.6em;
+  font-size: 17px;
+}
+
+.hold-outcome a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.envelope-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  margin-top: 36px;
+  padding-top: 20px;
+  border-top: 1px solid var(--rule);
+  font-size: 15px;
+}
+
+.envelope-links a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.envelope-links span {
+  color: var(--muted);
 }
 
 :focus-visible {

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SocialLinks } from "@/components/SocialLinks";
+import { PatternToc, type TocItem } from "@/components/PatternToc";
+import { TocDisclosure } from "@/components/TocDisclosure";
 import {
   AUTONOMY_LEVELS,
   EVIDENCE_DEFINITIONS,
@@ -42,11 +44,25 @@ const ANATOMY: { name: string; note: string }[] = [
   { name: "Still figuring out", note: "Open questions. The learning shown in public." },
 ];
 
+/** This page's H2 sections, in the order they appear. */
+const TOC: TocItem[] = [
+  { id: "what", label: "What a pattern means here" },
+  { id: "anatomy", label: "Anatomy of a pattern page" },
+  { id: "status", label: "Status" },
+  { id: "trust-jobs", label: "Trust jobs" },
+  { id: "autonomy", label: "The autonomy scale" },
+  { id: "relations", label: "How patterns relate" },
+  { id: "risk", label: "Risk and reversibility" },
+  { id: "evidence", label: "Observed and speculative examples" },
+  { id: "cite", label: "How to cite" },
+  { id: "who", label: "The author" },
+];
+
 export default function AboutPage() {
   const example = getAllPatterns()[0];
 
   return (
-    <div className="wrap">
+    <div className="wrap pattern-layout">
       <article className="pattern about">
         <header className="pattern-head">
           <h1 className="display">About this library</h1>
@@ -56,19 +72,13 @@ export default function AboutPage() {
             warehouse systems. It is for practitioners, and it is also a learning tool written in
             public.
           </p>
+          <p className="page-byline">
+            Written by <Link href="#who">Leslie Johnson</Link>, a designer for the trust layer
+            between people and autonomous systems.
+          </p>
         </header>
 
-        <section className="section" aria-labelledby="who">
-          <h2 id="who" className="section-head">
-            The author
-          </h2>
-          <div className="prose byline">
-            <p>
-              Trust Layer Patterns is curated and written by <strong>Leslie Johnson</strong>.
-            </p>
-          </div>
-          <SocialLinks />
-        </section>
+        <TocDisclosure items={TOC} />
 
         <section className="section" aria-labelledby="what">
           <h2 id="what" className="section-head">
@@ -265,7 +275,43 @@ export default function AboutPage() {
             </p>
           </div>
         </section>
+
+        <section className="section" aria-labelledby="who">
+          <h2 id="who" className="section-head">
+            The author
+          </h2>
+          <div className="prose byline">
+            <p>
+              I&apos;m Leslie Johnson, a product designer in Pittsburgh. My work has moved from
+              interfaces to systems, and I&apos;m most interested in how people work alongside
+              autonomous ones.
+            </p>
+            <p>
+              In a university research lab, I designed software you could talk to. For a
+              longitudinal health study, I designed a voice-enabled tablet from scratch that read
+              each question aloud, so participants with low reading fluency could answer on their
+              own. Then I watched field teams in rural Appalachia run the study, and redesigned
+              their onboarding. At a payments company, I saw how students struggled to pay in
+              distracting environments, and redesigned the flow to be as simple as autopay.
+            </p>
+            <p>
+              Now the machines move. A car hands the wheel back at highway speed; a drone holds
+              position until someone says go. The design of those moments is what this pattern
+              library is about.
+            </p>
+            <p>
+              I started this work as a deep dive into autonomous systems, and as a way to name and
+              sort the patterns I&apos;ve uncovered. Patterns stay drafts until I find clear
+              evidence, and the open questions on each page are ones I haven&apos;t answered yet.
+              If you work in autonomy, robotics or human factors and something here is wrong or
+              missing, <a href="mailto:leslie@lesliejohnson.io">please tell me</a>.
+            </p>
+          </div>
+          <SocialLinks />
+        </section>
       </article>
+
+      <PatternToc items={TOC} />
     </div>
   );
 }

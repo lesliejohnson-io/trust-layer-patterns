@@ -18,6 +18,7 @@ import { Examples } from "@/components/Examples";
 import { ExternalLink } from "@/components/ExternalLink";
 import { RelatedPatterns } from "@/components/RelatedPatterns";
 import { PatternToc, type TocItem } from "@/components/PatternToc";
+import { TocDisclosure } from "@/components/TocDisclosure";
 import { Readout } from "@/components/Readout";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -105,36 +106,7 @@ export default async function PatternPage({ params }: Props) {
           </aside>
         )}
 
-        {/* A control that looks like one: the collapsed state used to read as
-            an empty input. Only shown where the sidebar rail is not. */}
-        <details className="toc-mobile">
-          <summary className="toc-summary">
-            <span>On this page</span>
-            <svg
-              className="toc-chevron"
-              viewBox="0 0 12 8"
-              width="12"
-              height="8"
-              aria-hidden="true"
-            >
-              <path
-                d="M1 1.5 6 6.5 11 1.5"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.75"
-              />
-            </svg>
-          </summary>
-          <ul className="toc-list">
-            {toc.map((item) => (
-              <li key={item.id}>
-                <a href={`#${item.id}`} className="toc-link">
-                  {item.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </details>
+        <TocDisclosure items={toc} />
 
         {body.problem && (
           <section className="section" aria-labelledby="problem">

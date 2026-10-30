@@ -3,6 +3,15 @@ const MAILTO =
 
 const LINKS = [
   {
+    href: "https://lesliejohnson.io",
+    label: "Leslie Johnson's portfolio",
+    name: "Portfolio",
+    /* Drawn rather than filled: there is no brand mark for a personal site,
+       and a globe only reads as one at this size in outline. */
+    stroke: true,
+    path: "M21 12a9 9 0 1 1-18 0 9 9 0 1 1 18 0M3.5 9h17M3.5 15h17M12 3c-5 6-5 12 0 18M12 3c5 6 5 12 0 18",
+  },
+  {
     href: "https://github.com/lesliejohnson-io",
     label: "Leslie Johnson on GitHub",
     name: "GitHub",
@@ -30,7 +39,17 @@ export function SocialLinks() {
         <li key={link.name}>
           <a href={link.href} className="social" aria-label={link.label} rel="noreferrer">
             <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" focusable="false">
-              <path d={link.path} fill="currentColor" />
+              {"stroke" in link ? (
+                <path
+                  d={link.path}
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                />
+              ) : (
+                <path d={link.path} fill="currentColor" />
+              )}
             </svg>
           </a>
         </li>
