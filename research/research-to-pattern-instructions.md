@@ -31,6 +31,7 @@ Turn one pattern from the research notes in `research/` into a finished pattern 
 - **Domains:** only tag a domain if the entry contains a real example from that domain. No tag without an example.
 - **Related patterns / open questions:** if the existing format has fields for these, fill them from the research. Only link patterns that already exist in `content/`.
 - **Status:** always **Draft**.
+- **Citations:** give every source a short `id` (`bainbridge-1983`), then cite it from the prose as `[cite:bainbridge-1983]` at the end of the sentence it supports. The footnote number is the source's position in the Sources list, so it is assigned for you. Be strict: cite only where that source supports the sentence's specific claim, never on topic match alone, and at most two per sentence. Design advice and argument take no citation. If a sentence makes a factual claim — a number, an incident, a study finding — and no source supports it, leave it uncited and add "Unsourced claim: <short quote>" to `review:`. If you are unsure, do the same rather than citing.
 
 ## Rules
 

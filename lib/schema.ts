@@ -265,6 +265,14 @@ const contrastSchema = z.object({
 });
 
 const sourceSchema = z.object({
+  /**
+   * A short handle the body can cite as `[cite:bainbridge-1983]`. Optional:
+   * a source only needs one if it is actually cited in the prose.
+   */
+  id: z
+    .string()
+    .regex(/^[a-z0-9][a-z0-9-]*$/, "use lower-case letters, digits and hyphens, e.g. bainbridge-1983")
+    .optional(),
   title: z.string().min(1),
   author: z.string().min(1).optional(),
   year: z.union([z.string(), z.number()]).optional(),
@@ -361,7 +369,16 @@ export const frontmatterSchema = z
 
     related: z.array(relatedSchema).default([]),
     crossReferences: z.array(crossReferenceSchema).default([]),
-    sources: z.array(sourceSchema).default([]),
+    sources: z
+      .array(sourceSchema)
+      .default([])
+      .refine(
+        (list) => {
+          const ids = list.map((s) => s.id).filter((id): id is string => Boolean(id));
+          return hasNoDuplicates(ids);
+        },
+        "two sources share the same id; a citation could not tell them apart",
+      ),
     examples: z.array(exampleSchema).default([]),
 
     openQuestions: z.array(z.string().min(1)).default([]),

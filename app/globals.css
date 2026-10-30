@@ -2392,6 +2392,42 @@ a.station-body:hover .station-count {
   color: var(--muted);
 }
 
+/* ---------- Footnote citations ---------- */
+
+/* The superscript in the prose. Kept out of the line box so a cited sentence
+   does not sit taller than an uncited one. */
+.cite {
+  font-size: 11px;
+  line-height: 0;
+  vertical-align: super;
+}
+
+.cite a {
+  padding: 0 1px;
+  font-family: var(--font-mono), monospace;
+  font-weight: 500;
+  color: var(--status-caution);
+  text-decoration: none;
+}
+
+.cite a:hover,
+.cite a:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Give the anchor somewhere to land clear of the sticky header, and mark the
+   source the reader just jumped to. The list ordinal is the only number a
+   source carries, so the highlight is what confirms the landing. */
+.source[id] {
+  scroll-margin-top: 96px;
+}
+
+.source[id]:target {
+  background: var(--tint-caution);
+  box-shadow: -8px 0 0 var(--tint-caution), 8px 0 0 var(--tint-caution);
+}
+
 .empty {
   padding: 24px;
   border: 1px dashed var(--edge);

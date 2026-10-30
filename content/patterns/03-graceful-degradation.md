@@ -41,23 +41,30 @@ related:
     type: precedes
     note: "When the ladder runs out of fallbacks, the system escalates by handing control back."
 
+review:
+  - "No citations placed. All three sentences in Notes are design advice rather than claims about the world, and a strict pass found nothing a source could carry."
+
 sources:
-  - title: "SAE J3016 — Taxonomy and Definitions for Terms Related to Driving Automation Systems"
+  - id: sae-j3016
+    title: "SAE J3016 — Taxonomy and Definitions for Terms Related to Driving Automation Systems"
     year: 2021
     url: "https://saemobilus.sae.org/standards/j3016_202104-taxonomy-definitions-terms-related-driving-automation-systems-road-motor-vehicles"
     type: standard
     note: "Defines the minimal risk condition and the DDT fallback — the formal name for a defined fallback state."
-  - title: "UN Regulation No. 157 — Automated Lane Keeping Systems (ALKS)"
+  - id: un-r157
+    title: "UN Regulation No. 157 — Automated Lane Keeping Systems (ALKS)"
     url: "https://eur-lex.europa.eu/eli/reg/2021/389/oj/eng"
     type: standard
     note: "Defines the Minimum Risk Manoeuvre: what the system does when the human does not respond, or when a severe failure occurs. A worked regulatory example of stepping down."
-  - title: "The “Problem” of Automation: Inappropriate Feedback and Interaction, Not “Over-Automation”"
+  - id: norman-1990
+    title: "The “Problem” of Automation: Inappropriate Feedback and Interaction, Not “Over-Automation”"
     author: "Donald A. Norman"
     year: 1990
     url: "https://ntrs.nasa.gov/api/citations/19900004678/downloads/19900004678.pdf"
     type: paper
     note: "Automation sits at an intermediate level of intelligence and fails precisely when the situation exceeds it, so degradation has to be designed in rather than discovered."
-  - title: "BEA Final Report — Air France Flight AF447, Rio de Janeiro to Paris"
+  - id: bea-af447
+    title: "BEA Final Report — Air France Flight AF447, Rio de Janeiro to Paris"
     year: 2012
     url: "https://www.faa.gov/sites/faa.gov/files/f-cp090601.en_.pdf"
     type: incident-report

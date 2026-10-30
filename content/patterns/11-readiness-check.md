@@ -47,35 +47,27 @@ related:
     note: "A takeover request assumes someone is ready to receive it. This is the check that assumption rests on, and the reason the escalation ends in a stop rather than a handover."
 
 sources:
-  - title: "NTSB calls for federal review process for AV testing on public roads"
-    author: "The Trucker"
+  - id: ntsb-har-19-03
+    title: "Collision Between Vehicle Controlled by Developmental Automated Driving System and Pedestrian, Tempe, Arizona"
+    author: "National Transportation Safety Board"
     year: 2019
-    url: "https://www.thetrucker.com/trucking-news/the-nation/ntsb-calls-for-federal-review-process-for-av-testing-on-public-roads"
-    type: article
-    note: "Secondary reporting on the NTSB's Tempe findings: the probable cause, the ineffective oversight of operators, the absence of a mechanism to address automation complacency, and the recommendation that testing applications include plans to manage operator inattentiveness."
-  - title: "Safety agency says distracted driver caused fatal Uber crash"
-    author: "Associated Press, via Fox Business"
-    year: 2019
-    url: "https://www.foxbusiness.com/technology/safety-agency-says-distracted-driver-caused-fatal-uber-crash"
-    type: article
-    note: "Secondary. Contemporary reporting from the NTSB hearing on the probable cause."
-  - title: "NTSB findings on the Uber automated vehicle crash"
-    author: "Eckert Seamans"
-    year: 2019
-    url: "https://www.eckertseamans.com/?p=17389"
-    type: article
-    note: "Secondary summary of the same findings, carried in the research alongside the other two."
-  - title: "Super Cruise"
+    url: "https://www.ntsb.gov/investigations/accidentreports/reports/har1903.pdf"
+    type: incident-report
+    note: "Observed. NTSB/HAR-19/03. The probable cause is the vehicle operator's failure to monitor the driving environment and the operation of the automated driving system because she was visually distracted throughout the trip by her personal cell phone. Contributing were Uber ATG's inadequate safety risk assessment procedures, ineffective oversight of vehicle operators, and lack of adequate mechanisms for addressing operators' automation complacency, all of a piece with an inadequate safety culture. On the monitoring itself: ATG used inward-facing cameras as a spot-check on operators' adherence to policy, but could not document how often spot-checks happened — only infractions were recorded — and said they were infrequent."
+  - id: gmc-super-cruise
+    title: "Super Cruise"
     author: "GMC"
     url: "https://www.gmc.com/supercruise"
     type: article
     note: "Observed. The Driver Attention System and its escalation: light bar flashing green, then flashing red with chimes and seat vibration, then a voice prompt, and a slowdown to a stop if the driver still does not respond."
-  - title: "Seeing Machines technology enables GM Super Cruise driver assistance system"
+  - id: seeing-machines
+    title: "Seeing Machines technology enables GM Super Cruise driver assistance system"
     year: 2019
     url: "https://internationalfinance.com/company/seeing-machines-technology-enables-gm-super-cruise-driver-assistance-system/"
     type: article
     note: "Secondary. The infrared camera on the steering column tracking head position and eye movement."
-  - title: "Trust in Automation: Designing for Appropriate Reliance"
+  - id: lee-see-2004
+    title: "Trust in Automation: Designing for Appropriate Reliance"
     author: "John D. Lee and Katrina A. See"
     year: 2004
     url: "https://journals.sagepub.com/doi/10.1518/hfes.46.1.50_30392"
@@ -83,20 +75,14 @@ sources:
     note: "The calibration argument behind the pattern: reliance has to match capability, and a supervisor who has stopped supervising is the clearest case of it not doing so."
 
 review:
-  - "Risk (critical): drafted, not from the research."
-  - "Reversibility (irreversible): drafted, not from the research."
-  - "Autonomy ([2, 3]): drafted. Chosen because the pattern only makes sense where a human is expected to supervise continuously or be fallback-ready; at 4 and 5 there is no such expectation. Not from the research."
   - "Mechanism steps: drafted. The escalation ladder in steps 3 and 4 is sourced from Super Cruise; the step titles, details and the fifth step are not."
-  - "Related links (capability-disclosure, handoff): inferred, not from the research. The handoff link is written as `precedes`, which also gives handoff an incoming `follows` — check that reads correctly on that page."
-  - "Open question 2: drafted. The research's own Open item is the bucket question, which is carried as the first open question."
-  - "NTSB HAR-19/03 (Tempe) is flagged in the research as a primary source to pull. All three Tempe sources here are secondary, and the report itself is already cited on provenance-log — it should replace them."
-  - "Domains: automotive only. Both the incident and the interface example are driving; nothing yet from industrial or warehouse supervision."
+  - "Unsourced claim: “The NTSB's framing after Williston was that humans are very poor at monitoring automated systems”. It comes from the research notes, but the Williston report (NTSB/HAR-17/02) is not among this entry's sources — it is cited on capability-disclosure. Either add it here or drop the sentence's attribution."
 
 openQuestions:
   - "The research leaves this pattern's moment unsettled: it is written as Before but continues During, and the notes ask whether it belongs in Before, During, or a new Setup bucket. It sits in Before here because the check gates engagement, but the re-check step is squarely During."
   - "Whether attention monitoring earns its keep at level 2, or whether it mostly makes a fundamentally unsupervisable task look supervised. Tempe suggests the monitoring was not the missing piece so much as the expectation that a person could watch an automated system for hours."
 ---
 
-The NTSB's framing after Williston was that humans are very poor at monitoring automated systems, and this pattern is the uncomfortable consequence of taking that seriously. If supervision is the safety case, then supervision is a system component, and an unverified component is a guess. Uber had cameras pointed at its operators and did not check what they showed. The cameras were not the control; looking at them would have been.
+The NTSB's framing after Williston was that humans are very poor at monitoring automated systems, and this pattern is the uncomfortable consequence of taking that seriously. If supervision is the safety case, then supervision is a system component, and an unverified component is a guess. Uber had cameras pointed at its operators and did not check what they showed.[cite:ntsb-har-19-03] The cameras were not the control; looking at them would have been.
 
-What makes the Super Cruise version work is that the ladder ends somewhere. Flashing, chiming and speaking are all ways of asking, and a system that only asks has no answer for the case where nobody replies — which is precisely the case the check exists for. Slowing to a stop is the part that makes the rest honest. The harder question is the one the research leaves open: if a person cannot reliably watch an automated system for an hour, a check that catches them not watching has established something true without making the arrangement sound.
+What makes the Super Cruise version work is that the ladder ends somewhere.[cite:gmc-super-cruise] Flashing, chiming and speaking are all ways of asking, and a system that only asks has no answer for the case where nobody replies — which is precisely the case the check exists for. Slowing to a stop is the part that makes the rest honest. The harder question is the one the research leaves open: if a person cannot reliably watch an automated system for an hour, a check that catches them not watching has established something true without making the arrangement sound.

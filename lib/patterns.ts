@@ -3,6 +3,10 @@ import path from "node:path";
 import matter from "gray-matter";
 import { marked } from "marked";
 import { formatIssues, frontmatterSchema, type Frontmatter } from "./schema";
+import { applyCitations, sourceAnchor, sourceGroups } from "./citations";
+
+export { sourceAnchor, sourceGroups };
+export type { SourceGroup } from "./citations";
 
 import {
   INVERSE_RELATIONS,
@@ -85,6 +89,8 @@ export type Pattern = Frontmatter & {
   slug: string;
   body: Body;
   file: string;
+  /** Source id -> its footnote number, for sources this page actually cites. */
+  citations: Record<string, number>;
 };
 
 const CONTENT_DIR = path.join(process.cwd(), "content", "patterns");
@@ -164,11 +170,14 @@ function readPattern(file: string): Pattern {
   const parsed = frontmatterSchema.safeParse(data);
   if (!parsed.success) throw new ContentError(rel, formatIssues(parsed.error));
 
+  const { body, citations } = applyCitations(splitBody(content), parsed.data.sources, rel);
+
   return {
     ...parsed.data,
     slug: file.replace(/\.md$/, "").replace(/^\d+-/, ""),
-    body: splitBody(content),
+    body,
     file: rel,
+    citations,
   };
 }
 

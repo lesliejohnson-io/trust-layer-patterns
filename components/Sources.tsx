@@ -1,12 +1,12 @@
-import { SOURCE_TYPES, SOURCE_TYPE_LABELS, type Source } from "@/lib/patterns";
+import { sourceAnchor, sourceGroups, type Source } from "@/lib/patterns";
 import { ExternalLink } from "./ExternalLink";
-
-const GROUP_ORDER = [...SOURCE_TYPES, "other"] as const;
 
 /**
  * A numbered list grouped by source type, numbered continuously so a source
- * can be cited as "[3]" regardless of which group it sits in. Untyped sources
- * fall under "Other" rather than being hidden.
+ * can be cited as "[3]" regardless of which group it sits in. That running
+ * order comes from `sourceGroups`, which is also what assigns footnote
+ * numbers — the number here and the superscript in the prose are the same
+ * number. Untyped sources fall under "Other" rather than being hidden.
  */
 export function Sources({ sources, file }: { sources: Source[]; file: string }) {
   if (sources.length === 0) {
@@ -24,38 +24,36 @@ export function Sources({ sources, file }: { sources: Source[]; file: string }) 
     );
   }
 
-  const groups = GROUP_ORDER.map((type) => ({
-    type,
-    label: SOURCE_TYPE_LABELS[type],
-    items: sources.filter((s) => (s.type ?? "other") === type),
-  })).filter((g) => g.items.length > 0);
-
-  let counter = 0;
+  const groups = sourceGroups(sources);
 
   return (
     <div className="source-groups">
-      {groups.map((group) => {
-        const start = counter + 1;
-        counter += group.items.length;
-        return (
-          <div key={group.type} className="source-group">
-            {groups.length > 1 && <h3 className="subgroup-head source-group-label">{group.label}</h3>}
-            <ol className="sources" start={start}>
-              {group.items.map((s, i) => (
-                <li key={`${s.title}-${i}`} className="source">
-                  <span className="source-title">
-                    {s.url ? <ExternalLink href={s.url}>{s.title}</ExternalLink> : s.title}
+      {groups.map((group) => (
+        <div key={group.type} className="source-group">
+          {groups.length > 1 && (
+            <h3 className="subgroup-head source-group-label">{group.label}</h3>
+          )}
+          <ol className="sources" start={group.start}>
+            {group.items.map((s, i) => (
+              <li
+                key={`${s.title}-${i}`}
+                className="source"
+                id={s.id ? sourceAnchor(s.id) : undefined}
+              >
+                <span className="source-title">
+                  {s.url ? <ExternalLink href={s.url}>{s.title}</ExternalLink> : s.title}
+                </span>
+                {(s.author || s.year) && (
+                  <span className="source-meta">
+                    {[s.author, s.year].filter(Boolean).join(" · ")}
                   </span>
-                  {(s.author || s.year) && (
-                    <span className="source-meta">{[s.author, s.year].filter(Boolean).join(" · ")}</span>
-                  )}
-                  {s.note && <span className="source-note">{s.note}</span>}
-                </li>
-              ))}
-            </ol>
-          </div>
-        );
-      })}
+                )}
+                {s.note && <span className="source-note">{s.note}</span>}
+              </li>
+            ))}
+          </ol>
+        </div>
+      ))}
     </div>
   );
 }

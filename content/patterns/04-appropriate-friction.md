@@ -44,25 +44,29 @@ with:
   caption: "A pause that restates the consequence catches slips before they become incidents."
 
 sources:
-  - title: "Design Frictions for Mindful Interactions: The Case for Microboundaries"
+  - id: cox-2016
+    title: "Design Frictions for Mindful Interactions: The Case for Microboundaries"
     author: "Anna L. Cox et al."
     year: 2016
     url: "https://discovery.ucl.ac.uk/id/eprint/1475258/"
     type: paper
     note: "The HCI case for intentional friction — microboundaries that interrupt mindless interaction, including as a way to reduce error."
-  - title: "A Model for Types and Levels of Human Interaction with Automation"
+  - id: parasuraman-sheridan-wickens-2000
+    title: "A Model for Types and Levels of Human Interaction with Automation"
     author: "Raja Parasuraman, Thomas B. Sheridan and Christopher D. Wickens"
     year: 2000
     url: "https://doi.org/10.1109/3468.844354"
     type: paper
     note: "Its levels of automation include a veto window, which gives friction a place on a formal scale and ties it to the cost of the action's outcome."
-  - title: "Humans and Automation: Use, Misuse, Disuse, Abuse"
+  - id: parasuraman-riley-1997
+    title: "Humans and Automation: Use, Misuse, Disuse, Abuse"
     author: "Raja Parasuraman and Victor Riley"
     year: 1997
     url: "https://doi.org/10.1518/001872097778543886"
     type: paper
     note: "Misuse is overreliance and complacency. Friction is a countermeasure for automation bias at exactly the moments where it costs most."
-  - title: "An Investigation of the Therac-25 Accidents"
+  - id: therac-25
+    title: "An Investigation of the Therac-25 Accidents"
     author: "Nancy G. Leveson and Clark S. Turner"
     year: 1993
     url: "https://web.stanford.edu/class/cs240/old/sp2014/readings/therac-25.pdf"
@@ -70,4 +74,4 @@ sources:
     note: "Observed: hardware interlocks were replaced with software, and operators could edit and proceed past error messages at speed. The cost of missing friction."
 ---
 
-The hard part is choosing which actions get it. A pause that shows up everywhere gets cleared from habit, and then it protects nothing. Reserve it for actions that cannot be undone, and make the confirmation name the specific consequence rather than asking whether the operator is sure.
+The hard part is choosing which actions get it. A pause that shows up everywhere gets cleared from habit, and then it protects nothing.[cite:therac-25][cite:parasuraman-riley-1997] Reserve it for actions that cannot be undone, and make the confirmation name the specific consequence rather than asking whether the operator is sure.

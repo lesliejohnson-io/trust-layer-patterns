@@ -36,26 +36,34 @@ with:
   steps: ["Model + evidence", "“X, because…”", "Informed decision"]
   caption: "Operators check the reasoning against what they see, and override when the machine is missing something."
 
+review:
+  - "Unsourced claim: “produces the same rubber-stamping as showing nothing”. A claim about what too much explanation does to operator behaviour; none of the four sources establishes it."
+  - "No citations placed. The Notes section here is design argument rather than sourced claim, so a strict pass found nothing to attach."
+
 sources:
-  - title: "Situation Awareness–Based Agent Transparency"
+  - id: chen-2014
+    title: "Situation Awareness–Based Agent Transparency"
     author: "Jessie Y. C. Chen et al."
     year: 2014
     url: "https://apps.dtic.mil/sti/pdfs/ADA600351.pdf"
     type: paper
     note: "The core framework: three levels of transparency. Level 1 is what it is doing and its plan, level 2 is why, level 3 is what it projects will happen and how uncertain it is."
-  - title: "Agent Transparency for an Autonomous Squad Member"
+  - id: boyce-2015
+    title: "Agent Transparency for an Autonomous Squad Member"
     author: "Michael Boyce, Jessie Y. C. Chen, Anthony Selkowitz and Shan Lakhmani"
     year: 2015
     url: "https://apps.dtic.mil/sti/tr/pdf/ADA616862.pdf"
     type: paper
     note: "An applied study of transparency displays for an autonomous robot teammate, and their effect on trust and situation awareness."
-  - title: "Trust in Automation: Designing for Appropriate Reliance"
+  - id: lee-see-2004
+    title: "Trust in Automation: Designing for Appropriate Reliance"
     author: "John D. Lee and Katrina A. See"
     year: 2004
     url: "https://journals.sagepub.com/doi/10.1518/hfes.46.1.50_30392"
     type: paper
     note: "Why showing reasoning matters: trust should be calibrated to capability. The purpose, process and performance dimensions map directly onto what a glass box exposes."
-  - title: "The “Problem” of Automation: Inappropriate Feedback and Interaction, Not “Over-Automation”"
+  - id: norman-1990
+    title: "The “Problem” of Automation: Inappropriate Feedback and Interaction, Not “Over-Automation”"
     author: "Donald A. Norman"
     year: 1990
     url: "https://ntrs.nasa.gov/api/citations/19900004678/downloads/19900004678.pdf"

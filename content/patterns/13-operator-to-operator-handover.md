@@ -47,27 +47,32 @@ related:
     note: "A handover is a state change with two actors, and worth recording as one. Who accepted the machine, and in what condition, is exactly the question asked afterwards."
 
 sources:
-  - title: "Piper Alpha: permit to work, shift handover, accountability"
+  - id: btw-piper-alpha
+    title: "Piper Alpha: permit to work, shift handover, accountability"
     url: "https://btw.media/en/articles/piper-alpha-permit-to-work-shift-handover-accountability"
     type: article
     note: "Secondary. Carried in the research for Lord Cullen's findings: no clear procedure for shift handovers, and a permit-to-work system that was inadequate and habitually departed from."
-  - title: "Loss Prevention Bulletin 261"
+  - id: icheme-lpb261
+    title: "Loss Prevention Bulletin 261"
     author: "Institution of Chemical Engineers"
     url: "https://www.icheme.org/media/1982/lpb261_pg03.pdf"
     type: article
     note: "Carried in the research for the sequence: the pressure safety valve removed from condensate pump A, the blind flange fitted, the work unfinished at shift end, and the night restart."
-  - title: "Lord Cullen on the Piper Alpha handover"
+  - id: fsa-cullen
+    title: "Lord Cullen on the Piper Alpha handover"
     author: "Flight Safety Australia"
     url: "https://www.flightsafetyaustralia.com/?p=207044"
     type: article
     note: "Secondary, quoting the Cullen report. Used here for the handover finding rather than for any aviation content."
-  - title: "Changes in Medical Errors after Implementation of a Handoff Program"
+  - id: starmer-2014
+    title: "Changes in Medical Errors after Implementation of a Handoff Program"
     author: "Amy J. Starmer et al."
     year: 2014
     url: "https://psnet.ahrq.gov/issue/changes-medical-errors-after-implementation-handoff-program"
     type: paper
     note: "Observed. The I-PASS study: nine hospitals, 10,740 admissions, a 23% fall in medical errors and a 30% fall in preventable adverse events, with no increase in handoff duration. Cited here via the AHRQ PSNet record rather than the NEJM paper itself."
-  - title: "Multicenter patient safety study reduces medical error injuries by 30%"
+  - id: intermountain-ipass
+    title: "Multicenter patient safety study reduces medical error injuries by 30%"
     author: "Intermountain Healthcare"
     year: 2014
     url: "https://intermountainhealthcare.org/news/2014/12/multicenter-patientsafety-study-reduces-medical-error-injuries-by-30"
@@ -75,22 +80,16 @@ sources:
     note: "Secondary summary of the same study, carried in the research alongside the PSNet record."
 
 review:
-  - "Risk (critical): drafted, not from the research."
-  - "Reversibility (irreversible): drafted, not from the research."
-  - "Autonomy ([1, 4]): drafted. Piper Alpha was barely automated at all, so this range is about where the pattern applies rather than where the evidence sits. Not from the research."
   - "Mechanism steps: drafted. Steps 2 and 4 carry sourced notes; the five-step shape, the titles and details are mine."
-  - "Related links (handoff, provenance-log): inferred, not from the research."
-  - "Open question 2: drafted. The research's Open item is the warehouse question, carried as the first open question."
   - "Every Piper Alpha claim is secondary. The Cullen Report (1990) is the primary source and has not been pulled; one of the three citations is a trade-news article and another is an aviation magazine quoting the report."
   - "The I-PASS figures come from the AHRQ PSNet record and a hospital press release, not from the NEJM paper (Starmer et al., N Engl J Med 2014;371:1803-12). Pull the paper before these numbers leave draft."
-  - "Domains: industrial only. Piper Alpha was a fixed offshore installation, tagged industrial rather than maritime; I-PASS is a hospital, which has no domain in the schema and so adds no tag. The research's warehouse example does not exist yet."
-  - "Death toll (167) is in the research and deliberately left out of the entry. Decide whether it belongs."
+  - "Add death toll from primary source."
 
 openQuestions:
   - "The warehouse case the research asks for: what an incoming fleet operator should see about robots that are paused, in maintenance, or running with a sensor disabled. The Piper Alpha lesson says the disabled things need to be the loudest item on the screen, but nobody seems to build the handover view that way."
   - "Whether the receiver's restatement survives being software. I-PASS works partly because a person has to say it out loud to another person; a checkbox that says the same thing is the kind of control that gets cleared from habit."
 ---
 
-The structural detail in Piper Alpha is the one worth carrying: the permits for the pump work and the valve work existed, and were separate, and were not cross-referenced. Nobody lost the information. The system simply had no way to put two facts next to each other — this pump is being worked on, this pump's safety valve is gone — and the handover depended on somebody holding both at once. Lord Cullen's finding was not that a step was skipped but that there was no clear procedure for shift handovers at all, and that the permit system was habitually departed from.
+The structural detail in Piper Alpha is the one worth carrying: the permits for the pump work and the valve work existed, and were separate, and were not cross-referenced.[cite:icheme-lpb261] Nobody lost the information. The system simply had no way to put two facts next to each other — this pump is being worked on, this pump's safety valve is gone — and the handover depended on somebody holding both at once. Lord Cullen's finding was not that a step was skipped but that there was no clear procedure for shift handovers at all, and that the permit system was habitually departed from.[cite:btw-piper-alpha]
 
-What I-PASS adds is the receiver's half. Most handover design concentrates on what the outgoing operator says, which is the easier problem; the hard one is whether the incoming operator has actually built the picture. Making the receiver synthesise it back is a check on the transfer rather than on the sender, and the nine-hospital result suggests it is cheap — the errors fell and the handoffs did not get longer. For a machine the equivalent is not a summary screen. It is being made to state what you think you have just taken charge of, including what on it is switched off.
+What I-PASS adds is the receiver's half. Most handover design concentrates on what the outgoing operator says, which is the easier problem; the hard one is whether the incoming operator has actually built the picture. Making the receiver synthesise it back is a check on the transfer rather than on the sender, and the nine-hospital result suggests it is cheap — the errors fell and the handoffs did not get longer.[cite:starmer-2014] For a machine the equivalent is not a summary screen. It is being made to state what you think you have just taken charge of, including what on it is switched off.

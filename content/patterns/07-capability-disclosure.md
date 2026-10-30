@@ -46,25 +46,32 @@ related:
     type: complements
     note: "Disclosure is where the human's model of the machine starts. Keeping it current once the machine is running is the other pattern's job."
 
+review:
+  - "Unsourced detail: “a ten-page section carrying sixteen warnings and four cautions”. The road-type restriction itself is in NTSB/HAR-17/02 and in the research notes, but these counts are in neither, so the citation on that sentence does not cover them."
+
 sources:
-  - title: "Collision Between a Car Operating With Automated Vehicle Control Systems and a Tractor-Semitrailer Truck Near Williston, Florida"
+  - id: ntsb-har-17-02
+    title: "Collision Between a Car Operating With Automated Vehicle Control Systems and a Tractor-Semitrailer Truck Near Williston, Florida"
     author: "National Transportation Safety Board"
     year: 2017
     url: "https://www.ntsb.gov/investigations/accidentreports/reports/har1702.pdf"
     type: incident-report
     note: "Observed. NTSB/HAR-17/02 on the May 2016 crash that killed the Tesla's driver. The manual's road-type limits are described as soft constraints; the firmware had no hard constraint on road classification. Probable cause names the driver's overreliance, with the automation's operational design contributing by permitting prolonged disengagement and use inconsistent with the manufacturer's own guidance. Recommendation H-17-41 asks Level 2 manufacturers to build in safeguards limiting use to the conditions the system was designed for."
-  - title: "Guidelines for Human-AI Interaction"
+  - id: amershi-2019
+    title: "Guidelines for Human-AI Interaction"
     author: "Saleema Amershi et al."
     year: 2019
     url: "https://www.microsoft.com/research/blog/guidelines-for-human-ai-interaction-design/"
     type: paper
     note: "CHI 2019 (doi 10.1145/3290605.3300233). Guideline 1 is to make clear what the system can do; guideline 2 is to make clear how well it does it, including how often it gets things wrong. The disclosure half of this pattern, stated for software rather than vehicles."
-  - title: "How to use Super Cruise"
+  - id: gmc-super-cruise
+    title: "How to use Super Cruise"
     author: "GMC"
     url: "https://www.gmc.com/support/vehicle-support/driving-and-safety/driver-assistance/how-to-use-super-cruise"
     type: article
     note: "Observed. The icon turns white only once the system has a compatible road and suitable conditions, and the steering-wheel light bar runs green while it is steering. Hands-free is offered on roads GM has mapped, so the limit is enforced rather than stated."
-  - title: "ANSI/A3 R15.08-1-2020: Industrial Mobile Robots — Safety Requirements"
+  - id: ansi-r15-08
+    title: "ANSI/A3 R15.08-1-2020: Industrial Mobile Robots — Safety Requirements"
     year: 2020
     url: "https://webstore.ansi.org/standards/ria/ansia3r15082020r2026"
     type: standard
@@ -75,4 +82,4 @@ openQuestions:
   - "Where the line sits between refusing to engage and warning loudly. Super Cruise refuses; most systems warn. Refusing is safer and more paternalistic, and the right answer probably moves with the consequence."
 ---
 
-The gap this closes is not between what a machine can do and what it says — it is between what it says and what it allows. Tesla's manual was neither wrong nor hidden: it restricted Autosteer to highways and limited-access roads, in a ten-page section carrying sixteen warnings and four cautions. The car knew what road it was on, from GPS, map data and sign recognition, and engaged anyway. That is why the useful version of this pattern is a constraint rather than a disclosure: a limit the operator has to remember is a limit the operator will eventually forget, usually on a day when everything else is going well. The harder design question is what to do at the boundary, because refusing outright is honest and unpopular, and a system that refuses without naming the condition it is missing just reads as broken.
+The gap this closes is not between what a machine can do and what it says — it is between what it says and what it allows. Tesla's manual was neither wrong nor hidden: it restricted Autosteer to highways and limited-access roads, in a ten-page section carrying sixteen warnings and four cautions.[cite:ntsb-har-17-02] The car knew what road it was on, from GPS, map data and sign recognition, and engaged anyway.[cite:ntsb-har-17-02] That is why the useful version of this pattern is a constraint rather than a disclosure: a limit the operator has to remember is a limit the operator will eventually forget, usually on a day when everything else is going well. The harder design question is what to do at the boundary, because refusing outright is honest and unpopular, and a system that refuses without naming the condition it is missing just reads as broken.
