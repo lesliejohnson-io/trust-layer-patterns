@@ -1,6 +1,6 @@
 # Instructions for Claude: turn research notes into pattern entries
 
-Paste this into Claude Code from the root of the trust-layer-patterns repo, then name the pattern you want converted, for example: "Convert Intent Preview."
+This file lives in `research/`. Run it from the root of the trust-layer-patterns repo with: "Read research/research-to-pattern-instructions.md and follow it. Convert <pattern name>."
 
 ---
 
@@ -19,7 +19,7 @@ Turn one pattern from the research notes in `research/` into a finished pattern 
 1. **Learn the format first.** Read every existing pattern in `content/`, starting with Appropriate Friction. Note the file extension, the frontmatter fields, how they're ordered, which values are allowed (moments, trust jobs, risk, reversibility, autonomy levels, domains, status), how patterns are numbered, and how sources are structured. Copy that structure exactly. Do not add new fields.
 2. **Find the pattern** I named in the matching file in `research/`. Only convert patterns marked **Ready**. If it's marked **Gap** or **Not yet researched**, stop and tell me what's missing.
 3. **Write the new entry** in `content/`, with a file name that follows the existing naming convention and the next pattern number.
-4. **Show me the file** and a short list of anything you had to decide or invent (see below) before I review it.
+4. **Write the file, then show it to me** with a short list of anything you had to decide or invent.
 
 ## How to map the research into the entry
 
@@ -29,10 +29,12 @@ Turn one pattern from the research notes in `research/` into a finished pattern 
 - **Without / with the pattern:** the "without" side is the named **anti-pattern** from the research (for example, "Blind Execute"). If the existing format has a field for an anti-pattern name, use it; if not, tell me and leave the label as it is.
 - **Sources:** carry over the papers, incident reports and interface examples, grouped the way existing patterns group them (papers, incident reports, and so on). Prefer primary sources. Where the research says "Primary source to pull," flag it for me instead of citing the secondary article as if it were the primary.
 - **Domains:** only tag a domain if the entry contains a real example from that domain. No tag without an example.
+- **Related patterns / open questions:** if the existing format has fields for these, fill them from the research. Only link patterns that already exist in `content/`.
 - **Status:** always **Draft**.
 
 ## Rules
 
+- **Physical autonomy first:** the main Observed example must come from physical autonomy (vehicles, aviation, surgical or industrial robots, drones, warehouses, maritime). If the research has none, stop and tell me before writing, and suggest real candidates with sources.
 - **Don't invent facts.** Every claim about an incident, study or product must come from the research file. If something the format needs isn't in the research (for example, risk level, reversibility, autonomy levels or mechanism steps), draft it, but list it for me as "drafted, needs your review." Never present a drafted value as sourced.
 - **Paraphrase sources.** No quotations longer than a short phrase, and at most one per source.
 - **Write in my voice:** plain, concrete, no hype. Match the tone of the existing Notes sections.

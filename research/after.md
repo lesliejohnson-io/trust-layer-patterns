@@ -1,4 +1,4 @@
-# After — What happened, and does it feed back into Before?
+# After and over time — What happened, and does it feed back into Before?
 
 Candidate patterns: Incident Replay, Provenance Log, Trust Repair, Learning Loop
 (This bucket is empty on the site today. These four would fill it.)
