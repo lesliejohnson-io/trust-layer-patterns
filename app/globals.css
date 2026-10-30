@@ -1469,6 +1469,72 @@ a.station-body:hover .station-count {
   color: var(--ink);
 }
 
+/* "Needs your review" — author-facing, draft only. Deliberately louder than
+   the fieldnote: it is a flag to act on, not a note to read. */
+.review-flag {
+  max-width: 68ch;
+  margin: 0 0 40px;
+  padding: 20px 24px;
+  border: 1px solid var(--status-caution);
+  border-left-width: 4px;
+  border-radius: var(--radius-lg);
+  background: var(--tint-caution);
+}
+
+.review-flag-head {
+  margin: 0;
+  font-family: var(--font-condensed), sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--status-caution);
+}
+
+.review-flag-note {
+  margin: 6px 0 12px;
+  font-size: 15px;
+  color: var(--ink);
+}
+
+.review-flag-list {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 15px;
+  color: var(--ink);
+}
+
+.review-flag-list li + li {
+  margin-top: 8px;
+}
+
+/* ---------- Review index ---------- */
+.review-index {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.review-index > li + li {
+  margin-top: 28px;
+  padding-top: 28px;
+  border-top: 1px solid var(--edge);
+}
+
+.review-index-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  align-items: baseline;
+  margin: 0 0 10px;
+}
+
+.review-index-count {
+  font-family: var(--font-mono), monospace;
+  font-size: 13px;
+  color: var(--status-caution);
+}
+
 /* "Still figuring out" — the learning surface. */
 .fieldnote {
   max-width: 68ch;

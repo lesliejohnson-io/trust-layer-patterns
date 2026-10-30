@@ -367,6 +367,15 @@ export const frontmatterSchema = z
     openQuestions: z.array(z.string().min(1)).default([]),
     showOpenQuestions: z.boolean().optional(),
 
+    /**
+     * Author-facing review flags: what to check before this entry is trusted,
+     * and why. Each item names the thing and its reason — "Mechanism steps:
+     * drafted, not from research". Shown on the pattern page only while the
+     * status is `draft`, and collected on /review. Not a reader-facing
+     * surface: `openQuestions` is for what the pattern itself has not settled.
+     */
+    review: z.array(z.string().min(1)).default([]),
+
     steps: z
       .array(stepSchema)
       .min(2)

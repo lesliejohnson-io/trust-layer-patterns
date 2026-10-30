@@ -47,6 +47,9 @@ export default async function PatternPage({ params }: Props) {
   // An empty Sources section says less than no section; keep it in dev only.
   const showSources = p.sources.length > 0 || process.env.NODE_ENV !== "production";
   const showQuestions = p.showOpenQuestions && p.openQuestions.length > 0;
+  // Review flags are for the author, and only while the entry is unfinished.
+  // A reviewed or stable pattern that still carries them has had them handled.
+  const showReview = p.status === "draft" && p.review.length > 0;
 
   const toc: TocItem[] = [
     body.problem ? { id: "problem", label: "Problem" } : null,
@@ -84,6 +87,23 @@ export default async function PatternPage({ params }: Props) {
 
           <Readout pattern={p} />
         </header>
+
+        {showReview && (
+          <aside className="review-flag" aria-labelledby="needs-review">
+            <h2 id="needs-review" className="review-flag-head">
+              Needs your review
+            </h2>
+            <p className="review-flag-note">
+              Drafted or unverified while this entry is a draft. Each item says what to check and
+              why.
+            </p>
+            <ul className="review-flag-list">
+              {p.review.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </aside>
+        )}
 
         {/* A control that looks like one: the collapsed state used to read as
             an empty input. Only shown where the sidebar rail is not. */}

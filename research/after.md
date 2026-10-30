@@ -42,7 +42,7 @@ Research status key: **Ready** = incident, interface example and research all fo
 **Anti-pattern name:** The Unseen Hand. Changes happen with no record of who made them.
 
 ### Incident: UK Post Office Horizon scandal (1999–2015 prosecutions)
-- More than 700 subpostmasters were convicted between 1999 and 2015 after the Horizon system made it appear money was missing from their branches.
+- Approximately 1,000 people were prosecuted and convicted across the UK on Horizon evidence (Inquiry Volume 1, para 3.24; the Chair declines to be more precise). Between 50 and 60 more were prosecuted without being convicted (para 3.25).
 - The Post Office maintained in court that branch accounts could not be changed remotely.
 - Fujitsu engineers could in fact alter branch data remotely, and a Fujitsu engineer told the inquiry he learned only in 2018 that such changes could be indistinguishable from the subpostmaster's own.
 - A 2011 Ernst & Young report had warned that Fujitsu staff had unrestricted access to subpostmasters' accounts.
@@ -54,11 +54,12 @@ Research status key: **Ready** = incident, interface example and research all fo
 
 ### Open
 - Find a physical-AI example of a good operator-facing audit trail (who overrode what, when).
+- Converted to `content/patterns/08-provenance-log.md` (2026-10-30). Physical-autonomy examples: NTSB/HAR-19/03 (Tempe) confirmed from the report — investigators rebuilt the detection, reclassification and suppressed-braking timeline from the vehicle's own ADS data. UN R157 is cited too: para 8 requires a DSSAD, para 8.2.1 lists the occurrences to record, para 8.3 the reason, date, timestamp to within a second and software version (verified outside the session; EUR-Lex refuses automated retrieval).
 
 ### Sources
 - [Silicon Canals on remote access](https://siliconcanals.com/?p=102909)
 - [The Courier on Gareth Jenkins testimony](https://thecourier.co.uk/?p=5022953)
-- [Jersey Evening Post on 700+ convictions](https://jerseyeveningpost.com/?p=4102443)
+- [Inquiry Volume 1 on the conviction figure](https://www.postofficehorizoninquiry.org.uk/volume-1-post-office-horizon-it-inquirys-final-report)
 - [Ernst & Young warning via Hack Liberty summary](https://links.hackliberty.org/post/771296)
 - [EU AI Act Article 12](https://artificialintelligenceact.eu/article/12/)
 - [Help Net Security on Article 12 logging](https://www.helpnetsecurity.com/2026/04/16/eu-ai-act-logging-requirements/)
@@ -115,6 +116,7 @@ Research status key: **Ready** = incident, interface example and research all fo
 ### Research
 - Amershi et al. (2019), Guideline 15: encourage granular feedback during regular interaction.
 
+- Converted to `content/patterns/09-learning-loop.md` (2026-10-30). Main Observed examples are aviation: the flight before JT610, and AF447. The BEA final report was pulled and confirms the nine air safety reports (May 2008 to March 2009, A330/A340 fleet, seven mentioning stall warning), plus six further incidents found only after the accident whose maintenance write-ups described the symptoms partially or not at all. ASRS now cited from the NASA program briefing: established 1975 by NASA and the FAA, intake from 1976, about 2,329 reports a week through December 2025, CALLBACK monthly since 1979.
 ### Sources
 - [Leeham News on JT043 report and maintenance log](https://leehamnews.com/2019/11/15/bjorns-corner-analysing-the-lion-air-jt610-crash-part-3/)
 - [AIN on the KNKT preliminary report](https://oldain.ainonline.com/aviation-news/air-transport/2018-11-28/report-lion-air-flight-610-raises-more-questions)
